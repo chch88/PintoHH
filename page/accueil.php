@@ -7,10 +7,10 @@
     <div class="row margin">
 
         <div class="col l4 s12 center-align">
-            <a href="page/chercher_bar.php">
+            <a href="page/chercher_bar.php?nom_bar=bureau&style_bar=1">
                 <img src="./images/red-circle.png" class="z-depth-3 slideanim" style="width: 155px">
             </a>
-            <h5>Chercher un bar</h5>
+            <h5>Chercher les bars lounge qui nous font se sentir comme au bureau</h5>
         </div>
 
         <div class="col l4 s12 center-align">

@@ -11,6 +11,11 @@ $degree_biere = isset($_GET['degre_biere']) && $_GET['degre_biere'] !== '' ? $_G
 
 // Définit le fuseau horaire par défaut à utiliser. Disponible depuis PHP 5.1
 date_default_timezone_set('UTC');
+$today = getdate();
+strtotime($today);
+
+
+print_r($today);
 ?>
 
     <div class="container2">

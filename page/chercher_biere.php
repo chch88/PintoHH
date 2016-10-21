@@ -7,7 +7,10 @@
 $nom_biere = isset($_GET['nom_biere']) ? $_GET['nom_biere'] : '';
 $type_biere = isset($_GET['type_biere']) && $_GET['type_biere'] !== '' ? $_GET['type_biere'] : null;
 $provenance_biere = isset($_GET['provenance_biere']) && $_GET['provenance_biere'] !== '' ? $_GET['provenance_biere'] : null;
+$degree_biere = isset($_GET['degre_biere']) && $_GET['degre_biere'] !== '' ? $_GET['degre_biere'] : null;
 
+// Définit le fuseau horaire par défaut à utiliser. Disponible depuis PHP 5.1
+date_default_timezone_set('UTC');
 ?>
 
     <div class="container2">
@@ -32,18 +35,19 @@ $provenance_biere = isset($_GET['provenance_biere']) && $_GET['provenance_biere'
                     </select>
                     <label for="Distance">Palier de distance</label>
                 </div>
-
+                -->
 
                 <div class="input-field col l2 s6">
                     <select name="degre_biere" id="Degre">
-                        <option>Sans alcool</option>
-                        <option><4 %</option>
-                        <option><7 %</option>
-                        <option><10 %</option>
+                        <option value="" disabled selected>Choisissez votre option</option>
+                        <option value="0">Sans alcool</option>
+                        <option value="4"><4 %</option>
+                        <option value="7"><7 %</option>
+                        <option value="10"><10 %</option>
                     </select>
                     <label for="Degre"> Degré d'alcool </label>
                 </div>
-                -->
+
 
                 <!-- TYPE BIERE -->
                 <div class="input-field col l2 s6">
@@ -122,7 +126,9 @@ $provenance_biere = isset($_GET['provenance_biere']) && $_GET['provenance_biere'
                 <ul class="collapsible popout" data-collapsible="accordion">
 
                     <?php
-                    $query = 'SELECT id_biere, nom_type_biere, nom_pays, fichier, nom_biere, degree_biere, prix_normal, prix_happy, description
+
+
+                    $query = 'SELECT *
                     FROM bieres AS bieres
                     LEFT JOIN type_biere AS type_biere ON bieres.type_biere_id_type_biere = type_biere.id_type_biere
                     LEFT JOIN pays AS pays ON bieres.pays_id_pays = pays.id_pays
@@ -135,6 +141,9 @@ $provenance_biere = isset($_GET['provenance_biere']) && $_GET['provenance_biere'
                     }
                     if ($provenance_biere !== null) {
                         $query = $query . ' AND bieres.pays_id_pays = ' . $provenance_biere;
+                    }
+                    if ($degree_biere !== null) {
+                        $query = $query . ' AND bieres.degree_biere <= ' . $degree_biere;
                     }
 
                     $reponse = $bdd->query($query);
@@ -201,6 +210,7 @@ $provenance_biere = isset($_GET['provenance_biere']) && $_GET['provenance_biere'
                 </ul>
             </div>
         </div>
+    </div>
 
 
 

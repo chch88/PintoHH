@@ -253,14 +253,18 @@ INSERT INTO `type_biere` (`id_type_biere`, `nom_type_biere`) VALUES
 -- Table structure for table `utilisateurs`
 --
 
-CREATE TABLE IF NOT EXISTS `utilisateurs` (
-  `id_utilisateur` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `roles_id_role` int(11) unsigned DEFAULT NULL,
+CREATE TABLE `utilisateurs` (
+  `id_utilisateur` int(10) UNSIGNED NOT NULL,
+  `roles_id_role` int(11) UNSIGNED DEFAULT NULL,
+  `nom` varchar(255) NOT NULL,
+  `sexe` char(1) DEFAULT NULL,
+  `identifiant` varchar(255) NOT NULL,
   `email` varchar(255) DEFAULT NULL,
-  `password_2` varchar(50) DEFAULT NULL,
-  PRIMARY KEY (`id_utilisateur`),
-  KEY `utilisateurs_FKIndex1` (`roles_id_role`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+  `password` varchar(60) DEFAULT NULL,
+  `confirmation_token` varchar(100) DEFAULT NULL,
+  `confirmation_mail` datetime DEFAULT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
 
 -- --------------------------------------------------------
 

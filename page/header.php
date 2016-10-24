@@ -1,3 +1,10 @@
+<?php
+// Si tu n'as pas de session active tu peux la démarrer
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -29,11 +36,23 @@
     <div class="nav-wrapper">
         <a href="/PintoHH/index.php" class="brand-logo center">PINTO HAPPY HOUR</a>
         <ul class="right hide-on-med-and-down">
-            <li><a class="waves-effect waves-light btn" href="/PintoHH/page/inscription.php">Inscription</a></li>
-            <li><a class="waves-effect waves-light btn"  href="/PintoHH/page/connexion.php">Connexion</a></li>
+          <?php if (isset($_SESSION['information'])): ?>
+                <li><a class="waves-effect waves-light btn" href="/PintoHH/page/membre/editer_profil.php">Editer Profil</a> </li>
+                <li><a class="waves-effect waves-light btn" href="/PintoHH/page/membre/deconnexion.php">Deconnection</a> </li>
+
+                <?php else: ?>
+                <li><a class="waves-effect waves-light btn" href="/PintoHH/page/membre/inscription.php">Inscription</a></li>
+                <li><a class="waves-effect waves-light btn"  href="/PintoHH/page/membre/connexion.php">Connexion</a></li>
+                <?php endif; ?>
         </ul>
     </div>
 </nav>
+    <?php
+    if(isset($_SESSION['information']))
+    {
+        echo "Bonjour" . ($_SESSION['nom']);
+    }
+    ?>
 
 <div class="container">
     <div class="row">

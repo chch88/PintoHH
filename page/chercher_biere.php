@@ -117,7 +117,7 @@ print_r($today);
                 <div class="switch center-align">
                     <label>
                         Liste
-                        <input type="checkbox">
+                        <input type="checkbox" id="mycheckbox">
                         <span class="lever"></span>
                         Map
                     </label>
@@ -125,9 +125,10 @@ print_r($today);
             </div>
         </div>
 
-        <!-- résultats de la recherche en liste" -->
+
         <div class="row">
-            <div class="col l10 offset-l1">
+            <!-- résultats de la recherche en liste" -->
+            <div id="liste" class="col l10 offset-l1">
                 <ul class="collapsible popout" data-collapsible="accordion">
 
                     <?php
@@ -157,7 +158,7 @@ print_r($today);
 
                         <li>
                             <div
-                                class="collapsible-header bar-font center-align"><?php echo $donnees['nom_biere']; ?></div>
+                                class="collapsible-header bar-font center-align"><?php echo $donnees['nom_biere']; ?> <i class="fa fa-star-o" aria-hidden="true"></i></div>
                             <div class="collapsible-body white-font">
 
 
@@ -213,6 +214,15 @@ print_r($today);
                     }
                     ?>
                 </ul>
+            </div>
+
+            <div id="map" class="col l12" style="height:300px;"></div>
+
+                <script>
+
+                </script>
+
+                <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAmZb6Wbwa9Y29h1tRoKf9h6gqaesVNEcU&callback=initMap"async defer></script>
             </div>
         </div>
     </div>

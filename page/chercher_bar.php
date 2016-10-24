@@ -4,6 +4,8 @@
 
 <?php
 // variables contenues dans $_GET
+// <?= revient à dire <? echo
+// isset ? : revient à dire if / else
 $nom_bar = isset($_GET['nom_bar']) ? $_GET['nom_bar'] : '';
 $style_bar = isset($_GET['style_bar']) && $_GET['style_bar']!=='' ? $_GET['style_bar'] : null;
 
@@ -112,9 +114,45 @@ $style_bar = isset($_GET['style_bar']) && $_GET['style_bar']!=='' ? $_GET['style
                     ?>
 
                     <li>
-                        <div class="collapsible-header bar-font"><?php echo $donnees['nom_bar']; ?></div>
-                        <div class="collapsible-body white-font">
+                        <div class="collapsible-header bar-font">
+                            <div class="row row2">
+                                <div class="col l5 s7">
+                                    <?php echo $donnees['nom_bar']; ?>
+                                </div>
 
+                                <div class="col l3 s5">
+                                    <i class="material-icons">alarm</i>
+
+                                </div>
+
+                                <div class="col l3 s5 offset-s7">
+                                    <i class="material-icons prefix">location_on</i>
+
+                                </div>
+
+                                <div class="col l1 s5 offset-s7">
+                                    <input type="checkbox" id="test5" />
+                                    <label for="test5"></label>
+                                </div>
+                            </div> <!-- Fin de la row -->
+
+                            <div class="row row2">
+                                <div class="col l3 offset-l5">
+                                    <i class="material-icons">euro_symbol</i>
+                                    <h6>Pinte à partir de</h6>
+                                </div>
+                            </div> <!-- Fin de la row -->
+
+
+
+
+
+
+
+                        </div>
+
+
+                        <div class="collapsible-body white-font">
 
                             <div class="row">
                                 <div class="col l5">
@@ -169,6 +207,19 @@ $style_bar = isset($_GET['style_bar']) && $_GET['style_bar']!=='' ? $_GET['style
                 ?>
 
             </ul>
+
+                <?php
+                //afficher une photo
+               $sqlQuery = 'SELECT * FROM photos
+               ';
+
+             $reponse = $bdd->query($sqlQuery);
+              while ($donnees = $reponse->fetch()) {
+              echo  "<img src='". $donnees['fichier'] . "' height='100px'>";
+                }
+
+                ?>
+
         </div>
     </div> <!-- fin row -->
 

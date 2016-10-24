@@ -63,13 +63,13 @@ if (session_status() == PHP_SESSION_NONE) {
         </div>
         </a>
 
-        <a href="#">
+        <a href="/PintoHH/page/chercher_bar.php">
         <div class="col l4 s4" style="background-color: #F5AB35">
             <img src="/PintoHH/images/megaphone.png" width="100px" class="center-block">
         </div>
         </a>
 
-        <a href="#">
+        <a href="/PintoHH/page/chercher_biere.php">
         <div class="col l4 s4" style="background-color: #F27935">
             <img src="/PintoHH/images/plane.png" height="100px" class="center-block">
         </div>

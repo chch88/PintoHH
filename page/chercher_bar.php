@@ -2,6 +2,12 @@
 
 <?php include("header.php"); ?>
 
+<?php
+// variables contenues dans $_GET
+$nom_bar = isset($_GET['nom_bar']) ? $_GET['nom_bar'] : '';
+$style_bar = isset($_GET['style_bar']) && $_GET['style_bar']!=='' ? $_GET['style_bar'] : null;
+
+?>
 
 <div class="container2">
 
@@ -12,15 +18,15 @@
     <!-- BARRE DE RECHERCHE DES BARS -->
     <div class="row">
 
-        <form method="post" action="#">
+        <form method="get">
 
           <div class="input-field col l2 s6 offset-l1">
             <label for="nom_bar">Nom</label>
-            <input type="text" name="nom_bar" id="nom_bar" class="autocomplete"/>
+              <input type="text" name="nom_bar" id="nom_bar" class="autocomplete" value="<?= $nom_bar ?>"/>
           </div>
 
 
-            <div class="input-field col l2 s6">
+           <!-- <div class="input-field col l2 s6">
                 <select name="distance" id="distance">
                     <option value="" disabled selected>Choisissez votre option</option>
                     <option>500M</option>
@@ -29,15 +35,18 @@
                     <option>Pas de Palier</option>
                 </select>
                 <label for="distance">Palier de Distance</label>
-            </div>
+            </div> -->
 
             <div class="input-field col l2 s6">
-            <select name="style" id="style">
-                <option>Lounge</option>
-                <option>Bar</option>
-                <option>Pub</option>
-                <option>Brasserie</option>
-            </select>
+                <select name="style_bar" id="style_bar">
+                    <option value="">Choisissez votre option</option>
+                    <?php
+                    $reponse = $bdd->query('select * from styles_bars');
+                    while ($style = $reponse->fetch()) {?>
+                        <option value="<?= $style['id_style_bar'] ?>" <?= $style_bar==$style['id_style_bar'] ? 'selected' : '' ?>><?= $style['nom_style_bar'] ?></option>
+                    <?php }
+                    ?>
+                </select>
                 <label for="style">Style de Bar</label>
             </div>
 
@@ -62,7 +71,7 @@
              </div>
          --->
             <div class="input-field col l1 s6">
-                <a class="waves-effect waves-light btn" type="submit" name="action">Rechercher</a>
+                <button class="waves-effect waves-light btn" type="submit" name="action">Rechercher</button>
             </div>
 
         </form> <!-- fin du formulaire -->
@@ -89,11 +98,16 @@
             <ul class="collapsible popout" data-collapsible="accordion">
 
                 <?php
-                $reponse = $bdd->query
-                ('SELECT * FROM bars
-                INNER JOIN styles_bars
-                ON styles_bars.id_style_bar=bars.styles_bars_id_style_bar
-                ');
+                $sqlQuery = 'SELECT * FROM bars 
+                INNER JOIN styles_bars 
+                ON styles_bars.id_style_bar=bars.styles_bars_id_style_bar 
+                WHERE nom_bar LIKE "%'.$nom_bar.'%" 
+                ';
+                if ($style_bar!==null){
+                    $sqlQuery = $sqlQuery.' AND bars.styles_bars_id_style_bar = '.$style_bar;
+                }
+
+                $reponse = $bdd->query($sqlQuery);
                 while ($donnees = $reponse->fetch()) {
                     ?>
 

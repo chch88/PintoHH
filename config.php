@@ -9,7 +9,9 @@ try {
     $bdd->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
 }
 
-catch (PDOException $e) {
-    die('Une Erreur est survenue lors de la Connexion à la base de donnée');
+catch (Exception $e){
+    die('Erreur : ' . $e->getMessage());
 }
+
+ini_set('display_errors', 1);
 ?>

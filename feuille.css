@@ -44,11 +44,12 @@ html {
         margin-left: -0.75rem;
         margin-right: -0.75rem;
     }
+}
 
 
 .bar-font {
     color: grey;
-    font-size: 20px;
+    font-size: 14px;
     text-transform: uppercase;
 }
 
@@ -88,5 +89,9 @@ html {
     }
 
 .row2 {
-    margin-bottom: 5px;
+    margin-bottom: 0px;
+}
+
+.collapsible-body {
+    border-bottom: 0px;
 }

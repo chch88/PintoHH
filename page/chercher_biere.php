@@ -8,14 +8,27 @@ $nom_biere = isset($_GET['nom_biere']) ? $_GET['nom_biere'] : '';
 $type_biere = isset($_GET['type_biere']) && $_GET['type_biere'] !== '' ? $_GET['type_biere'] : null;
 $provenance_biere = isset($_GET['provenance_biere']) && $_GET['provenance_biere'] !== '' ? $_GET['provenance_biere'] : null;
 $degree_biere = isset($_GET['degre_biere']) && $_GET['degre_biere'] !== '' ? $_GET['degre_biere'] : null;
-
-// Définit le fuseau horaire par défaut à utiliser. Disponible depuis PHP 5.1
-date_default_timezone_set('UTC');
-$today = getdate();
-strtotime($today);
+$restriction = $_GET['restriction'];
 
 
-print_r($today);
+$time_array = getdate();
+print_r($time_array);
+
+
+$weekday = $time_array['wday'];
+$hour = $time_array['hours'];
+$hp1 =  $time_array['hours'] + 1;
+$minutes = $time_array['minutes'];
+if ($time_array['seconds'] < 10) {
+    $seconds = 0 . $time_array['seconds'];
+} else {
+    $seconds = $time_array['seconds'];
+}
+$time = $hour . ":" . $minutes . ":" . $seconds;
+$newtime = $hp1 . ":" . $minutes . ":" . $seconds;
+
+print_r($weekday);
+
 ?>
 
     <div class="container2">
@@ -91,18 +104,16 @@ print_r($today);
                     <label for="Provenance">Provenance</label>
                 </div>
 
-
-                <!-- RESTRICTIONS
                 <div class="input-field col l2 s6">
-                    <select name="happy_biere" id="Restriction">
-                        <option>Pas de restriction</option>
-                        <option>Dans la journée</option>
-                        <option>Dans une heure</option>
-                        <option>En ce moment</option>
+                    <select name="restriction" id="Restriction">
+                        <option value="" disabled selected>Choisissez votre option</option>
+                        <option value="0">Pas de restriction</option>
+                        <option value="1">Dans la journée</option>
+                        <option value="2">Dans une heure</option>
+                        <option value="3">En ce moment</option>
                     </select>
                     <label for="Restriction">Happy Hour</label>
                 </div>
-                -->
 
                 <div class="input-field col l1 s6 offset-l10 offset-s3">
                     <button class="waves-effect waves-light btn" type="submit" name="search">Rechercher
@@ -133,14 +144,17 @@ print_r($today);
 
                     <?php
 
-
                     $query = 'SELECT *
                     FROM bieres AS bieres
+                    LEFT JOIN bar_biere AS bar_biere ON bieres.id_biere = bar_biere.bieres_id_biere
+                    LEFT JOIN bars AS bars ON bars.id_bar = bar_biere.bars_id_bar
+                    LEFT JOIN horaires AS horaires ON horaires.bars_id_bar = bars.id_bar
                     LEFT JOIN type_biere AS type_biere ON bieres.type_biere_id_type_biere = type_biere.id_type_biere
                     LEFT JOIN pays AS pays ON bieres.pays_id_pays = pays.id_pays
                     LEFT JOIN photos AS photos ON bieres.photos_id_photo = photos.id_photo
-                    WHERE nom_biere 
+                    WHERE nom_biere
                     LIKE  "%'.$nom_biere.'%"
+                    AND horaires.is_happy_hour = 1
                     ';
                     if ($type_biere !== null) {
                         $query = $query . ' AND bieres.type_biere_id_type_biere = ' . $type_biere;
@@ -151,32 +165,55 @@ print_r($today);
                     if ($degree_biere !== null) {
                         $query = $query . ' AND bieres.degree_biere <= ' . $degree_biere;
                     }
+                    if ($restriction == 1) {
+                        $query = $query . ' AND horaires.numero_jour = ' . '"' . $weekday . '"';
+                    }
+                    if ($restriction == 2) {
+                        $query = $query . ' AND horaires.numero_jour = ' . '"' . $weekday . '"';
+                        $query = $query . ' AND horaires.heure_debut <= ' . '"' . $newtime . '"';
+                        $query = $query . ' AND horaires.heure_fin >= ' . '"' . $newtime . '"';
+                    }
+                    if ($restriction == 3) {
+                        $query = $query . ' AND horaires.numero_jour = ' . '"' . $weekday . '"';
+                        $query = $query . ' AND horaires.heure_debut <= ' . '"' . $time . '"';
+                        $query = $query . ' AND horaires.heure_fin >= ' . '"' . $time . '"';
+                    }
 
                     $reponse = $bdd->query($query);
                     while ($donnees = $reponse->fetch()) {
                         ?>
 
                         <li>
-                            <div
-                                class="collapsible-header bar-font center-align"><?php echo $donnees['nom_biere']; ?> <i class="fa fa-star-o" aria-hidden="true"></i></div>
+                            <div class="collapsible-header bar-font center-align"><?php echo $donnees['nom_biere']; ?> </div>
                             <div class="collapsible-body white-font">
 
 
                                 <div class="row">
+
                                     <div class="col l6">
-                                        <p><?php echo $donnees['degree_biere'] ?></p>
+                                        <p>
+                                            Degré d'alcool : <?php echo $donnees['degree_biere'] ?>
+                                        </p>
                                     </div>
 
                                     <div class="col l6 right-align">
                                         <p>
-                                            Type de bière : <?php echo "  " . $donnees['nom_type_biere']; ?>
+                                            Type de bière : <?php echo $donnees['nom_type_biere']; ?>
                                         </p>
                                     </div>
                                 </div><!-- fin row -->
 
                                 <div class="row">
-                                    <div>
-                                        <p>Pays de provenance : <?php echo $donnees['nom_pays']; ?></p>
+                                    <div class="col l2 offset-l5 center-align">
+                                        <img class="col l10 center-align" src="<?= $donnees['fichier']; ?>">
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col l6">
+                                        <p>
+                                            Pays de provenance : <?php echo $donnees['nom_pays']; ?>
+                                        </p>
                                     </div>
                                 </div><!-- fin row -->
 
@@ -184,8 +221,8 @@ print_r($today);
                                 <!-- BOUTON POUR LE MODAL -->
                                 <div class="center">
                                     <a class="waves-effect waves-light btn modal-trigger"
-                                       href="#<?php echo $donnees['id_biere']; ?>">Voir la fiche complète de cette
-                                        bière</a>
+                                       href="#<?php echo $donnees['id_biere']; ?>">Voir la fiche complète de cette bière
+                                    </a>
                                 </div>
 
                                 <br>
@@ -217,10 +254,6 @@ print_r($today);
             </div>
 
             <div id="map" class="col l12" style="height:300px;"></div>
-
-                <script>
-
-                </script>
 
                 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAmZb6Wbwa9Y29h1tRoKf9h6gqaesVNEcU&callback=initMap"async defer></script>
             </div>

@@ -106,7 +106,7 @@ $style_bar = isset($_GET['style_bar']) && $_GET['style_bar']!=='' ? $_GET['style
                 LEFT JOIN styles_bars 
                 ON styles_bars.id_style_bar=bars.styles_bars_id_style_bar 
                 WHERE nom_bar LIKE "%'.$nom_bar.'%" 
-                FELFT JOIN 
+                
                 ';
                 if ($style_bar!==null){
                     $sqlQuery = $sqlQuery.' AND bars.styles_bars_id_style_bar = '.$style_bar;

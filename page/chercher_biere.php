@@ -8,7 +8,7 @@ $nom_biere = isset($_GET['nom_biere']) ? $_GET['nom_biere'] : '';
 $type_biere = isset($_GET['type_biere']) && $_GET['type_biere'] !== '' ? $_GET['type_biere'] : null;
 $provenance_biere = isset($_GET['provenance_biere']) && $_GET['provenance_biere'] !== '' ? $_GET['provenance_biere'] : null;
 $degree_biere = isset($_GET['degre_biere']) && $_GET['degre_biere'] !== '' ? $_GET['degre_biere'] : null;
-$restriction = $_GET['restriction'];
+$restriction = isset($_GET['restriction']) && $_GET['restriction'] !== '' ? $_GET['restriction'] : null;
 
 
 $time_array = getdate();
@@ -58,10 +58,18 @@ print_r($weekday);
                 <div class="input-field col l2 s6">
                     <select name="degre_biere" id="Degre">
                         <option value="" disabled selected>Choisissez votre option</option>
-                        <option value="0">Sans alcool</option>
-                        <option value="4"><4 %</option>
-                        <option value="7"><7 %</option>
-                        <option value="10"><10 %</option>
+                        <option value="0" <?php if (strpos($_SERVER['REQUEST_URI'], "&degre_biere=0") !== false){
+                            echo "selected";
+                        }?>>Sans alcool</option>
+                        <option value="4" <?php if (strpos($_SERVER['REQUEST_URI'], "&degre_biere=4") !== false){
+                            echo "selected";
+                        }?>><4 %</option>
+                        <option value="7" <?php if (strpos($_SERVER['REQUEST_URI'], "&degre_biere=7") !== false){
+                            echo "selected";
+                        }?>><7 %</option>
+                        <option value="10" <?php if (strpos($_SERVER['REQUEST_URI'], "&degre_biere=10") !== false){
+                            echo "selected";
+                        }?>><10 %</option>
                     </select>
                     <label for="Degre"> Degré d'alcool </label>
                 </div>
@@ -107,10 +115,18 @@ print_r($weekday);
                 <div class="input-field col l2 s6">
                     <select name="restriction" id="Restriction">
                         <option value="" disabled selected>Choisissez votre option</option>
-                        <option value="0">Pas de restriction</option>
-                        <option value="1">Dans la journée</option>
-                        <option value="2">Dans une heure</option>
-                        <option value="3">En ce moment</option>
+                        <option value="0" <?php if (strpos($_SERVER['REQUEST_URI'], "&restriction=0") !== false){
+                            echo "selected";
+                        }?>>Pas de restriction</option>
+                        <option value="1" <?php if (strpos($_SERVER['REQUEST_URI'], "&restriction=1") !== false){
+                            echo "selected";
+                        }?>>Dans la journée</option>
+                        <option value="2" <?php if (strpos($_SERVER['REQUEST_URI'], "&restriction=2") !== false){
+                            echo "selected";
+                        }?>>Dans une heure</option>
+                        <option value="3" <?php if (strpos($_SERVER['REQUEST_URI'], "&restriction=3") !== false){
+                            echo "selected";
+                        }?>>En ce moment</option>
                     </select>
                     <label for="Restriction">Happy Hour</label>
                 </div>

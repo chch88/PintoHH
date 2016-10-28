@@ -17,7 +17,7 @@ print_r($time_array);
 
 $weekday = $time_array['wday'];
 $hour = $time_array['hours'];
-$hp1 =  $time_array['hours'] + 1;
+$hp1 = $time_array['hours'] + 1;
 $minutes = $time_array['minutes'];
 if ($time_array['seconds'] < 10) {
     $seconds = 0 . $time_array['seconds'];
@@ -58,18 +58,22 @@ print_r($weekday);
                 <div class="input-field col l2 s6">
                     <select name="degre_biere" id="Degre">
                         <option value="" disabled selected>Choisissez votre option</option>
-                        <option value="0" <?php if (strpos($_SERVER['REQUEST_URI'], "&degre_biere=0") !== false){
+                        <option value="0" <?php if (strpos($_SERVER['REQUEST_URI'], "&degre_biere=0") !== false) {
                             echo "selected";
-                        }?>>Sans alcool</option>
-                        <option value="4" <?php if (strpos($_SERVER['REQUEST_URI'], "&degre_biere=4") !== false){
+                        } ?>>Sans alcool
+                        </option>
+                        <option value="4" <?php if (strpos($_SERVER['REQUEST_URI'], "&degre_biere=4") !== false) {
                             echo "selected";
-                        }?>><4 %</option>
-                        <option value="7" <?php if (strpos($_SERVER['REQUEST_URI'], "&degre_biere=7") !== false){
+                        } ?>><4 %
+                        </option>
+                        <option value="7" <?php if (strpos($_SERVER['REQUEST_URI'], "&degre_biere=7") !== false) {
                             echo "selected";
-                        }?>><7 %</option>
-                        <option value="10" <?php if (strpos($_SERVER['REQUEST_URI'], "&degre_biere=10") !== false){
+                        } ?>><7 %
+                        </option>
+                        <option value="10" <?php if (strpos($_SERVER['REQUEST_URI'], "&degre_biere=10") !== false) {
                             echo "selected";
-                        }?>><10 %</option>
+                        } ?>><10 %
+                        </option>
                     </select>
                     <label for="Degre"> Degré d'alcool </label>
                 </div>
@@ -115,18 +119,22 @@ print_r($weekday);
                 <div class="input-field col l2 s6">
                     <select name="restriction" id="Restriction">
                         <option value="" disabled selected>Choisissez votre option</option>
-                        <option value="0" <?php if (strpos($_SERVER['REQUEST_URI'], "&restriction=0") !== false){
+                        <option value="0" <?php if (strpos($_SERVER['REQUEST_URI'], "&restriction=0") !== false) {
                             echo "selected";
-                        }?>>Pas de restriction</option>
-                        <option value="1" <?php if (strpos($_SERVER['REQUEST_URI'], "&restriction=1") !== false){
+                        } ?>>Pas de restriction
+                        </option>
+                        <option value="1" <?php if (strpos($_SERVER['REQUEST_URI'], "&restriction=1") !== false) {
                             echo "selected";
-                        }?>>Dans la journée</option>
-                        <option value="2" <?php if (strpos($_SERVER['REQUEST_URI'], "&restriction=2") !== false){
+                        } ?>>Dans la journée
+                        </option>
+                        <option value="2" <?php if (strpos($_SERVER['REQUEST_URI'], "&restriction=2") !== false) {
                             echo "selected";
-                        }?>>Dans une heure</option>
-                        <option value="3" <?php if (strpos($_SERVER['REQUEST_URI'], "&restriction=3") !== false){
+                        } ?>>Dans une heure
+                        </option>
+                        <option value="3" <?php if (strpos($_SERVER['REQUEST_URI'], "&restriction=3") !== false) {
                             echo "selected";
-                        }?>>En ce moment</option>
+                        } ?>>En ce moment
+                        </option>
                     </select>
                     <label for="Restriction">Happy Hour</label>
                 </div>
@@ -169,7 +177,8 @@ print_r($weekday);
                     LEFT JOIN pays AS pays ON bieres.pays_id_pays = pays.id_pays
                     LEFT JOIN photos AS photos ON bieres.photos_id_photo = photos.id_photo
                     WHERE nom_biere
-                    LIKE  "%'.$nom_biere.'%"
+                    LIKE  "%' . $nom_biere . '%"
+                    AND bieres.id_biere = bar_biere.bieres_id_biere
                     AND horaires.is_happy_hour = 1
                     ';
                     if ($type_biere !== null) {
@@ -194,44 +203,164 @@ print_r($weekday);
                         $query = $query . ' AND horaires.heure_debut <= ' . '"' . $time . '"';
                         $query = $query . ' AND horaires.heure_fin >= ' . '"' . $time . '"';
                     }
+                    $query = $query . ' GROUP BY bieres.id_biere';
 
                     $reponse = $bdd->query($query);
                     while ($donnees = $reponse->fetch()) {
                         ?>
 
                         <li>
-                            <div class="collapsible-header bar-font center-align"><?php echo $donnees['nom_biere']; ?> </div>
+                            <div class="collapsible-header bar-font"> <!-- NIVEAU 1 -->
+                                <div class="row row2">
+                                    <div class="col l2 m12 s12">
+                                        <img src="<?= $donnees['fichier']; ?>">
+                                    </div>
+                                    <div class="left-align col l10 m12 s12">
+                                        <h5 class="center"> <?= $donnees['nom_biere']; ?> </h5>
+
+                                        <div class="row">
+                                            <div class="col l4 m6 s12">
+                                                <label for="percent_degree">Degré</label>
+                                                <i id="percent_degree" class="material-icons">%</i>
+                                                <?=
+                                                $donnees['degree_biere'];
+                                                ?>
+                                            </div>
+
+                                            <div class="col l4 m6 s12">
+                                                <label for="beer_kind">Type de bière</label>
+                                                <i id="beer_kind" class="material-icons">local_drink</i>
+                                                <?=
+                                                $donnees['nom_type_biere'];
+                                                ?>
+                                            </div>
+
+                                            <div class="col l4 m1 s2">
+                                                <input type="checkbox" id="favoris<?php echo $donnees['id_biere']; ?>"/>
+                                                <label for="favoris<?php echo $donnees['id_biere']; ?>"></label>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col l4">
+                                                <?php
+                                                // La variable $where_biere change de formes deux fois($where_biere_unhappy et $where_biere_happy, c'est pour cela qu'lle se trouve en haut du bloc
+                                                $where_biere = 'SELECT *
+                                                FROM bars AS bars
+                                                LEFT JOIN bar_biere AS bar_biere ON bar_biere.bars_id_bar = bars.id_bar
+                                                LEFT JOIN bieres AS bieres ON bieres.id_biere = bar_biere.bieres_id_biere
+                                                WHERE bieres.id_biere = ' . $donnees['id_biere'] . '
+                                                ';
+
+                                                $nombre_bars_pour_biere = $bdd->prepare('SELECT COUNT(*)
+                                                FROM bars AS bars
+                                                LEFT JOIN bar_biere AS bar_biere ON bar_biere.bars_id_bar = bars.id_bar
+                                                LEFT JOIN bieres AS bieres ON bieres.id_biere = bar_biere.bieres_id_biere
+                                                WHERE bieres.id_biere = ' . $donnees['id_biere'] . '
+                                                ORDER BY bars.nom_bar
+                                                ');
+
+                                                $nombre_bars_pour_biere->execute();
+                                                ?>
+                                                <i class="material-icons">local_bar</i>
+                                                Où trouver cette bière?
+                                                (<?php $nb_bars = $nombre_bars_pour_biere->fetch(PDO::FETCH_ASSOC);
+                                                echo $nb_bars['COUNT(*)']; ?> bars ont cette bière)
+                                                <ul>
+                                                    <?php
+                                                    $wb = $bdd->query($where_biere);
+                                                    while ($bars = $wb->fetch()) {
+                                                        ?>
+                                                        <li>
+                                                            <?=
+                                                            $bars['nom_bar'];
+                                                            ?>
+                                                        </li>
+                                                        <?php
+                                                    }
+                                                    ?>
+                                                </ul>
+                                            </div>
+                                            <div class="col l4">
+                                                <?php
+                                                $nombre_bars_pour_biere_happy = $bdd->prepare('SELECT COUNT(*)
+                                                FROM bars AS bars
+                                                LEFT JOIN bar_biere AS bar_biere ON bar_biere.bars_id_bar = bars.id_bar
+                                                LEFT JOIN bieres AS bieres ON bieres.id_biere = bar_biere.bieres_id_biere
+                                                WHERE bieres.id_biere = ' . $donnees['id_biere'] . '
+                                                AND prix_happy_bar IS NOT NULL
+                                                ORDER BY bars.nom_bar
+                                                ');
+
+                                                $nombre_bars_pour_biere_happy->execute();
+                                                ?>
+
+                                                <i class="material-icons">local_bar</i>
+                                                Et en happy hour?
+                                                (<?php $nb_bars_happy = $nombre_bars_pour_biere_happy->fetch(PDO::FETCH_ASSOC);
+                                                echo $nb_bars_happy['COUNT(*)']; ?> bars ont cette bière)
+                                                <ul>
+                                                    <?php
+                                                    $where_biere_happy = $where_biere . ' AND bar_biere.prix_happy_bar IS NOT NULL';
+
+                                                    $wbh = $bdd->query($where_biere_happy);
+                                                    while ($bars_happy = $wbh->fetch()) {
+                                                        ?>
+                                                        <li>
+                                                            <?=
+                                                            $bars_happy['nom_bar'];
+                                                            ?>
+                                                        </li>
+                                                        <?php
+                                                    }
+                                                    ?>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div> <!-- Fin de la row -->
+
+                            </div> <!-- FIN NIVEAU 1 -->
+
+                            <!--------------------------------------------- NIVEAU 2 --------------------------------------------->
                             <div class="collapsible-body white-font">
 
+                                <div class="row row2">
 
-                                <div class="row">
+                                    <div class="col l8 m7 s12">
 
-                                    <div class="col l6">
                                         <p>
-                                            Degré d'alcool : <?php echo $donnees['degree_biere'] ?>
+                                            <i class="material-icons">gps_fixed</i>
+                                            <?php echo $donnees['numero'] . " " . $donnees['rue'] . ", EPINAL" ?>
+                                            <br>
+                                            <i class="material-icons prefix">phone</i><?php echo "  " . $donnees['telephone']; ?>
+                                            <br>
+                                            <i class="material-icons">blur_on</i>
+                                            Type de bar : <?php echo $donnees['nom_style_bar']; ?>
                                         </p>
-                                    </div>
 
-                                    <div class="col l6 right-align">
-                                        <p>
-                                            Type de bière : <?php echo $donnees['nom_type_biere']; ?>
-                                        </p>
-                                    </div>
-                                </div><!-- fin row -->
 
-                                <div class="row">
-                                    <div class="col l2 offset-l5 center-align">
-                                        <img class="col l10 center-align" src="<?= $donnees['fichier']; ?>">
-                                    </div>
-                                </div>
+                                        <!-- BOUTON POUR LE MODAL -->
+                                        <div class="center">
+                                            <a class="waves-effect waves-light btn modal-trigger"
+                                               href="#<?php echo $donnees['id_bar']; ?>">Voir la fiche complète du
+                                                bar</a>
+                                        </div>
 
-                                <div class="row">
-                                    <div class="col l6">
-                                        <p>
-                                            Pays de provenance : <?php echo $donnees['nom_pays']; ?>
-                                        </p>
-                                    </div>
-                                </div><!-- fin row -->
+                                        <br>
+
+                                    </div> <!-- fin partie gauche -->
+
+                                    <div class="col l4 m5 s12">
+                                        <?php
+                                        //afficher une photo
+                                        echo "<img src='" . $donnees['fichier'] . "' width='100%'>";
+                                        ?>
+                                    </div><!-- fin partie droite -->
+
+
+                                </div> <!-- FIN 1ere row -->
 
 
                                 <!-- BOUTON POUR LE MODAL -->
@@ -271,11 +400,12 @@ print_r($weekday);
 
             <div id="map" class="col l12" style="height:300px;"></div>
 
-                <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAmZb6Wbwa9Y29h1tRoKf9h6gqaesVNEcU&callback=initMap"async defer></script>
-            </div>
+            <script
+                src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAmZb6Wbwa9Y29h1tRoKf9h6gqaesVNEcU&callback=initMap"
+                async defer></script>
         </div>
     </div>
-
+    </div>
 
 
 <?php include("footer.php"); ?>

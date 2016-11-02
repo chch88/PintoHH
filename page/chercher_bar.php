@@ -8,6 +8,24 @@
 // isset ? : revient à dire if / else
 $nom_bar = isset($_GET['nom_bar']) ? $_GET['nom_bar'] : '';
 $style_bar = isset($_GET['style_bar']) && $_GET['style_bar']!=='' ? $_GET['style_bar'] : null;
+$restriction = isset($_GET['restriction']) && $_GET['restriction'] !== '' ? $_GET['restriction'] : null;
+
+$time_array = getdate();
+print_r($time_array);
+
+
+$weekday = $time_array['wday'];
+$hour = $time_array['hours'];
+$hp1 = $time_array['hours'] + 1;
+$minutes = $time_array['minutes'];
+if ($time_array['seconds'] < 10) {
+    $seconds = 0 . $time_array['seconds'];
+} else {
+    $seconds = $time_array['seconds'];
+}
+$time = $hour . ":" . $minutes . ":" . $seconds;
+$newtime = $hp1 . ":" . $minutes . ":" . $seconds;
+print_r($weekday);
 
 ?>
 
@@ -45,7 +63,7 @@ $style_bar = isset($_GET['style_bar']) && $_GET['style_bar']!=='' ? $_GET['style
                     <?php
                     $reponse = $bdd->query('select * from styles_bars');
                     while ($style = $reponse->fetch()) {?>
-                        <option value="<?= $style['id_style_bar'] ?>" <?= $style_bar==$style['id_style_bar'] ? 'selected' : '' ?>><?= $style['nom_style_bar'] ?></option>
+                        <option value="<?= $style['id_style_bar'] ?>" <?= $style_bar==$style['id_style_bar'] ? 'selected' : '' ?>><?= utf8_encode($style['nom_style_bar']) ?></option>
                     <?php }
                     ?>
                 </select>
@@ -53,14 +71,26 @@ $style_bar = isset($_GET['style_bar']) && $_GET['style_bar']!=='' ? $_GET['style
             </div>
 
             <div class="input-field col l2 s6">
-                <select name="ouverture" id="ouverture">
+                <select name="restriction" id="Restriction">
                     <option value="" disabled selected>Choisissez votre option</option>
-                    <option>En ce moment</option>
-                    <option>Dans une heure</option>
-                    <option>Dans la journée</option>
-                    <option>Pas de restriction</option>
+                    <option value="0" <?php if (strpos($_SERVER['REQUEST_URI'], "&restriction=0") !== false) {
+                        echo "selected";
+                    } ?>>Pas de restriction
+                    </option>
+                    <option value="1" <?php if (strpos($_SERVER['REQUEST_URI'], "&restriction=1") !== false) {
+                        echo "selected";
+                    } ?>>Dans la journée
+                    </option>
+                    <option value="2" <?php if (strpos($_SERVER['REQUEST_URI'], "&restriction=2") !== false) {
+                        echo "selected";
+                    } ?>>Dans une heure
+                    </option>
+                    <option value="3" <?php if (strpos($_SERVER['REQUEST_URI'], "&restriction=3") !== false) {
+                        echo "selected";
+                    } ?>>En ce moment
+                    </option>
                 </select>
-                <label for="ouverture">Ouverture de l'Happy Hour</label>
+                <label for="Restriction">Happy Hour</label>
             </div>
 
 

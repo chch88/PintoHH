@@ -2,10 +2,10 @@
 -- version 4.0.10deb1
 -- http://www.phpmyadmin.net
 --
--- Client: localhost
--- Généré le: Lun 24 Octobre 2016 à 09:09
--- Version du serveur: 5.5.52-0ubuntu0.14.04.1
--- Version de PHP: 5.5.9-1ubuntu4.20
+-- Host: localhost
+-- Generation Time: Oct 28, 2016 at 01:59 PM
+-- Server version: 5.6.31-0ubuntu0.14.04.2
+-- PHP Version: 5.5.9-1ubuntu4.19
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -17,13 +17,13 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8 */;
 
 --
--- Base de données: `pinto`
+-- Database: `pinto`
 --
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `bars`
+-- Table structure for table `bars`
 --
 
 CREATE TABLE IF NOT EXISTS `bars` (
@@ -47,7 +47,7 @@ CREATE TABLE IF NOT EXISTS `bars` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
 
 --
--- Contenu de la table `bars`
+-- Dumping data for table `bars`
 --
 
 INSERT INTO `bars` (`id_bar`, `photos_id_photo`, `styles_bars_id_style_bar`, `villes_id_ville`, `nom_bar`, `longitude`, `latitude`, `numero`, `rue`, `description`, `telephone`, `mot_patron`, `site_web`) VALUES
@@ -59,7 +59,7 @@ INSERT INTO `bars` (`id_bar`, `photos_id_photo`, `styles_bars_id_style_bar`, `vi
 -- --------------------------------------------------------
 
 --
--- Structure de la table `bar_biere`
+-- Table structure for table `bar_biere`
 --
 
 CREATE TABLE IF NOT EXISTS `bar_biere` (
@@ -73,7 +73,7 @@ CREATE TABLE IF NOT EXISTS `bar_biere` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Contenu de la table `bar_biere`
+-- Dumping data for table `bar_biere`
 --
 
 INSERT INTO `bar_biere` (`bars_id_bar`, `bieres_id_biere`, `prix_normal_bar`, `prix_happy_bar`) VALUES
@@ -86,7 +86,7 @@ INSERT INTO `bar_biere` (`bars_id_bar`, `bieres_id_biere`, `prix_normal_bar`, `p
 -- --------------------------------------------------------
 
 --
--- Structure de la table `bar_favori`
+-- Table structure for table `bar_favori`
 --
 
 CREATE TABLE IF NOT EXISTS `bar_favori` (
@@ -98,7 +98,7 @@ CREATE TABLE IF NOT EXISTS `bar_favori` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Contenu de la table `bar_favori`
+-- Dumping data for table `bar_favori`
 --
 
 INSERT INTO `bar_favori` (`bars_id_bar`, `utilisateurs_id_utilisateur`) VALUES
@@ -108,7 +108,7 @@ INSERT INTO `bar_favori` (`bars_id_bar`, `utilisateurs_id_utilisateur`) VALUES
 -- --------------------------------------------------------
 
 --
--- Structure de la table `bieres`
+-- Table structure for table `bieres`
 --
 
 CREATE TABLE IF NOT EXISTS `bieres` (
@@ -128,19 +128,19 @@ CREATE TABLE IF NOT EXISTS `bieres` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
 
 --
--- Contenu de la table `bieres`
+-- Dumping data for table `bieres`
 --
 
 INSERT INTO `bieres` (`id_biere`, `type_biere_id_type_biere`, `pays_id_pays`, `photos_id_photo`, `nom_biere`, `degree_biere`, `prix_normal`, `prix_happy`, `description`) VALUES
 (1, 2, 1, 1, 'Kronenbourg', 4.2, NULL, NULL, 'Kronenbourg est la marque phare de Brasseries Kronenbourg, brasseur alsacien installé à Obernai dans le Bas-Rhin et appartenant aujourd''hui au groupe danois Carlsberg. Elle est la marque de bière la plus consommée en France, une bière sur cinq vendue en France étant une Kronenbourg1.'),
-(2, 6, 6, NULL, 'Guinness', 6, NULL, NULL, 'La Guinness est une bière d''IRLANDE  qui appartient à la famille des stouts (Brasserie GUINNESS). Ce terme désigne des bières fortes en goût et/ou en alcool, dont la fermentation exalte tous les arômes de la bière.\nLa couleur de la Guinness est particulièrement sombre, proche du noir, du fait de l''utilisation de malts torréfiés et de grains d''orges grillés.Contrairement aux idées reçues , la bière arbore un liquide fluide et léger 4,2°'),
-(3, 2, 2, NULL, 'KARMELIET Triple', 8.4, NULL, NULL, 'Bière de fermentation haute, la Tripel Karmeliet 8°  est issue de la Brasserie BOSTEELS à BUGGENHOUT flandre orientale (Belgique) . Elle doit son nom à la recette de moines carmélites de Dendermonde . Elle est élaborée à partir de trois céréales (orge-froment et avoine). Elle offre une mousse très généreuse, dévoile une saveur très épicée et une bouche très sucrée. Bière relativement récente qui est déjà devenue un grand classique. '),
+(2, 6, 6, 8, 'Guinness', 6, NULL, NULL, 'La Guinness est une bière d''IRLANDE  qui appartient à la famille des stouts (Brasserie GUINNESS). Ce terme désigne des bières fortes en goût et/ou en alcool, dont la fermentation exalte tous les arômes de la bière.\nLa couleur de la Guinness est particulièrement sombre, proche du noir, du fait de l''utilisation de malts torréfiés et de grains d''orges grillés.Contrairement aux idées reçues , la bière arbore un liquide fluide et léger 4,2°'),
+(3, 2, 2, 7, 'KARMELIET Triple', 8.4, NULL, NULL, 'Bière de fermentation haute, la Tripel Karmeliet 8°  est issue de la Brasserie BOSTEELS à BUGGENHOUT flandre orientale (Belgique) . Elle doit son nom à la recette de moines carmélites de Dendermonde . Elle est élaborée à partir de trois céréales (orge-froment et avoine). Elle offre une mousse très généreuse, dévoile une saveur très épicée et une bouche très sucrée. Bière relativement récente qui est déjà devenue un grand classique. '),
 (4, 5, 2, 2, 'Delirium Red', 8.5, NULL, NULL, 'Aromatisée à la cerise, la Delirium Red vient ainsi compléter la gamme de bière de la brasserie en s''adressant aussi bien aux femmes qu''aux étudiants, sans oublier les amateurs de bières fortes ! \nDans son verre Delirium, elle révèle une robe rouge foncée au col de mousse fin et compact. Elle dévoile une odeur douce et fruitée, mélange d''amandes douces et de notes puissantes de cerise qui s''évaporent rapidement dans l''air.');
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `biere_favori`
+-- Table structure for table `biere_favori`
 --
 
 CREATE TABLE IF NOT EXISTS `biere_favori` (
@@ -152,7 +152,7 @@ CREATE TABLE IF NOT EXISTS `biere_favori` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Contenu de la table `biere_favori`
+-- Dumping data for table `biere_favori`
 --
 
 INSERT INTO `biere_favori` (`bieres_id_biere`, `utilisateurs_id_utilisateur`) VALUES
@@ -162,7 +162,7 @@ INSERT INTO `biere_favori` (`bieres_id_biere`, `utilisateurs_id_utilisateur`) VA
 -- --------------------------------------------------------
 
 --
--- Structure de la table `galerie_bar`
+-- Table structure for table `galerie_bar`
 --
 
 CREATE TABLE IF NOT EXISTS `galerie_bar` (
@@ -174,7 +174,7 @@ CREATE TABLE IF NOT EXISTS `galerie_bar` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Contenu de la table `galerie_bar`
+-- Dumping data for table `galerie_bar`
 --
 
 INSERT INTO `galerie_bar` (`bars_id_bar`, `photos_id_photo`) VALUES
@@ -192,7 +192,7 @@ INSERT INTO `galerie_bar` (`bars_id_bar`, `photos_id_photo`) VALUES
 -- --------------------------------------------------------
 
 --
--- Structure de la table `horaires`
+-- Table structure for table `horaires`
 --
 
 CREATE TABLE IF NOT EXISTS `horaires` (
@@ -201,22 +201,27 @@ CREATE TABLE IF NOT EXISTS `horaires` (
   `numero_jour` int(1) unsigned DEFAULT NULL,
   `heure_debut` time DEFAULT NULL,
   `heure_fin` time DEFAULT NULL,
-  `is_happy_hour` tinyint(1) DEFAULT NULL,
+  `is_happy_hour` tinyint(1) NOT NULL,
   PRIMARY KEY (`id_horaire`),
   KEY `horaires_FKIndex1` (`bars_id_bar`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=7 ;
 
 --
--- Contenu de la table `horaires`
+-- Dumping data for table `horaires`
 --
 
 INSERT INTO `horaires` (`id_horaire`, `bars_id_bar`, `numero_jour`, `heure_debut`, `heure_fin`, `is_happy_hour`) VALUES
-(1, 1, 1, '16:00:00', '18:00:00', NULL);
+(1, 1, 1, '15:00:00', '23:00:00', 0),
+(2, 2, 1, '20:00:00', '22:00:00', 0),
+(3, 3, 1, '07:00:00', '09:00:00', 0),
+(4, 1, 4, '15:00:00', '19:00:00', 1),
+(5, 2, 1, '20:00:00', '21:00:00', 1),
+(6, 3, 1, '07:30:00', '08:00:00', 1);
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `pays`
+-- Table structure for table `pays`
 --
 
 CREATE TABLE IF NOT EXISTS `pays` (
@@ -226,7 +231,7 @@ CREATE TABLE IF NOT EXISTS `pays` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=7 ;
 
 --
--- Contenu de la table `pays`
+-- Dumping data for table `pays`
 --
 
 INSERT INTO `pays` (`id_pays`, `nom_pays`) VALUES
@@ -238,7 +243,7 @@ INSERT INTO `pays` (`id_pays`, `nom_pays`) VALUES
 -- --------------------------------------------------------
 
 --
--- Structure de la table `photos`
+-- Table structure for table `photos`
 --
 
 CREATE TABLE IF NOT EXISTS `photos` (
@@ -248,7 +253,7 @@ CREATE TABLE IF NOT EXISTS `photos` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=16 ;
 
 --
--- Contenu de la table `photos`
+-- Dumping data for table `photos`
 --
 
 INSERT INTO `photos` (`id_photo`, `fichier`) VALUES
@@ -271,7 +276,7 @@ INSERT INTO `photos` (`id_photo`, `fichier`) VALUES
 -- --------------------------------------------------------
 
 --
--- Structure de la table `roles`
+-- Table structure for table `roles`
 --
 
 CREATE TABLE IF NOT EXISTS `roles` (
@@ -281,7 +286,7 @@ CREATE TABLE IF NOT EXISTS `roles` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
 
 --
--- Contenu de la table `roles`
+-- Dumping data for table `roles`
 --
 
 INSERT INTO `roles` (`id_role`, `nom_role`) VALUES
@@ -291,7 +296,7 @@ INSERT INTO `roles` (`id_role`, `nom_role`) VALUES
 -- --------------------------------------------------------
 
 --
--- Structure de la table `styles_bars`
+-- Table structure for table `styles_bars`
 --
 
 CREATE TABLE IF NOT EXISTS `styles_bars` (
@@ -301,7 +306,7 @@ CREATE TABLE IF NOT EXISTS `styles_bars` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=8 ;
 
 --
--- Contenu de la table `styles_bars`
+-- Dumping data for table `styles_bars`
 --
 
 INSERT INTO `styles_bars` (`id_style_bar`, `nom_style_bar`) VALUES
@@ -316,7 +321,7 @@ INSERT INTO `styles_bars` (`id_style_bar`, `nom_style_bar`) VALUES
 -- --------------------------------------------------------
 
 --
--- Structure de la table `type_biere`
+-- Table structure for table `type_biere`
 --
 
 CREATE TABLE IF NOT EXISTS `type_biere` (
@@ -324,10 +329,10 @@ CREATE TABLE IF NOT EXISTS `type_biere` (
   `nom_type_biere` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id_type_biere`),
   KEY `id_type_biere` (`id_type_biere`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=8 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=7 ;
 
 --
--- Contenu de la table `type_biere`
+-- Dumping data for table `type_biere`
 --
 
 INSERT INTO `type_biere` (`id_type_biere`, `nom_type_biere`) VALUES
@@ -341,7 +346,7 @@ INSERT INTO `type_biere` (`id_type_biere`, `nom_type_biere`) VALUES
 -- --------------------------------------------------------
 
 --
--- Structure de la table `utilisateurs`
+-- Table structure for table `utilisateurs`
 --
 
 CREATE TABLE IF NOT EXISTS `utilisateurs` (
@@ -359,7 +364,7 @@ CREATE TABLE IF NOT EXISTS `utilisateurs` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
 
 --
--- Contenu de la table `utilisateurs`
+-- Dumping data for table `utilisateurs`
 --
 
 INSERT INTO `utilisateurs` (`id_utilisateur`, `roles_id_role`, `nom`, `sexe`, `identifiant`, `email`, `password`, `confirmation_token`, `confirmation_mail`) VALUES
@@ -369,7 +374,7 @@ INSERT INTO `utilisateurs` (`id_utilisateur`, `roles_id_role`, `nom`, `sexe`, `i
 -- --------------------------------------------------------
 
 --
--- Structure de la table `villes`
+-- Table structure for table `villes`
 --
 
 CREATE TABLE IF NOT EXISTS `villes` (
@@ -380,18 +385,18 @@ CREATE TABLE IF NOT EXISTS `villes` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
 
 --
--- Contenu de la table `villes`
+-- Dumping data for table `villes`
 --
 
 INSERT INTO `villes` (`id_ville`, `code_postal`, `ville`) VALUES
 (1, '88000', 'Épinal');
 
 --
--- Contraintes pour les tables exportées
+-- Constraints for dumped tables
 --
 
 --
--- Contraintes pour la table `bars`
+-- Constraints for table `bars`
 --
 ALTER TABLE `bars`
   ADD CONSTRAINT `bars_ibfk_1` FOREIGN KEY (`photos_id_photo`) REFERENCES `photos` (`id_photo`),
@@ -399,21 +404,21 @@ ALTER TABLE `bars`
   ADD CONSTRAINT `bars_ibfk_3` FOREIGN KEY (`villes_id_ville`) REFERENCES `villes` (`id_ville`);
 
 --
--- Contraintes pour la table `bar_biere`
+-- Constraints for table `bar_biere`
 --
 ALTER TABLE `bar_biere`
   ADD CONSTRAINT `bar_biere_ibfk_1` FOREIGN KEY (`bars_id_bar`) REFERENCES `bars` (`id_bar`),
   ADD CONSTRAINT `bar_biere_ibfk_2` FOREIGN KEY (`bieres_id_biere`) REFERENCES `bieres` (`id_biere`);
 
 --
--- Contraintes pour la table `bar_favori`
+-- Constraints for table `bar_favori`
 --
 ALTER TABLE `bar_favori`
   ADD CONSTRAINT `bar_favori_ibfk_1` FOREIGN KEY (`bars_id_bar`) REFERENCES `bars` (`id_bar`),
   ADD CONSTRAINT `bar_favori_ibfk_2` FOREIGN KEY (`utilisateurs_id_utilisateur`) REFERENCES `utilisateurs` (`id_utilisateur`);
 
 --
--- Contraintes pour la table `bieres`
+-- Constraints for table `bieres`
 --
 ALTER TABLE `bieres`
   ADD CONSTRAINT `bieres_ibfk_1` FOREIGN KEY (`type_biere_id_type_biere`) REFERENCES `type_biere` (`id_type_biere`),
@@ -421,27 +426,27 @@ ALTER TABLE `bieres`
   ADD CONSTRAINT `bieres_ibfk_3` FOREIGN KEY (`photos_id_photo`) REFERENCES `photos` (`id_photo`);
 
 --
--- Contraintes pour la table `biere_favori`
+-- Constraints for table `biere_favori`
 --
 ALTER TABLE `biere_favori`
   ADD CONSTRAINT `biere_favori_ibfk_1` FOREIGN KEY (`bieres_id_biere`) REFERENCES `bieres` (`id_biere`),
   ADD CONSTRAINT `biere_favori_ibfk_2` FOREIGN KEY (`utilisateurs_id_utilisateur`) REFERENCES `utilisateurs` (`id_utilisateur`);
 
 --
--- Contraintes pour la table `galerie_bar`
+-- Constraints for table `galerie_bar`
 --
 ALTER TABLE `galerie_bar`
   ADD CONSTRAINT `galerie_bar_ibfk_1` FOREIGN KEY (`bars_id_bar`) REFERENCES `bars` (`id_bar`),
   ADD CONSTRAINT `galerie_bar_ibfk_2` FOREIGN KEY (`photos_id_photo`) REFERENCES `photos` (`id_photo`);
 
 --
--- Contraintes pour la table `horaires`
+-- Constraints for table `horaires`
 --
 ALTER TABLE `horaires`
   ADD CONSTRAINT `horaires_ibfk_1` FOREIGN KEY (`bars_id_bar`) REFERENCES `bars` (`id_bar`);
 
 --
--- Contraintes pour la table `utilisateurs`
+-- Constraints for table `utilisateurs`
 --
 ALTER TABLE `utilisateurs`
   ADD CONSTRAINT `utilisateurs_ibfk_1` FOREIGN KEY (`roles_id_role`) REFERENCES `roles` (`id_role`);

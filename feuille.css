@@ -67,22 +67,23 @@ html {
     color: white;
 }
 
-    .modal {
+.modal {
         display: none;
         position: fixed;
         left: 0;
         right: 0;
         background-color: #fafafa;
         padding: 0;
-        max-height: 85%;
-        width: 85%;
+        max-height: 90%;
+        width: 90%;
         margin: auto;
+        margin-top: -30px;
         overflow-y: auto;
         border-radius: 2px;
         will-change: top, opacity;
     }
 
-    @media only screen and (max-width: 992px) {
+@media only screen and (max-width: 992px) {
         .modal {
             width: 95%;
         }
@@ -94,4 +95,13 @@ html {
 
 .collapsible-body {
     border-bottom: 0px;
+}
+
+.carousel .carousel-item img {
+    width: 200%;
+}
+
+.carousel {
+    height: 200px;
+    margin-bottom: 120px;
 }

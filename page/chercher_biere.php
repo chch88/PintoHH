@@ -11,6 +11,7 @@ $degree_biere = isset($_GET['degre_biere']) && $_GET['degre_biere'] !== '' ? $_G
 $restriction = isset($_GET['restriction']) && $_GET['restriction'] !== '' ? $_GET['restriction'] : null;
 
 
+// Les informations de la date
 $time_array = getdate();
 print_r($time_array);
 
@@ -216,7 +217,12 @@ print_r($weekday);
                                         <img src="<?= $donnees['fichier']; ?>">
                                     </div>
                                     <div class="left-align col l10 m12 s12">
-                                        <h5 class="center"> <?= $donnees['nom_biere']; ?> </h5>
+                                        <h5 class="col l10 center"> <?= $donnees['nom_biere']; ?> </h5>
+
+                                        <div class="col offset-l1 l1 m1 s2">
+                                            <input type="checkbox" id="favoris<?php echo $donnees['id_biere']; ?>"/>
+                                            <label for="favoris<?php echo $donnees['id_biere']; ?>"></label>
+                                        </div>
 
                                         <div class="row">
                                             <div class="col l4 m6 s12">
@@ -235,39 +241,79 @@ print_r($weekday);
                                                 ?>
                                             </div>
 
-                                            <div class="col l4 m1 s2">
-                                                <input type="checkbox" id="favoris<?php echo $donnees['id_biere']; ?>"/>
-                                                <label for="favoris<?php echo $donnees['id_biere']; ?>"></label>
+                                            <div class="col l4 m6 s12">
+                                                <label for="beer_kind">Prix minimum en pinte</label>
+                                                <i id="beer_kind" class="material-icons">€</i>
+                                                <?
+
+                                                ?>
                                             </div>
+
                                         </div>
 
                                         <div class="row">
                                             <div class="col l4">
                                                 <?php
-                                                // La variable $where_biere change de formes deux fois($where_biere_unhappy et $where_biere_happy, c'est pour cela qu'lle se trouve en haut du bloc
-                                                $where_biere = 'SELECT *
+                                                // variabale $where_biere is left at the top of the row because it changes multiple times.
+                                                $where_biere = 'SELECT DISTINCT nom_bar
                                                 FROM bars AS bars
                                                 LEFT JOIN bar_biere AS bar_biere ON bar_biere.bars_id_bar = bars.id_bar
                                                 LEFT JOIN bieres AS bieres ON bieres.id_biere = bar_biere.bieres_id_biere
+                                                LEFT JOIN horaires AS horaires ON horaires.bars_id_bar = bars.id_bar
                                                 WHERE bieres.id_biere = ' . $donnees['id_biere'] . '
                                                 ';
 
-                                                $nombre_bars_pour_biere = $bdd->prepare('SELECT COUNT(*)
+
+                                                // bars with or without happy
+                                                // count of all bars with the beer
+                                                $nombre_bars_pour_biere = 'SELECT COUNT(DISTINCT nom_bar)
                                                 FROM bars AS bars
                                                 LEFT JOIN bar_biere AS bar_biere ON bar_biere.bars_id_bar = bars.id_bar
                                                 LEFT JOIN bieres AS bieres ON bieres.id_biere = bar_biere.bieres_id_biere
+                                                LEFT JOIN horaires AS horaires ON horaires.bars_id_bar = bars.id_bar
                                                 WHERE bieres.id_biere = ' . $donnees['id_biere'] . '
-                                                ORDER BY bars.nom_bar
-                                                ');
+                                                ';
 
-                                                $nombre_bars_pour_biere->execute();
+                                                if ($restriction == 1) {
+                                                    $nombre_bars_pour_biere = $nombre_bars_pour_biere . ' AND horaires.numero_jour = ' . '"' . $weekday . '"';
+                                                }
+                                                if ($restriction == 2) {
+                                                    $nombre_bars_pour_biere = $nombre_bars_pour_biere . ' AND horaires.numero_jour = ' . '"' . $weekday . '"';
+                                                    $nombre_bars_pour_biere = $nombre_bars_pour_biere . ' AND horaires.heure_debut <= ' . '"' . $newtime . '"';
+                                                    $nombre_bars_pour_biere = $nombre_bars_pour_biere . ' AND horaires.heure_fin >= ' . '"' . $newtime . '"';
+                                                }
+                                                if ($restriction == 3) {
+                                                    $nombre_bars_pour_biere = $nombre_bars_pour_biere . ' AND horaires.numero_jour = ' . '"' . $weekday . '"';
+                                                    $nombre_bars_pour_biere = $nombre_bars_pour_biere . ' AND horaires.heure_debut <= ' . '"' . $time . '"';
+                                                    $nombre_bars_pour_biere = $nombre_bars_pour_biere . ' AND horaires.heure_fin >= ' . '"' . $time . '"';
+                                                }
+
+                                                $nombre_bars_pour_biere = $bdd->query($nombre_bars_pour_biere);
                                                 ?>
                                                 <i class="material-icons">local_bar</i>
                                                 Où trouver cette bière?
                                                 (<?php $nb_bars = $nombre_bars_pour_biere->fetch(PDO::FETCH_ASSOC);
-                                                echo $nb_bars['COUNT(*)']; ?> bars ont cette bière)
+                                                echo $nb_bars['COUNT(DISTINCT nom_bar)'];
+                                                //End of count
+                                                ?> bars ont cette bière)
                                                 <ul>
                                                     <?php
+                                                    //first use of where biere
+                                                    if ($restriction == 1) {
+                                                        $where_biere = $where_biere . ' AND horaires.numero_jour = ' . '"' . $weekday . '"';
+                                                    }
+                                                    if ($restriction == 2) {
+                                                        $where_biere = $where_biere . ' AND horaires.numero_jour = ' . '"' . $weekday . '"';
+                                                        $where_biere = $where_biere . ' AND horaires.heure_debut <= ' . '"' . $newtime . '"';
+                                                        $where_biere = $where_biere . ' AND horaires.heure_fin >= ' . '"' . $newtime . '"';
+                                                    }
+                                                    if ($restriction == 3) {
+                                                        $where_biere = $where_biere . ' AND horaires.numero_jour = ' . '"' . $weekday . '"';
+                                                        $where_biere = $where_biere . ' AND horaires.heure_debut <= ' . '"' . $time . '"';
+                                                        $where_biere = $where_biere . ' AND horaires.heure_fin >= ' . '"' . $time . '"';
+                                                    }
+
+
                                                     $wb = $bdd->query($where_biere);
                                                     while ($bars = $wb->fetch()) {
                                                         ?>
@@ -281,26 +327,48 @@ print_r($weekday);
                                                     ?>
                                                 </ul>
                                             </div>
+                                            <!-- end bars with or without happy -->
+
+                                            <!-- start bars with happy -->
                                             <div class="col l4">
                                                 <?php
-                                                $nombre_bars_pour_biere_happy = $bdd->prepare('SELECT COUNT(*)
+                                                // starting the happy count
+                                                $nombre_bars_pour_biere_happy = 'SELECT COUNT(DISTINCT nom_bar)
                                                 FROM bars AS bars
                                                 LEFT JOIN bar_biere AS bar_biere ON bar_biere.bars_id_bar = bars.id_bar
                                                 LEFT JOIN bieres AS bieres ON bieres.id_biere = bar_biere.bieres_id_biere
+                                                LEFT JOIN horaires AS horaires ON horaires.bars_id_bar = bars.id_bar
                                                 WHERE bieres.id_biere = ' . $donnees['id_biere'] . '
-                                                AND prix_happy_bar IS NOT NULL
-                                                ORDER BY bars.nom_bar
-                                                ');
+                                                AND bar_biere.prix_happy_bar IS NOT NULL
+                                                AND horaires.is_happy_hour = 1
+                                                ';
 
-                                                $nombre_bars_pour_biere_happy->execute();
+                                                if ($restriction == 1) {
+                                                    $nombre_bars_pour_biere_happy = $nombre_bars_pour_biere_happy . ' AND horaires.numero_jour = ' . '"' . $weekday . '"';
+                                                }
+                                                if ($restriction == 2) {
+                                                    $nombre_bars_pour_biere_happy = $nombre_bars_pour_biere_happy . ' AND horaires.numero_jour = ' . '"' . $weekday . '"';
+                                                    $nombre_bars_pour_biere_happy = $nombre_bars_pour_biere_happy . ' AND horaires.heure_debut <= ' . '"' . $newtime . '"';
+                                                    $nombre_bars_pour_biere_happy = $nombre_bars_pour_biere_happy . ' AND horaires.heure_fin >= ' . '"' . $newtime . '"';
+                                                }
+                                                if ($restriction == 3) {
+                                                    $nombre_bars_pour_biere_happy = $nombre_bars_pour_biere_happy . ' AND horaires.numero_jour = ' . '"' . $weekday . '"';
+                                                    $nombre_bars_pour_biere_happy = $nombre_bars_pour_biere_happy . ' AND horaires.heure_debut <= ' . '"' . $time . '"';
+                                                    $nombre_bars_pour_biere_happy = $nombre_bars_pour_biere_happy . ' AND horaires.heure_fin >= ' . '"' . $time . '"';
+                                                }
+
+                                                $nombre_bars_pour_biere_happy = $bdd->query($nombre_bars_pour_biere_happy);
                                                 ?>
-
                                                 <i class="material-icons">local_bar</i>
                                                 Et en happy hour?
                                                 (<?php $nb_bars_happy = $nombre_bars_pour_biere_happy->fetch(PDO::FETCH_ASSOC);
-                                                echo $nb_bars_happy['COUNT(*)']; ?> bars ont cette bière)
+                                                echo $nb_bars_happy['COUNT(DISTINCT nom_bar)'];
+                                                // End of count
+                                                ?> bars ont cette bière)
                                                 <ul>
                                                     <?php
+                                                    // name of the bars
+                                                    // change on variable $where_biere to $where_biere_happy
                                                     $where_biere_happy = $where_biere . ' AND bar_biere.prix_happy_bar IS NOT NULL';
 
                                                     $wbh = $bdd->query($where_biere_happy);
@@ -315,6 +383,13 @@ print_r($weekday);
                                                     }
                                                     ?>
                                                 </ul>
+                                            </div>
+
+                                            <div class="col l4">
+                                                <?php
+                                                // début horaires happy pour cette bière
+
+                                                ?>
                                             </div>
                                         </div>
                                     </div>

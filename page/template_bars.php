@@ -24,7 +24,10 @@
                 ON photos.id_photo=bars.photos_id_photo
                 LEFT JOIN styles_bars 
                 ON styles_bars.id_style_bar=bars.styles_bars_id_style_bar  
+                LEFT JOIN horaires 
+                ON horaires.bars_id_bar = bars.id_bar
                 WHERE nom_bar LIKE "%'.$nom_bar.'%"
+                AND horaires.is_happy_hour = 1
                 ';
             if ($style_bar!==null){
                 $sqlQuery = $sqlQuery.' AND bars.styles_bars_id_style_bar = '.$style_bar;
@@ -204,7 +207,7 @@
                                 ON photos.id_photo=galerie_bar.photos_id_photo
                                 WHERE galerie_bar.bars_id_bar = ' . $donnees['id_bar'] . '
                                 ');
-                                
+
                                 while ($donnees_photo = $sql->fetch()) { ?>
 
                                     <a class="carousel-item" ><img src="<?php echo ($donnees_photo['fichier']) ?>"></a>
@@ -213,8 +216,8 @@
                                 } ?>
 
                                 </div>
-                                </div> <!-- Fin row description-->
-
+                                </div> <!-- Fin row carousel-->
+                                <br>
 
                                 <div class="row"> <!-- Row mot proprio, liste biere -->
 

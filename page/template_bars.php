@@ -29,31 +29,7 @@
                 WHERE nom_bar LIKE "%'.$nom_bar.'%"
                 GROUP BY bars.id_bar
                 ';
-            if ($style_bar!==null){
-                $sqlQuery = $sqlQuery.' AND bars.styles_bars_id_style_bar = '.$style_bar;
-            }
-            if ($restriction == 1) {
-                $sqlQuery = $sqlQuery . ' AND horaires.numero_jour = ' . '"' . $weekday . '"';
-                $sqlQuery = $sqlQuery . 'AND horaires.is_happy_hour = 1';
-            }
-            if ($restriction == 2) {
-                //AND horaires.is_happy_hour = 1
-                $sqlQuery = $sqlQuery . ' AND horaires.numero_jour = ' . '"' . $weekday . '"';
-                $sqlQuery = $sqlQuery . ' AND horaires.heure_debut <= ' . '"' . $newtime . '"';
-                $sqlQuery = $sqlQuery . ' AND horaires.heure_fin >= ' . '"' . $newtime . '"';
-                $sqlQuery = $sqlQuery . 'AND horaires.is_happy_hour = 1';
-            }
-            if ($restriction == 3) {
-                $sqlQuery = $sqlQuery . ' AND horaires.numero_jour = ' . '"' . $weekday . '"';
-                $sqlQuery = $sqlQuery . ' AND horaires.heure_debut <= ' . '"' . $time . '"';
-                $sqlQuery = $sqlQuery . ' AND horaires.heure_fin >= ' . '"' . $time . '"';
-                $sqlQuery = $sqlQuery . 'AND horaires.is_happy_hour = 1';
-            }
-
-
-
-
-
+            
             $reponse = $bdd->query($sqlQuery);
             while ($donnees = $reponse->fetch()) {
                 ?>
@@ -82,7 +58,24 @@
                                 $time_open_min = ($time_to[1] - $mp1);
 
 
-                              
+
+                                $sql = $bdd->query('
+                                SELECT * FROM bars 
+                                LEFT JOIN photos
+                                ON photos.id_photo=bars.photos_id_photo
+                                LEFT JOIN styles_bars 
+                                ON styles_bars.id_style_bar=bars.styles_bars_id_style_bar  
+                                LEFT JOIN horaires 
+                                ON horaires.bars_id_bar = bars.id_bar
+                                WHERE nom_bar LIKE "%'.$nom_bar.'%"
+                                AND horaires.heure_debut > "' .$time. '"
+                                AND horaires.heure_fin > "' .$time. '"
+                                AND horaires.numero_jour = "'.$weekday.'"
+                                AND horaires.is_happy_hour = 1
+                                GROUP BY bars.id_bar
+                                ');
+
+                                while ($donnees_hh = $sql->fetch()) {
                                 
 
                                     if ($time_began > $time AND $time_week == $weekday) {
@@ -91,20 +84,12 @@
                                         echo "<i class=\"material-icons hh-green\">alarm</i> Happy Hour en ce moment";
                                     } else {
                                         echo "<i class=\"material-icons hh-red\">alarm</i>Pas d'Happy Hour aujourd'hui";
-                                        echo "  " . $time_week;
                                     }
 
-
-                           /*     AND horaires.heure_debut > "' .$time. '"
-                                AND horaires.heure_fin > "' .$time. '"
-                                AND horaires.numero_jour = "'.$weekday.'"
-                           $time_began <= $time AND $time_end >= $time AND $time_week == $weekday
-                           */
+                                } ?>
 
 
 
-
-                                 ?>
 
 
                             </div>

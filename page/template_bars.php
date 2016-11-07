@@ -27,26 +27,32 @@
                 LEFT JOIN horaires 
                 ON horaires.bars_id_bar = bars.id_bar
                 WHERE nom_bar LIKE "%'.$nom_bar.'%"
-                AND horaires.is_happy_hour = 1
+                GROUP BY bars.id_bar
                 ';
             if ($style_bar!==null){
                 $sqlQuery = $sqlQuery.' AND bars.styles_bars_id_style_bar = '.$style_bar;
             }
             if ($restriction == 1) {
                 $sqlQuery = $sqlQuery . ' AND horaires.numero_jour = ' . '"' . $weekday . '"';
+                $sqlQuery = $sqlQuery . 'AND horaires.is_happy_hour = 1';
             }
             if ($restriction == 2) {
+                //AND horaires.is_happy_hour = 1
                 $sqlQuery = $sqlQuery . ' AND horaires.numero_jour = ' . '"' . $weekday . '"';
                 $sqlQuery = $sqlQuery . ' AND horaires.heure_debut <= ' . '"' . $newtime . '"';
                 $sqlQuery = $sqlQuery . ' AND horaires.heure_fin >= ' . '"' . $newtime . '"';
+                $sqlQuery = $sqlQuery . 'AND horaires.is_happy_hour = 1';
             }
             if ($restriction == 3) {
                 $sqlQuery = $sqlQuery . ' AND horaires.numero_jour = ' . '"' . $weekday . '"';
                 $sqlQuery = $sqlQuery . ' AND horaires.heure_debut <= ' . '"' . $time . '"';
                 $sqlQuery = $sqlQuery . ' AND horaires.heure_fin >= ' . '"' . $time . '"';
+                $sqlQuery = $sqlQuery . 'AND horaires.is_happy_hour = 1';
             }
 
-            
+
+
+
 
             $reponse = $bdd->query($sqlQuery);
             while ($donnees = $reponse->fetch()) {
@@ -63,8 +69,44 @@
                             </div>
 
                             <div class="col l4 m6 s12">
-                                <i class="material-icons">alarm</i>
-                                Happy Hour en ce moment
+
+                                <?php
+
+                                $time_began = $donnees['heure_debut'];
+                                $time_end = $donnees['heure_fin'];
+                                $time_week = $donnees['numero_jour'];
+
+                                $time_to = explode(":", $time_began);
+
+                                $time_open_hour = ($time_to[0] - $hp1);
+                                $time_open_min = ($time_to[1] - $mp1);
+
+
+                              
+                                
+
+                                    if ($time_began > $time AND $time_week == $weekday) {
+                                        echo "<i class=\"material-icons hh-red\">alarm</i> Happy Hour dans " . $time_open_hour . ' h. ' . $time_open_min . ' min.';
+                                    } elseif ($time_began <= $time AND $time_end >= $time AND $time_week == $weekday) {
+                                        echo "<i class=\"material-icons hh-green\">alarm</i> Happy Hour en ce moment";
+                                    } else {
+                                        echo "<i class=\"material-icons hh-red\">alarm</i>Pas d'Happy Hour aujourd'hui";
+                                        echo "  " . $time_week;
+                                    }
+
+
+                           /*     AND horaires.heure_debut > "' .$time. '"
+                                AND horaires.heure_fin > "' .$time. '"
+                                AND horaires.numero_jour = "'.$weekday.'"
+                           $time_began <= $time AND $time_end >= $time AND $time_week == $weekday
+                           */
+
+
+
+
+                                 ?>
+
+
                             </div>
 
                             <div class="col l3 m5 s10">

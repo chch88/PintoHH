@@ -191,20 +191,25 @@ print_r($weekday);
                     if ($degree_biere !== null) {
                         $query = $query . ' AND bieres.degree_biere <= ' . $degree_biere;
                     }
-                    if ($restriction == 1) {
-                        $query = $query . ' AND horaires.numero_jour = ' . '"' . $weekday . '"';
+                    function testResttrictiuons($query,$restriction,$weekday,$newtime,$time)
+                    {
+                        if ($restriction == 1) {
+                            $query = $query . ' AND horaires.numero_jour = ' . '"' . $weekday . '"';
+                        }
+                        if ($restriction == 2) {
+                            $query = $query . ' AND horaires.numero_jour = ' . '"' . $weekday . '"';
+                            $query = $query . ' AND horaires.heure_debut <= ' . '"' . $newtime . '"';
+                            $query = $query . ' AND horaires.heure_fin >= ' . '"' . $newtime . '"';
+                        }
+                        if ($restriction == 3) {
+                            $query = $query . ' AND horaires.numero_jour = ' . '"' . $weekday . '"';
+                            $query = $query . ' AND horaires.heure_debut <= ' . '"' . $time . '"';
+                            $query = $query . ' AND horaires.heure_fin >= ' . '"' . $time . '"';
+                        }
+                        $query = $query . ' GROUP BY bieres.id_biere';
+                        return $query;
                     }
-                    if ($restriction == 2) {
-                        $query = $query . ' AND horaires.numero_jour = ' . '"' . $weekday . '"';
-                        $query = $query . ' AND horaires.heure_debut <= ' . '"' . $newtime . '"';
-                        $query = $query . ' AND horaires.heure_fin >= ' . '"' . $newtime . '"';
-                    }
-                    if ($restriction == 3) {
-                        $query = $query . ' AND horaires.numero_jour = ' . '"' . $weekday . '"';
-                        $query = $query . ' AND horaires.heure_debut <= ' . '"' . $time . '"';
-                        $query = $query . ' AND horaires.heure_fin >= ' . '"' . $time . '"';
-                    }
-                    $query = $query . ' GROUP BY bieres.id_biere';
+                    $query=testResttrictiuons($query,$restriction,$weekday,$newtime,$time);
 
                     $reponse = $bdd->query($query);
                     while ($donnees = $reponse->fetch()) {
@@ -287,6 +292,7 @@ print_r($weekday);
                                                     $nombre_bars_pour_biere = $nombre_bars_pour_biere . ' AND horaires.heure_debut <= ' . '"' . $time . '"';
                                                     $nombre_bars_pour_biere = $nombre_bars_pour_biere . ' AND horaires.heure_fin >= ' . '"' . $time . '"';
                                                 }
+                                                testResttrictiuons($query,$restriction,$weekday,$newtime,$time);
 
                                                 $nombre_bars_pour_biere = $bdd->query($nombre_bars_pour_biere);
                                                 ?>

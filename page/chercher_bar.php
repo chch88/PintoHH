@@ -18,14 +18,25 @@ $weekday = $time_array['wday'];
 $hour = $time_array['hours'];
 $hp1 = $time_array['hours'] + 1;
 $minutes = $time_array['minutes'];
+
+if ($time_array['minutes'] > 50 ) {
+    $mp1 = 0 . $minutes - 60;
+} else {
+    $mp1 =  $minutes - 60;
+}
+
 if ($time_array['seconds'] < 10) {
     $seconds = 0 . $time_array['seconds'];
 } else {
     $seconds = $time_array['seconds'];
 }
+
 $time = $hour . ":" . $minutes . ":" . $seconds;
 $newtime = $hp1 . ":" . $minutes . ":" . $seconds;
-print_r($weekday);
+print_r($time);
+
+
+
 
 ?>
 

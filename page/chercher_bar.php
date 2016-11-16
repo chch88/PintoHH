@@ -11,31 +11,31 @@ $style_bar = isset($_GET['style_bar']) && $_GET['style_bar']!=='' ? $_GET['style
 $restriction = isset($_GET['restriction']) && $_GET['restriction'] !== '' ? $_GET['restriction'] : null;
 
 $time_array = getdate();
-print_r($time_array);
+
 
 
 $weekday = $time_array['wday'];
 $hour = $time_array['hours'];
 $hp1 = $time_array['hours'] + 1;
+$hp2 = $time_array['hours'] + 1;
 $minutes = $time_array['minutes'];
+$mp1 = $time_array['minutes'] - 60;
+$seconds = $time_array['seconds'];
 
-if ($time_array['minutes'] > 50 ) {
-    $mp1 = 0 . $minutes - 60;
-} else {
-    $mp1 =  $minutes - 60;
+
+
+
+if ($time_array['hours'] < 10) {
+    $hour = 0 . $time_array['hours'];
+}
+
+if ($time_array['minutes'] < 10) {
+    $minutes = 0 . $time_array['minutes'];
 }
 
 if ($time_array['seconds'] < 10) {
     $seconds = 0 . $time_array['seconds'];
-} else {
-    $seconds = $time_array['seconds'];
 }
-
-$time = $hour . ":" . $minutes . ":" . $seconds;
-$newtime = $hp1 . ":" . $minutes . ":" . $seconds;
-print_r($time);
-
-
 
 
 ?>
@@ -101,7 +101,7 @@ print_r($time);
                     } ?>>En ce moment
                     </option>
                 </select>
-                <label for="Restriction">Happy Hour</label>
+                <label for="Restriction">Happy Hour ouvert</label>
             </div>
 
 

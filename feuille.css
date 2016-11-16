@@ -97,6 +97,10 @@ html {
     border-bottom: 0px;
 }
 
+.collapsible-header {
+    border-bottom: 0px;
+}
+
 .carousel .carousel-item img {
     width: 200%;
 }
@@ -107,9 +111,21 @@ html {
 }
 
 .hh-green {
-    color: #f27935;
+    color: #26a69a;
 }
 
 .hh-red {
-    color: #26a69a;
+    color: #f27935;
+}
+
+.background-green {
+    background-color: mediumseagreen;
+}
+
+table.striped > tbody > tr:nth-child(odd) {
+    background-color: #3bab6a;
+}
+
+.btn1 {
+    width: 100%;
 }

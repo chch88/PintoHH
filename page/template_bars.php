@@ -1,4 +1,3 @@
-
 <div class="row"> <!-- LISTE OU MAP -->
     <div class="col l3 offset-l9">
         <div class="switch">
@@ -26,10 +25,37 @@
                 ON styles_bars.id_style_bar=bars.styles_bars_id_style_bar  
                 LEFT JOIN horaires 
                 ON horaires.bars_id_bar = bars.id_bar
-                WHERE nom_bar LIKE "%'.$nom_bar.'%"
-                GROUP BY bars.id_bar
+                WHERE nom_bar LIKE "%' . $nom_bar . '%"  
                 ';
-            
+
+            $newtime = $hp1 . ":" . $minutes . ":" . $seconds;
+            $time = $hour . ":" . $minutes . ":" . $seconds;
+
+            if ($style_bar !== null) {
+                $sqlQuery = $sqlQuery . ' AND bars.styles_bars_id_style_bar = ' . '"' . $style_bar . '"';
+            }
+            if ($restriction == 1) {
+                $sqlQuery = $sqlQuery . ' AND horaires.numero_jour = ' . '"' . $weekday . '"';
+                $sqlQuery = $sqlQuery . 'AND horaires.is_happy_hour = 1';
+            }
+            if ($restriction == 2) {
+                //AND horaires.is_happy_hour = 1
+                $sqlQuery = $sqlQuery . ' AND horaires.numero_jour = ' . '"' . $weekday . '"';
+                $sqlQuery = $sqlQuery . ' AND horaires.heure_debut <= ' . '"' . $newtime . '"';
+                $sqlQuery = $sqlQuery . ' AND horaires.heure_fin >= ' . '"' . $newtime . '"';
+                $sqlQuery = $sqlQuery . 'AND horaires.is_happy_hour = 1';
+            }
+            if ($restriction == 3) {
+                $sqlQuery = $sqlQuery . ' AND horaires.numero_jour = ' . '"' . $weekday . '"';
+                $sqlQuery = $sqlQuery . ' AND horaires.heure_debut <= ' . '"' . $time . '"';
+                $sqlQuery = $sqlQuery . ' AND horaires.heure_fin >= ' . '"' . $time . '"';
+                $sqlQuery = $sqlQuery . 'AND horaires.is_happy_hour = 1';
+            }
+
+
+            $sqlQuery = $sqlQuery . ' GROUP BY bars.id_bar ';
+
+
             $reponse = $bdd->query($sqlQuery);
             while ($donnees = $reponse->fetch()) {
                 ?>
@@ -48,48 +74,60 @@
 
                                 <?php
 
-                                $time_began = $donnees['heure_debut'];
-                                $time_end = $donnees['heure_fin'];
-                                $time_week = $donnees['numero_jour'];
-
-                                $time_to = explode(":", $time_began);
-
-                                $time_open_hour = ($time_to[0] - $hp1);
-                                $time_open_min = ($time_to[1] - $mp1);
-
-
+                                $nom_bar = $donnees['nom_bar'];
 
                                 $sql = $bdd->query('
                                 SELECT * FROM bars 
-                                LEFT JOIN photos
-                                ON photos.id_photo=bars.photos_id_photo
                                 LEFT JOIN styles_bars 
                                 ON styles_bars.id_style_bar=bars.styles_bars_id_style_bar  
                                 LEFT JOIN horaires 
                                 ON horaires.bars_id_bar = bars.id_bar
-                                WHERE nom_bar LIKE "%'.$nom_bar.'%"
-                                AND horaires.heure_debut > "' .$time. '"
-                                AND horaires.heure_fin > "' .$time. '"
-                                AND horaires.numero_jour = "'.$weekday.'"
+                                WHERE nom_bar LIKE "%' . $nom_bar . '%"
+                                AND horaires.numero_jour = "' . $weekday . '"
                                 AND horaires.is_happy_hour = 1
                                 GROUP BY bars.id_bar
                                 ');
 
                                 while ($donnees_hh = $sql->fetch()) {
-                                
 
-                                    if ($time_began > $time AND $time_week == $weekday) {
-                                        echo "<i class=\"material-icons hh-red\">alarm</i> Happy Hour dans " . $time_open_hour . ' h. ' . $time_open_min . ' min.';
-                                    } elseif ($time_began <= $time AND $time_end >= $time AND $time_week == $weekday) {
-                                        echo "<i class=\"material-icons hh-green\">alarm</i> Happy Hour en ce moment";
+                                    $time_hour_hh = $donnees_hh['is_happy_hour'];
+                                    $time_week = $donnees_hh['numero_jour'];
+                                    $time_began = $donnees_hh['heure_debut'];
+                                    $time_end = $donnees_hh['heure_fin'];
+
+                                    $time_to = explode(":", $time_began);
+                                    $time_to_end = explode(":", $time_end);
+
+                                    $time_open_hour = ($time_to[0] - $hp1);
+                                    $time_open_min = ($time_to[1] - $mp1);
+
+
+                                    if ($minutes > $time_to[1] AND $minutes >= 00 AND $minutes <= 30) {
+                                        $time_open_hour = ($time_to[0] - $hp1);
+                                        $time_open_min = ($time_to[1] - $mp1);
+                                    } elseif ($minutes > $time_to[1] AND $minutes >= 30 AND $minutes <= 60) {
+                                        $time_open_hour = ($time_to[0] - $hp1);
+                                        $time_open_min = ($time_to[1] - $mp1);
+                                    } elseif ($minutes < $time_to[1] AND $minutes >= 30 AND $minutes <= 60) {
+                                        $time_open_hour = ($time_to[0] - $hp1) + 1;
+                                        $time_open_min = ($time_to[1] - $mp1) - 60;
                                     } else {
-                                        echo "<i class=\"material-icons hh-red\">alarm</i>Pas d'Happy Hour aujourd'hui";
+                                        $time_open_hour = ($time_to[0] - $hp1) + 1;
+                                        $time_open_min = ($time_to[1] - $mp1) - 60;
                                     }
 
-                                } ?>
-
-
-
+                                    if ($time_began > $time) {
+                                        echo "<i class=\"material-icons hh-green\">bookmark</i> Happy Hour dans " . $time_open_hour . ' h. ' . $time_open_min . ' min.' . '<br>';
+                                        echo "<i class=\"material-icons\">alarm</i> Happy Hour de " . $time_to[0] . " h. " . $time_to[1] . " à " . $time_to_end[0] . " h. " . $time_to_end[1] . "<br>";
+                                    } elseif ($time_began <= $time AND $time_end >= $time) {
+                                        echo "<i class=\"material-icons hh-red\">bookmark</i> Happy Hour en ce moment" . '<br>';
+                                        echo "<i class=\"material-icons\">alarm</i> Happy Hour de " . $time_to[0] . " h. " . $time_to[1] . " à " . $time_to_end[0] . " h. " . $time_to_end[1] . "<br>";
+                                    } else {
+                                        echo "<i class=\"material-icons hh-green\">bookmark</i>Plus d'Happy Hour aujourd'hui" . '<br>';
+                                        echo "<i class=\"material-icons\">alarm</i> Happy Hour de " . $time_to[0] . " h. " . $time_to[1] . " à " . $time_to_end[0] . " h. " . $time_to_end[1] . "<br>";
+                                    }
+                                }
+                                ?>
 
 
                             </div>
@@ -100,7 +138,7 @@
                             </div>
 
                             <div class="col l1 m1 s2">
-                                <input type="checkbox" id="favoris<?php echo $donnees['id_bar']; ?>" />
+                                <input type="checkbox" id="favoris<?php echo $donnees['id_bar']; ?>"/>
                                 <label for="favoris<?php echo $donnees['id_bar']; ?>"></label>
                             </div>
 
@@ -118,12 +156,12 @@
 
                         while ($donnees_bieres = $sql->fetch()) { ?>
 
-                        <div class="row row2">
-                            <div class="col l4 offset-l4">
-                                <i class="material-icons">euro_symbol</i>
-                                Pinte à partir de <?php echo $donnees_bieres['prix_happy_bar']; ?>€
-                            </div>
-                        </div> <!-- Fin de la row -->
+                            <div class="row row2">
+                                <div class="col l4 offset-l4">
+                                    <i class="material-icons">euro_symbol</i>
+                                    Pinte à partir de <?php echo $donnees_bieres['prix_happy_bar']; ?>€
+                                </div>
+                            </div> <!-- Fin de la row -->
 
                         <?php } ?>
 
@@ -134,7 +172,7 @@
 
                         <div class="row row2">
 
-                            <div class="col l8 m7 s12">
+                            <div class="col l4 m7 s12">
 
                                 <p>
                                     <i class="material-icons">gps_fixed</i>
@@ -146,23 +184,62 @@
                                     Type de bar : <?php echo utf8_encode($donnees['nom_style_bar']); ?>
                                 </p>
 
+                            </div>
 
-                                <!-- BOUTON POUR LE MODAL -->
-                                <div class="center">
-                                    <a class="waves-effect waves-light btn modal-trigger"
-                                       href="#<?php echo $donnees['id_bar']; ?>">Voir la fiche complète du bar</a>
-                                </div>
 
+                            <div class="col l4"> <!-- TABLEAU BIERES -->
                                 <br>
+                                <table class="striped centered background-green">
+                                    <thead>
+                                    <tr>
+                                        <th data-field="id">Bière</th>
+                                        <th data-field="name">Prix de la pinte</th>
+                                        <th data-field="price">Prix de la pinte en Happy Hour</th>
+                                    </tr>
+                                    </thead>
 
-                            </div> <!-- fin partie gauche -->
+                                    <tbody>
 
-                            <div class="col l4 m5 s12">
+                                    <?php
+                                    $sql = $bdd->query('SELECT * FROM bar_biere
+                                            LEFT JOIN bars 
+                                            ON bar_biere.bars_id_bar=bars.id_bar
+                                            LEFT JOIN bieres
+                                            ON bieres.id_biere=bar_biere.bieres_id_biere
+                                            WHERE bar_biere.bars_id_bar=' . $donnees['id_bar'] . '
+                                            ');
+
+                                    while ($donnees_biere = $sql->fetch()) { ?>
+                                        <tr>
+                                            <td><?php echo utf8_encode($donnees_biere['nom_biere']); ?></td>
+                                            <td><?php echo utf8_encode($donnees_biere['prix_normal_bar']); ?> €</td>
+                                            <td><?php echo utf8_encode($donnees_biere['prix_happy_bar']); ?> €</td>
+                                        </tr>
+
+                                        <?php
+                                    }
+                                    ?>
+
+                                    </tbody>
+                                </table>
+                                <br>
+                            </div>  <!-- FIN TABLEAU BIERES -->
+
+                            <div class="col l4 m6 s12">
                                 <?php
                                 //afficher une photo
-                                echo  "<img src='". $donnees['fichier'] . "' width='100%'>";
+                                echo "<img src='" . $donnees['fichier'] . "' width='100%'>";
                                 ?>
+                                <br>
                             </div><!-- fin partie droite -->
+
+                            <!-- BOUTON POUR LE MODAL -->
+                            <div class="col l12 m12 s12 center">
+                                <a class="waves-effect waves-light btn btn1 modal-trigger"
+                                   href="#<?php echo $donnees['id_bar']; ?>">Voir la fiche complète du bar</a>
+                            </div>
+
+                            <br>
 
 
                         </div> <!-- FIN 1ere row -->
@@ -180,9 +257,18 @@
                                     </div>
 
                                     <div class="col l4 m6 s12">
-                                        <i class="material-icons">alarm</i>
-                                        Happy Hour en ce moment
-                                        <br>
+                                            <?php
+                                            if ($time_began > $time) {
+                                                echo "<i class=\"material-icons hh-green\">bookmark</i> Happy Hour dans " . $time_open_hour . ' h. ' . $time_open_min . ' min.' . '<br>';
+                                                echo "<i class=\"material-icons\">alarm</i> Happy Hour de " . $time_to[0] . " h. " . $time_to[1] . " à " . $time_to_end[0] . " h. " . $time_to_end[1] . "<br>";
+                                            } elseif ($time_began <= $time AND $time_end >= $time) {
+                                                echo "<i class=\"material-icons hh-red\">bookmark</i> Happy Hour en ce moment" . '<br>';
+                                                echo "<i class=\"material-icons\">alarm</i> Happy Hour de " . $time_to[0] . " h. " . $time_to[1] . " à " . $time_to_end[0] . " h. " . $time_to_end[1] . "<br>";
+                                            } else {
+                                                echo "<i class=\"material-icons hh-green\">bookmark</i>Plus d'Happy Hour aujourd'hui" . '<br>';
+                                                echo "<i class=\"material-icons\">alarm</i> Happy Hour de " . $time_to[0] . " h. " . $time_to[1] . " à " . $time_to_end[0] . " h. " . $time_to_end[1] . "<br>";
+                                            }
+                                            ?>
                                         <i class="material-icons prefix">location_on</i>
                                         Situé à 1,2 km
                                         <br>
@@ -199,11 +285,10 @@
                                         while ($donnees_bieres = $sql->fetch()) { ?>
                                         <i class="material-icons">euro_symbol</i>
                                         Pinte à partir de <?php echo $donnees_bieres['prix_happy_bar']; ?>€
-                                        </div>
+                                    </div>
 
 
-                                        <?php } ?>
-
+                                    <?php } ?>
 
 
                                     <div class="col l4 m6 s12">
@@ -215,6 +300,7 @@
                                         <i class="material-icons">blur_on</i>
                                         Type de bar : <?php echo utf8_encode($donnees['nom_style_bar']); ?>
                                     </div>
+
                                 </div> <!-- Fin de la row header-->
 
 
@@ -224,10 +310,10 @@
 
 
                                 <div class="row"> <!-- Row carousel-->
-                                <div class="carousel">
+                                    <div class="carousel">
 
-                                <?php
-                                $sql = $bdd->query('SELECT * FROM bars
+                                        <?php
+                                        $sql = $bdd->query('SELECT * FROM bars
                                 LEFT JOIN galerie_bar
                                 ON bars.id_bar=galerie_bar.bars_id_bar
                                 LEFT JOIN photos
@@ -235,38 +321,103 @@
                                 WHERE galerie_bar.bars_id_bar = ' . $donnees['id_bar'] . '
                                 ');
 
-                                while ($donnees_photo = $sql->fetch()) { ?>
+                                        while ($donnees_photo = $sql->fetch()) { ?>
 
-                                    <a class="carousel-item" ><img src="<?php echo ($donnees_photo['fichier']) ?>"></a>
+                                            <a class="carousel-item"><img
+                                                    src="<?php echo($donnees_photo['fichier']) ?>"></a>
 
-                                    <?php
-                                } ?>
+                                            <?php
+                                        } ?>
 
-                                </div>
+                                    </div>
                                 </div> <!-- Fin row carousel-->
                                 <br>
 
-                                <div class="row"> <!-- Row mot proprio, liste biere -->
+                                <div class="row"> <!-- Row mot proprio -->
 
-                                    <div class="col l6">
+                                    <div class="col l12">
                                         Mot du patron : <?php echo utf8_encode($donnees['mot_patron']); ?>
                                     </div>
 
-                                    <div class="col l5 offset-l1">
 
-                                        <table class="striped">
-                                            <thead>
+                                </div> <!-- Fin row mot proprio -->
+
+
+                                <div class="col l6 m12 s12 white-font"> <!-- TABLEAU DES HORAIRES -->
+                                    <table class="striped centered background-green">
+                                        <thead>
+                                        <tr>
+                                            <th data-field="id">Jour d'ouverture</th>
+                                            <th data-field="name">Normal</th>
+                                            <th data-field="price">Happy Hour</th>
+                                        </tr>
+                                        </thead>
+
+                                        <tbody>
+                                        <?php
+                                        $sql = $bdd->query('SELECT * FROM bars  
+                                        LEFT JOIN horaires 
+                                        ON horaires.bars_id_bar = bars.id_bar
+                                        WHERE nom_bar LIKE "%' . $nom_bar . '%"  
+                                        GROUP BY horaires.numero_jour, bars.id_bar
+                                        ');
+
+                                        while ($donnees_biere = $sql->fetch()) { ?>
                                             <tr>
-                                                <th data-field="id">Bière</th>
-                                                <th data-field="name">Prix normal</th>
-                                                <th data-field="price">Prix en Happy Hour</th>
-                                            </tr>
-                                            </thead>
+                                                <td><?php echo($donnees_biere['numero_jour']); ?></td>
+                                                <td><?php
+                                                    $sql3 = 'SELECT * FROM bars  
+                                                        LEFT JOIN horaires 
+                                                        ON horaires.bars_id_bar = bars.id_bar
+                                                        WHERE nom_bar LIKE "%' . $nom_bar . '%" 
+                                                        AND horaires.is_happy_hour = 0
+                                                        GROUP BY horaires.numero_jour, bars.id_bar';
+                                                    $rep = $bdd->query($sql3);
 
-                                            <tbody>
+                                                    $donnees_hour = $rep->fetch();
+                                                    echo $donnees_hour['heure_debut'] . " à " . $donnees_hour['heure_fin'];
+                                                    ?> </td>
+
+                                                <td><?php
+                                                    $sql3 = 'SELECT * FROM bars  
+                                                        LEFT JOIN horaires 
+                                                        ON horaires.bars_id_bar = bars.id_bar
+                                                        WHERE nom_bar LIKE "%' . $nom_bar . '%" 
+                                                        AND horaires.is_happy_hour = 1
+                                                        GROUP BY horaires.numero_jour, bars.id_bar';
+                                                    $rep = $bdd->query($sql3);
+
+                                                    $donnees_hour2 = $rep->fetch();
+                                                    echo $donnees_hour2['heure_debut'] . " à " . $donnees_hour2['heure_fin'];
+                                                    ?> </td>
+                                            </tr>
 
                                             <?php
-                                            $sql = $bdd->query('SELECT * FROM bar_biere
+                                        }
+                                        ?>
+                                        </tbody>
+                                    </table>
+
+                                    <br>
+                                    <br>
+
+                                </div><!-- FIN TABLEAU HEURE-->
+
+                                <div class="col l4 m12 s12 white-font"> <!-- TABLEAU BIERES -->
+
+                                    <table class="striped centered background-green">
+                                        <thead>
+                                        <tr>
+                                            <th data-field="id">Bière</th>
+                                            <th data-field="name">Prix de la pinte</th>
+                                            <th data-field="price">Prix de la pinte en Happy Hour</th>
+                                        </tr>
+                                        </thead>
+
+                                        <tbody>
+
+                                        <?php
+                                        $sql = $bdd->query('SELECT * FROM bar_biere
                                             LEFT JOIN bars 
                                             ON bar_biere.bars_id_bar=bars.id_bar
                                             LEFT JOIN bieres
@@ -274,68 +425,46 @@
                                             WHERE bar_biere.bars_id_bar=' . $donnees['id_bar'] . '
                                             ');
 
-                                            while ($donnees_biere = $sql->fetch()) { ?>
-                                                <tr>
-                                                    <td><?php echo utf8_encode($donnees_biere['nom_biere']); ?></td>
-                                                    <td><?php echo utf8_encode($donnees_biere['prix_normal_bar']); ?> €</td>
-                                                    <td><?php echo utf8_encode($donnees_biere['prix_happy_bar']); ?> €</td>
-                                                </tr>
+                                        while ($donnees_biere = $sql->fetch()) { ?>
+                                            <tr>
+                                                <td><?php echo utf8_encode($donnees_biere['nom_biere']); ?></td>
+                                                <td><?php echo utf8_encode($donnees_biere['prix_normal_bar']); ?> €</td>
+                                                <td><?php echo utf8_encode($donnees_biere['prix_happy_bar']); ?> €</td>
+                                            </tr>
 
-                                                <?php
-                                            }
-                                            ?>
+                                            <?php
+                                        }
+                                        ?>
 
-                                            </tbody>
-                                        </table>
+                                        </tbody>
+                                    </table>
 
-                                    </div>
+                                </div>  <!-- FIN TABLEAU BIERES -->
 
-                                </div> <!-- Fin row mot proprio, liste biere -->
-                                
 
                                 <div class="row"><!-- Row map -->
 
                                 </div> <!-- Fin row map -->
-                               
 
-
-
-
-
-
-                                    <div class="modal-footer">
-                                        <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat"><i
-                                                class="large material-icons prefix">close</i></a>
-                                    </div>
+                                <div class="modal-footer">
+                                    <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat"><i
+                                            class="large material-icons prefix">close</i></a>
                                 </div>
+                            </div>
 
-                            </div>  <!-- FIN DU MODAL NIVEAU 3-->
+
+                        </div>  <!-- FIN DU MODAL NIVEAU 3-->
 
 
-                        </div> <!-- FIN DU COLLAPSE NIVEAU 2-->
-
+                    </div> <!-- FIN DU COLLAPSE NIVEAU 2-->
 
                 </li>
 
                 <br>
-                <?php
-            }
 
-            ?>
+            <?php } ?>
 
         </ul>
-
-        <?php
-        //afficher une photo
-        //        $sqlQuery = 'SELECT * FROM photos
-        //      ';
-        //
-        //           $reponse = $bdd->query($sqlQuery);
-        //          while ($donnees = $reponse->fetch()) {
-        //        echo  "<img src='". $donnees['fichier'] . "' height='100px'>";
-        //        }
-
-        ?>
 
     </div>
 </div> <!-- fin row -->

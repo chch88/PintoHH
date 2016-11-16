@@ -68,7 +68,7 @@ if ($time_array['seconds'] < 10) {
                 <label for="distance">Palier de Distance</label>
             </div> -->
 
-            <div class="input-field col l2 s6">
+            <div class="input-field col l3 s6">
                 <select name="style_bar" id="style_bar">
                     <option value="">Choisissez votre option</option>
                     <?php
@@ -81,7 +81,7 @@ if ($time_array['seconds'] < 10) {
                 <label for="style">Style de Bar</label>
             </div>
 
-            <div class="input-field col l2 s6">
+            <div class="input-field col l3 s6">
                 <select name="restriction" id="Restriction">
                     <option value="" disabled selected>Choisissez votre option</option>
                     <option value="0" <?php if (strpos($_SERVER['REQUEST_URI'], "&restriction=0") !== false) {

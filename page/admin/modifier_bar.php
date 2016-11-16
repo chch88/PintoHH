@@ -66,21 +66,19 @@ if(ROLE==1){
 ?>
 
 <h1 class="center green">Les bars</h1>
-<table class="responsive-table  highlight black" style='max-width:80%;margin:auto;'>
-<tr class="centered blue">
-<th>bar</th>
-<th>photos_id_photo</th>
-<th>styles_bars_id_style_bar</th>
-<th>villes_id_ville</th>
-<th>nom_bar</th>
-<th>longitude</th>
-<th>latitude</th>
-<th>numero</th>
-<th>rue</th>
-<th>description_bar</th>
-<th>telephone</th>
-<th>mot_patron</th>
-<th>site_web</th>
+<table class="responsive-table  highlight green" style='max-width:80%;margin:auto;'>
+<tr class="grey-font white">
+<th>Id</th>
+<th>Photo</th>
+<th>Style de bar</th>
+<th>Villes</th>
+<th>Nom du bar</th>
+<th>Numero</th>
+<th>Rue</th>
+<th>Description</th>
+<th>Téléphone</th>
+<th>Mot du patron</th>
+<th>Site web</th>
 </tr>
 <?php
 	$id=array();
@@ -96,17 +94,17 @@ if(ROLE==1){
 		<td><?=$row['styles_bars_id_style_bar']?></td>
 		<td><?=$row['villes_id_ville']?></td>
 		<td><?=$row['nom_bar']?></td>
-		<td><?=$row['longitude']?></td>
-		<td><?=$row['latitude']?></td>
 		<td><?=$row['numero']?></td>
 		<td><?=$row['rue']?></td>
-		<td><?=$row['description_bar']?></td>
+		<td><?=utf8_encode($row['description_bar'])?></td>
 		<td><?=$row['telephone']?></td>
-		<td><?=$row['mot_patron']?></td>
+		<td><?=utf8_encode($row['mot_patron'])?></td>
 		<td><?=$row['site_web']?></td>
 		</tr>
 	<?php } ?>
 	</table>
+
+	<br>
 <p class="center"><?=$counter?> bar</p>
 
 <h1 class="center green">Modifier un bar</h1>
@@ -169,16 +167,6 @@ if(ROLE==1){
           <input name="nom_bar"id="nom_bar" type="text" class="validate">
           <label for="nom_bar">Nom du bar</label>
         </div>
-	  
-      <div class="input-field col s6">
-          <input name="longitude"id="longitude" type="text" class="validate">
-          <label for="longitude">Longitude</label>
-        </div>
-      <div class="input-field col s6">
-          <input name="latitude"id="latitude" type="text" class="validate">
-          <label for="latitude">Longitude</label>
-        </div>
-
 	  
       <div class="input-field col s6">
           <input name="numero"id="numero" type="text" class="validate">

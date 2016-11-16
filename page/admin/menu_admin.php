@@ -18,8 +18,8 @@
 </ul>
 
 
-<nav>
-    <div class="nav-wrapper">
+<nav style="margin-top:auto; width: 333px;">
+    <div class="nav-wrapper green ">
         <ul class="right ">
             <li><a class="dropdown-button" href="#!" data-activates="dropdown1">Profil<i class="material-icons right">arrow_drop_down</i></a></li>
             <li><a class="dropdown-button" href="#!" data-activates="dropdown2">Bars<i class="material-icons right">arrow_drop_down</i></a></li>
@@ -34,9 +34,10 @@ $nom_bar = isset($_GET['nom_bar']) ? $_GET['nom_bar'] : '';
 $nom_biere = isset($_GET['nom_biere']) ? $_GET['nom_biere'] : '';
 ?>
 
-
+<!--
 <p class="center-align" ><a href="index.php" alt="index" title="index">Accueil</a></p>
 <p class="center-align" ><a href="../admin/index.php" alt="LogOut" title="LogOut">deconnection</a></p>
+
 
 <div class="row">
 <p><a class="col s4 center-align"href="enregistrer_profil.php" alt="enregistrer profil" title="enregistrer profil">enregistrer le profil</a></p>
@@ -48,4 +49,4 @@ $nom_biere = isset($_GET['nom_biere']) ? $_GET['nom_biere'] : '';
 <p><a class="col s4 center-align"href="ajouter_biere.php" alt="ajouter biere" title="ajouter biere">ajouter biere</a></p>
 <p><a class="col s4 center-align"href="modifier_biere.php" alt="modifier biere" title="modifier biere">modifier biere</a></p>
 <p><a class="col s4 center-align"href="supprimer_biere.php" alt="supprimer biere" title="supprimer biere">supprimer biere</a></p>
-</div>
+</div> -->

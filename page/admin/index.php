@@ -20,7 +20,7 @@ if(isset($_POST['logIn'])&&!empty($_POST['logIn'])){
 	if(mysqli_num_rows($rep)>0){
 		$data = mysqli_fetch_assoc($rep);
 		$_SESSION['ROLE']= (int) $data['roles_id_role'];
-		var_dump($Logs);
+		
 
 
 	}else{

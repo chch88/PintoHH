@@ -318,7 +318,6 @@
                                     <p><?php echo utf8_encode($donnees['description_bar']); ?></p>
                                 </div> <!-- Fin row description-->
 
-
                                 <div class="row"> <!-- Row carousel-->
                                     <div class="carousel">
 

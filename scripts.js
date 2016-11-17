@@ -62,3 +62,6 @@ $('.carousel').carousel('prev', 4); // Move prev n times.
 $('.carousel').carousel('set', 4);
 
 $('.carousel.carousel-slider').carousel({full_width: true});
+
+
+

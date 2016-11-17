@@ -12,6 +12,33 @@
 </div>
 
 
+<div class="col l1 m1 s2">
+    <input type="checkbox" id="favoris3<?php echo $donnees['id_bar']; ?>"/>
+    <label for="favoris3<?php echo $donnees['id_bar']; ?>"></label>
+</div>
+
+
+<p>
+   <input type="checkbox"><i id="click_advance" class="material-icons mee" onclick="myFunction()">star_border</i>
+</p>
+
+    <script>
+        function myFunction() {
+            document.getElementById("click_advance").innerHTML = "star";
+        }
+
+    </script>
+
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        $("#addFavoris").click(function() {
+        if (window.sidebar) {
+        } // Firefox        window.sidebar.addPanel(location.href,document.title,"");      }
+    // else if(window.external) { // Internet explorer        window.external.AddFavorite(location.href,document.title); }
+    // else if(window.opera && window.print) { // Opera        this.title=document.title;        return true;  }})});</script>
+<a id="addFavoris" href="#" rel="sidebar" title="Ajouter ce site en favoris">Favoris</a>
+
 <!-- AFFICHAGE DES BARS SELECTIONNES -->
 <div class="row">
     <div id="liste" class="col l10 offset-l1">

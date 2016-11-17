@@ -88,12 +88,12 @@ function where_biere($where_biere, $restriction, $weekday, $newtime, $time)
         <div class="row">
 
             <form method="get" action="" onsubmit="return false;">
-                <div class="input-field col l2 s6">
+                <div class="input-field col l2 m6 s6">
                     <label for="nom">Nom</label>
                     <input type="text" name="nom_biere" id="nom" value="<?= $nom_biere ?>">
                 </div>
 
-                <div class="input-field col l2 s6">
+                <div class="input-field col l2 m6 s6">
                     <select name="distance_biere" id="Distance" onchange="showUser(this.value)">
                         <option value="">Pas de palier</option>
                         <option value="0.5">500M</option>
@@ -103,7 +103,7 @@ function where_biere($where_biere, $restriction, $weekday, $newtime, $time)
                     <label for="Distance">Palier de distance</label>
                 </div>
 
-                <div class="input-field col l2 s6">
+                <div class="input-field col l2 m6 s6">
                     <select name="degre_biere" id="Degre">
                         <option value="" disabled selected>Choisissez votre option</option>
                         <option value="0" <?php if (strpos($_SERVER['REQUEST_URI'], "&degre_biere=0") !== false) {
@@ -128,7 +128,7 @@ function where_biere($where_biere, $restriction, $weekday, $newtime, $time)
 
 
                 <!-- TYPE BIERE -->
-                <div class="input-field col l2 s6">
+                <div class="input-field col l2 m6 s6">
                     <select name="type_biere" id="Type">
                         <option value="" disabled selected>Choisissez votre option</option>
                         <?php
@@ -146,7 +146,7 @@ function where_biere($where_biere, $restriction, $weekday, $newtime, $time)
                     <label for="Type">Type de bière</label>
                 </div>
 
-                <div class="input-field col l2 s6">
+                <div class="input-field col l2 m6 s6">
                     <select name="provenance_biere" id="Provenance">
                         <option value="" disabled selected>Choisissez votre option</option>
                         <?php
@@ -164,7 +164,7 @@ function where_biere($where_biere, $restriction, $weekday, $newtime, $time)
                     <label for="Provenance">Provenance</label>
                 </div>
 
-                <div class="input-field col l2 s6">
+                <div class="input-field col l2 m6 s6">
                     <select name="restriction" id="Restriction">
                         <option value="" disabled selected>Choisissez votre option</option>
                         <option value="0" <?php if (strpos($_SERVER['REQUEST_URI'], "&restriction=0") !== false) {
@@ -216,7 +216,7 @@ function where_biere($where_biere, $restriction, $weekday, $newtime, $time)
 
         <div class="row">
             <!-- résultats de la recherche en liste" -->
-            <div id="liste" class="col l10 offset-l1">
+            <div id="liste" class="col l10 m12 s12 offset-l1">
                 <ul class="collapsible popout" data-collapsible="accordion">
 
                     <?php
@@ -251,8 +251,7 @@ function where_biere($where_biere, $restriction, $weekday, $newtime, $time)
 
                         <script>
                             $(function () {
-                                $("form").submit(function () {
-                                    function degrebar() {
+                                    function degrebar(callback) {
                                         // recupere l'adresse postale
                                         var numero = <?= $donnees['numero'] ?>;
                                         var rue = "<?= utf8_encode($donnees['rue']) ?>";
@@ -260,69 +259,56 @@ function where_biere($where_biere, $restriction, $weekday, $newtime, $time)
 
                                         var adresse = numero + " " + rue + " " + ville;
 
-
                                         // clé api
                                         var apiKey = 'AIzaSyBCAOGM2PURw7HTiLBxlN6dBixLnCoWBcM';
                                         // utilise Geocoder
-                                        $.getJSON('https://maps.googleapis.com/maps/api/geocode/json?address=' + adresse + '&key=' + apiKey,
+                                        $.getJSON(
+                                            'https://maps.googleapis.com/maps/api/geocode/json?address='
+                                            + adresse + '&key=' + apiKey,
                                             function (data) {
 
                                                 var coords = data.results[0].geometry.location;
                                                 var lat_bar = coords.lat;
                                                 var lng_bar = coords.lng;
 
-                                                var latlngbar = [lat_bar, lng_bar];
-                                                console.log(latlngbar);
-                                                return latlngbar;
+                                                callback(lat_bar, lng_bar);
                                             });
-                                        console.log(degrebar());
                                     }
-                                    var latlngbar = degrebar();
-                                    console.log(degrebar());
 
                                     // calcul distance par rapport à notre position
                                     if (navigator.geolocation) {
                                         navigator.geolocation.getCurrentPosition(showPosition);
+
                                     }
                                     function showPosition(position) {
 
                                         var userLat = position.coords.latitude;
                                         var userLng = position.coords.longitude;
 
-                                        var lat_bar = latlngbar[0];
-                                        var lng_bar = latlngbar[1];
-                                        console.log(lat_bar);
+                                        degrebar(function(lat_bar, lng_bar){
 
-                                        // trigo avec usercoords & adress coords
-                                        var Clat = userLat - lat_bar;
-                                        var Clng = userLng - lng_bar;
-                                        if (Clat < 0) {
-                                            Clat = Math.abs(Clat);
-                                            console.log(Clat);
-                                        }
-                                        if (Clng < 0) {
-                                            Clng = Math.abs(Clng);
-                                            console.log(Clng);
-                                        }
+                                            // trigo avec usercoords & adress coords
+                                            var Clat = userLat - lat_bar;
+                                            var Clng = userLng - lng_bar;
+                                            if (Clat < 0) {
+                                                Clat = Math.abs(Clat);
+                                            }
+                                            if (Clng < 0) {
+                                                Clng = Math.abs(Clng);
+                                            }
 
-                                        var Clat2 = Math.pow(Clat, 2);
-                                        var Clng2 = Math.pow(Clng, 2);
+                                            var Clat2 = Math.pow(Clat, 2);
+                                            var Clng2 = Math.pow(Clng, 2);
 
-                                        console.log(Clat2);
-                                        console.log(Clng2);
+                                            var AB2 = Clat2 + Clng2;
 
-                                        var AB2 = Clat2 + Clng2;
-                                        console.log(typeof AB2);
-                                        console.log(AB2);
+                                            var distanceDeg = Math.sqrt(AB2);
 
-                                        var distanceDeg = Math.sqrt(AB2);
-                                        console.log(distanceDeg);
-
-                                        var km = distanceDeg * 111.11;
-                                        console.log(km);
+                                            var km = distanceDeg * 111.11;
+                                            console.log(km);
+                                        });
 
                                     }
-                                })
                             });
                         </script>
 
@@ -330,28 +316,28 @@ function where_biere($where_biere, $restriction, $weekday, $newtime, $time)
                         <li>
                             <div class="collapsible-header bar-font"> <!-- NIVEAU 1 -->
                                 <div class="row row2">
-                                    <div class="col l2 m12 s12">
-                                        <img src="<?= $donnees['fichier']; ?>">
+                                    <div class="col l2 m2 s12 offset-m5">
+                                        <img src="<?= $donnees['fichier']; ?>" class="col l12 m12 s6 offset-s3">
                                     </div>
-                                    <div class="left-align col l10 m12 s12">
-                                        <h5 class="col l10 center"> <?= $donnees['nom_biere']; ?> </h5>
-
-                                        <div class="col l2 m1 s2">
-                                            <input type="checkbox" id="favoris<?php echo $donnees['id_biere']; ?>"/>
-                                            <label for="favoris<?php echo $donnees['id_biere']; ?>"></label>
-                                            <?php
-                                            $count_fav = 'SELECT COUNT(id_utilisateur)
+                                    <div class="col l3 m2 s2 offset-l7 offset-m3">
+                                        <input type="checkbox" id="favoris<?php echo $donnees['id_biere']; ?>"/>
+                                        <label for="favoris<?php echo $donnees['id_biere']; ?>"></label>
+                                        <?php
+                                        $count_fav = 'SELECT COUNT(id_utilisateur)
                                                 FROM bieres
                                                 LEFT JOIN biere_favori ON biere_favori.bieres_id_biere = bieres.id_biere
                                                 LEFT JOIN utilisateurs ON utilisateurs.id_utilisateur = biere_favori.utilisateurs_id_utilisateur
                                                 WHERE bieres.id_biere = ' . $donnees['id_biere'] . '
                                                 ';
 
-                                            $nombre_fav = $bdd->query($count_fav);
-                                            $nb_fav = $nombre_fav->fetch(PDO::FETCH_ASSOC);
-                                            echo $nb_fav['COUNT(id_utilisateur)'];
-                                            ?>X favorite!
-                                        </div>
+                                        $nombre_fav = $bdd->query($count_fav);
+                                        $nb_fav = $nombre_fav->fetch(PDO::FETCH_ASSOC);
+                                        echo $nb_fav['COUNT(id_utilisateur)'];
+                                        ?>X favorite!
+                                    </div>
+
+                                    <div class="left-align col l10 m12 s12">
+                                        <h5 class="col l10 m12 s12 center"> <?= $donnees['nom_biere']; ?> </h5>
 
                                         <div class="row">
                                             <div class="col l4 m6 s12">

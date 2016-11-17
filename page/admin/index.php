@@ -6,24 +6,30 @@ require '../header.php';
 
 $_SESSION['ROLE']=0;
 
+
+
 if(isset($_POST['logIn'])&&!empty($_POST['logIn'])){
-	
+	$conn = mysqli_connect('localhost','root','root','pinto');
 	$email = (isset($_POST['email'])&& !empty($_POST['email'])) ? (string) $_POST['email'] : "";
 	$password = (isset($_POST['password'])&& !empty($_POST['password'])) ? (string) $_POST['password'] : "";
 
 	
-	$Logs = "SELECT `roles_id_role`,`email`,`password_2` FROM utilisateurs";
-	   
-	foreach  ($bdd->query($Logs) as $row) {
-         if($row['email'] === $email && $row['password_2'] === $password){
-			$_SESSION['ROLE'] = (int) $row['roles_id_role'];
-		 }
-	}
-	
-	
-}
-define('ROLE',$_SESSION['ROLE']);
+	$Logs = "SELECT `roles_id_role`,`email`,`password` FROM utilisateurs wHERE email = '$email' AND password = '$password'";
 
+	$rep = mysqli_query($conn,$Logs);
+	if(mysqli_num_rows($rep)>0){
+		$data = mysqli_fetch_assoc($rep);
+		$_SESSION['ROLE']= (int) $data['roles_id_role'];
+		var_dump($Logs);
+
+
+	}else{
+		echo mysqli_error($conn);
+
+	}
+	}
+define('ROLE',$_SESSION['ROLE']);
+echo ROLE;
 
 if(ROLE==1){
 	require 'menu_admin.php';
@@ -36,14 +42,14 @@ if(ROLE==1){
 <div class="row">
 <div class="col s12 ">
 <label>email</label>
-<input type="email"name="email">
+<input type="email" name="email">
 </div>
 <div class="col s12 ">
 <label>mot de passe</label>
-<input type="password"name="password">
+<input type="password" name="password">
 </div>
 <div class="center">
-<input class="black"type="submit"name="logIn"value="se connecter">
+<input class="black" type="submit" name="logIn" value="se connecter">
 </div>
 </div>
 	

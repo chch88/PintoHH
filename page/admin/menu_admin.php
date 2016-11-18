@@ -1,3 +1,39 @@
+<!-- Dropdown Structure -->
+<ul id="dropdown1" class="dropdown-content">
+    <li><a href="editer_profil.php">Editer le profil</a></li>
+    <li class="divider"></li>
+    <li><a href="supprimer_profil.php">Supprimer le profil</a></li>
+</ul>
+<!-- Dropdown Structure -->
+<ul id="dropdown2" class="dropdown-content">
+    <li><a href="ajouter_bar.php">Ajouter un bar</a></li>
+    <li class="divider"></li>
+    <li><a href="modifier_bar.php">Modifier un bar</a></li>
+</ul>
+<!-- Dropdown Structure -->
+<ul id="dropdown3" class="dropdown-content">
+    <li><a href="ajouter_biere.php">Ajouter une bière</a></li>
+    <li class="divider"></li>
+    <li><a href="modifier_biere.ph">Modifier une bière</a></li>
+</ul>
+<nav>
+    <div class="nav-wrapper">
+        <a class="brand-logo center">Administration</a>
+        <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
+        <ul class="right hide-on-med-and-down">
+            <li><a class="dropdown-button" href="#!" data-activates="dropdown1">Profil<i class="material-icons right">arrow_drop_down</i></a></li>
+            <li><a class="dropdown-button" href="#!" data-activates="dropdown2">Bars<i class="material-icons right">arrow_drop_down</i></a></li>
+            <li><a class="dropdown-button" href="#!" data-activates="dropdown3">Bières<i class="material-icons right">arrow_drop_down</i></a></li>
+        </ul>
+    </div>
+</nav>
+
+<?php
+
+$nom_bar = isset($_GET['nom_bar']) ? $_GET['nom_bar'] : '';
+$nom_biere = isset($_GET['nom_biere']) ? $_GET['nom_biere'] : '';
+?>
+
 
 <p class="center-align" ><a href="index.php" alt="index" title="index">Accueil</a></p>
 <p class="center-align" ><a href="http://localhost/www/PintoHH/page/admin/index.php" alt="LogOut" title="LogOut">deconnection</a></p>

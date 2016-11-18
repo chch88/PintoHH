@@ -127,3 +127,7 @@ table.striped > tbody > tr:nth-child(odd) {
 .btn1 {
     width: 100%;
 }
+
+.nav {
+    background-color: #4caf50;
+}

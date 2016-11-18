@@ -64,4 +64,6 @@ $('.carousel').carousel('set', 4);
 $('.carousel.carousel-slider').carousel({full_width: true});
 
 
+$(".dropdown-button").dropdown();
 
+$(".button-collapse").sideNav();

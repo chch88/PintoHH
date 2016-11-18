@@ -332,7 +332,7 @@
 
 
                                 <div class="row"> <!-- Row description-->
-                                    <p><?php echo utf8_encode($donnees['description']); ?></p>
+                                    <p><?php echo utf8_encode($donnees['description_bar']); ?></p>
                                 </div> <!-- Fin row description-->
 
 

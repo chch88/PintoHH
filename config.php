@@ -14,4 +14,6 @@ catch (Exception $e){
 }
 
 ini_set('display_errors', 1);
+
+$conn = mysqli_connect('localhost','root','root','pinto');
 ?>

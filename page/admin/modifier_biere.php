@@ -85,7 +85,7 @@ if(ROLE ==1){
 		<td><?=$row['degree_biere']?></td>
 		<td><?=$row['prix_normal']?></td>
 		<td><?=$row['prix_happy']?></td>
-		<td><?=$row['description']?></td>
+		<td><?=$row['description_biere']?></td>
 
 		</tr>
 	<?php } ?>

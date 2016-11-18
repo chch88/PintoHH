@@ -135,3 +135,7 @@ table.striped > tbody > tr:nth-child(odd) {
 .card-panel {
     background-color: #00C853;
 }
+
+.colonne1 {
+    width: 30%;
+}

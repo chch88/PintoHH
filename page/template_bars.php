@@ -352,53 +352,46 @@
                                 </div> <!-- Fin row mot proprio -->
 
 
-                                <div class="col l6 m12 s12 white-font"> <!-- TABLEAU DES HORAIRES -->
+                                <div class="col l4 m8 s8 white-font"> <!-- TABLEAU DES HORAIRES NORMALES -->
                                     <table class="striped centered background-green">
                                         <thead>
                                         <tr>
-                                            <th data-field="id">Jour d'ouverture</th>
+                                            <th data-field="id">Ouverture</th>
                                             <th data-field="name">Normal</th>
-                                            <th data-field="price">Happy Hour</th>
                                         </tr>
                                         </thead>
 
                                         <tbody>
                                         <?php
-                                        $sql = $bdd->query('SELECT * FROM bars  
+                                        $sql = $bdd->query('
+                                        SELECT * FROM bars  
                                         LEFT JOIN horaires 
                                         ON horaires.bars_id_bar = bars.id_bar
                                         WHERE nom_bar LIKE "%' . $nom_bar . '%"  
+                                         AND horaires.is_happy_hour = 0
                                         GROUP BY horaires.numero_jour, bars.id_bar
                                         ');
 
+
                                         while ($donnees_biere = $sql->fetch()) { ?>
                                             <tr>
-                                                <td><?php echo($donnees_biere['numero_jour']); ?></td>
+                                                <td class="colonne1"><?php echo($donnees_biere['numero_jour']); ?></td>
                                                 <td><?php
-                                                    $sql3 = 'SELECT * FROM bars  
-                                                        LEFT JOIN horaires 
-                                                        ON horaires.bars_id_bar = bars.id_bar
-                                                        WHERE nom_bar LIKE "%' . $nom_bar . '%" 
-                                                        AND horaires.is_happy_hour = 0
-                                                        GROUP BY horaires.numero_jour, bars.id_bar';
-                                                    $rep = $bdd->query($sql3);
 
-                                                    $donnees_hour = $rep->fetch();
-                                                    echo $donnees_hour['heure_debut'] . " à " . $donnees_hour['heure_fin'];
+                                                    if ($donnees_biere['heure_debut'] == "00:00:00") {
+                                                        echo "Fermé";
+                                                    }
+
+                                                    elseif ($donnees_biere['is_happy_hour'] == 0) {
+                                                        echo $donnees_biere['heure_debut'] . " à " . $donnees_biere['heure_fin'];
+                                                    }
+
+                                                    else {
+                                                        echo " ";
+                                                    }
+
                                                     ?> </td>
 
-                                                <td><?php
-                                                    $sql3 = 'SELECT * FROM bars  
-                                                        LEFT JOIN horaires 
-                                                        ON horaires.bars_id_bar = bars.id_bar
-                                                        WHERE nom_bar LIKE "%' . $nom_bar . '%" 
-                                                        AND horaires.is_happy_hour = 1
-                                                        GROUP BY horaires.numero_jour, bars.id_bar';
-                                                    $rep = $bdd->query($sql3);
-
-                                                    $donnees_hour2 = $rep->fetch();
-                                                    echo $donnees_hour2['heure_debut'] . " à " . $donnees_hour2['heure_fin'];
-                                                    ?> </td>
                                             </tr>
 
                                             <?php
@@ -406,11 +399,60 @@
                                         ?>
                                         </tbody>
                                     </table>
+                                    </div> <!-- FIN TABLEAU HEURES NORMALES-->
+
+                                    <div class="col l3 m4 s4 white-font"> <!-- TABLEAU DES HORAIRES HAPPY HOUR -->
+                                        <table class="striped centered background-green">
+                                            <thead>
+                                            <tr>
+
+                                                <th data-field="name">Happy Hour</th>
+                                            </tr>
+                                            </thead>
+
+                                            <tbody>
+                                            <?php
+                                            $sql = $bdd->query('
+                                        SELECT * FROM bars  
+                                        LEFT JOIN horaires 
+                                        ON horaires.bars_id_bar = bars.id_bar
+                                        WHERE nom_bar LIKE "%' . $nom_bar . '%"  
+                                         AND horaires.is_happy_hour = 1
+                                        GROUP BY horaires.numero_jour, bars.id_bar
+                                        ');
+
+
+                                            while ($donnees_biere = $sql->fetch()) { ?>
+                                                <tr>
+                                                    <td><?php
+
+                                                        if ($donnees_biere['heure_debut'] == "00:00:00") {
+                                                            echo ".";
+                                                        }
+
+                                                        elseif ($donnees_biere['is_happy_hour'] == 1) {
+                                                            echo $donnees_biere['heure_debut'] . " à " . $donnees_biere['heure_fin'];
+                                                        }
+
+                                                        else {
+                                                            echo "";
+                                                        }
+
+                                                        ?> </td>
+
+                                                </tr>
+
+                                                <?php
+                                            }
+                                            ?>
+                                            </tbody>
+                                        </table>
+                                        </div> <!-- FIN TABLEAU HEURES HAPPY HOUR-->
 
                                     <br>
                                     <br>
 
-                                </div><!-- FIN TABLEAU HEURE-->
+
 
                                 <div class="col l4 m12 s12 white-font"> <!-- TABLEAU BIERES -->
 

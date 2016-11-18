@@ -131,3 +131,7 @@ table.striped > tbody > tr:nth-child(odd) {
 .nav {
     background-color: #4caf50;
 }
+
+.card-panel {
+    background-color: #00C853;
+}

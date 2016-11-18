@@ -6,6 +6,7 @@ $comfirmation = "";
 
 <?php
 // On sécurise les champs Input
+
 function purge_input($data)
 {
     $date = trim($data);
@@ -17,7 +18,7 @@ function purge_input($data)
 if (!empty($_POST)) {
     $erreur = array();
 
-    // Vérification du Identifiant
+    // Vérification de Identifiant
 
     if (empty($_POST['identifiant']) || !preg_match('/^[a-zA-Z0-9]+$/', $_POST['identifiant'])) {
         $erreur['identifiant'] = "Vous n'avez pas renter d' identifiant, ou il est invalide";
@@ -97,9 +98,17 @@ if (!empty($_POST)) {
 
         ?>
 
-    <div class="container">
-
-        <br>
+    <div class="container" style="margin-left: 20px;">
+        <!-- Boucle qui parcours le tableaux et affiche les erreurs -->
+            <?php if (!empty($erreur)): ?>
+            <p style="color: red; font-weight: bold; font-style: italic;"> Vous n'avez pas remplie le formulaire
+                correctement :</p>
+            <?php foreach ($erreur as $erreurs): ?>
+                <ul class="chip">
+                    <li> <?= $erreurs ?></li>
+                </ul>
+            <?php endforeach; ?>
+        <?php endif; ?>
 
         <h3 class="center-align">INSCRIPTION</h3>
 
@@ -109,37 +118,22 @@ if (!empty($_POST)) {
                 <!-- NOM -->
                 <div class="input-field col s4 offset-s1">
                     <i class="material-icons prefix">person_add</i>
-                    <input id="icon_prefix" type="text" name="nom" class="validate" required>
-                    <label for="icon_prefix" class="">Nom *</label>
+                    <input  type="text" name="nom" class="validate"  required>
+                    <label  class="">Nom *</label>
                 </div>
 
                 <!-- Email -->
                 <div class="input-field col s4 offset-s1">
                     <i class="material-icons prefix">email</i>
-                    <input id="email" type="email" name="email" class="validate" required>
-                    <label for="email" data-error="wrong" data-success="right">Email *</label>
+                    <input type="email" name="email" class="validate"  required>
+                    <label  data-error="wrong" data-success="right">Email *</label>
                 </div>
 
             </div> <!-- fin row -->
 
 
             <div class="row">
-                <!-- Date de Naissance
-                <div class="input-field col s4 offset-s1">
-                    <i class="material-icons prefix">cake</i>
-                    <input type="date" name="date_naissance" class="datepicker"/>
-                    <label class="active" for="first_name2">Date de naissance</label>
-                </div>
-
-
-                  <div class="input-field col s4 offset-s1">
-                          <i class="material-icons prefix">vpn_key</i>
-                          <input id="password" type="password" class="validate">
-                          <label for="password">Sexe</label>
-                      </div>
-
-                -->
-
+         
                 <!-- SEXE -->
                 <div class="input-field col s4 offset-s1">
                     <div>
@@ -164,8 +158,8 @@ if (!empty($_POST)) {
                     <!-- Identifiant -->
                     <div class="input-field col s4 offset-s1">
                         <i class="material-icons prefix">account_circle</i>
-                        <input id="icon_prefix" type="text" name="identifiant" class="validate" required>
-                        <label for="icon_prefix" class="">Identifiant *</label>
+                        <input  type="text" name="identifiant" class="validate"  required>
+                        <label>Identifiant *</label>
                     </div>
 
                 </div> <!-- fin row -->
@@ -175,13 +169,13 @@ if (!empty($_POST)) {
                     <!-- Mot de Passe -->
                     <div class="input-field col s4 offset-s1">
                         <i class="material-icons prefix">vpn_key</i>
-                        <input id="password" name="password" type="password" class="validate" required>
+                        <input  name="password" type="password" class="validate" id="password" required>
                         <label for="password">Mot de passe *</label>
                     </div>
 
                     <div class="input-field col s4 offset-s1">
                         <i class="material-icons prefix">vpn_key</i>
-                        <input id="password" name="password2" type="password" class="validate" required>
+                        <input name="password2" type="password" class="validate" id="password" required>
                         <label for="password">Vérification de mot de passe *</label>
                     </div>
 
@@ -198,16 +192,6 @@ if (!empty($_POST)) {
                 </div>
         </form>
         <br>
-        <?php if (!empty($erreur)): ?>
-            <p style="color: red; font-weight: bold; font-style: italic;"> Vous n'avez pas remplie le formulaire
-                correctement :</p>
-            <?php foreach ($erreur as $erreurs): ?>
-                <ul class="chip">
-                    <li> <?= $erreurs ?></li>
-                </ul>
-            <?php endforeach; ?>
-        <?php endif; ?>
-
 
     </> <!-- fin container -->
 

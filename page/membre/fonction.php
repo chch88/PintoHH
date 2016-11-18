@@ -23,15 +23,32 @@ function debug($variable)
     echo '<pre>' . print_r($variable, true) . '</pre>';
 }
 
+
+
+
 // On creer uen fonction pour voir si l'utilisateur est connecté 
 
 
-function test_connection(){
+function test_connection()
+{
+
+    // Si tu n'as pas de session active tu peux la démarrer
+    if (session_status() == PHP_SESSION_NONE) {
+        session_start();
+    }
 
     if (!isset($_SESSION['information'])) {
-        //$_SESSION['flash']['danger'] =  " Vous n'avez pas le droit d'acceder à cette page!";
+        echo $_SESSION['flash']['danger'] = "Vous n'avez pas le droit d'accéder à cette page";
         header('Location: connexion.php');
         exit();
     }
 
 }
+
+
+
+
+
+
+
+

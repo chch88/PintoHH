@@ -87,7 +87,7 @@ function where_biere($where_biere, $restriction, $weekday, $newtime, $time)
 
         <div class="row">
 
-            <form method="get" action="" onsubmit="return false;">
+            <form method="get" action="">
                 <div class="input-field col l2 m6 s6">
                     <label for="nom">Nom</label>
                     <input type="text" name="nom_biere" id="nom" value="<?= $nom_biere ?>">
@@ -228,6 +228,7 @@ function where_biere($where_biere, $restriction, $weekday, $newtime, $time)
                     LEFT JOIN villes AS villes ON villes.id_ville = bars.villes_id_ville
                     LEFT JOIN horaires AS horaires ON horaires.bars_id_bar = bars.id_bar
                     LEFT JOIN type_biere AS type_biere ON bieres.type_biere_id_type_biere = type_biere.id_type_biere
+                    LEFT JOIN styles_bars AS styles_bars ON styles_bars.id_style_bar = bars.styles_bars_id_style_bar
                     LEFT JOIN pays AS pays ON bieres.pays_id_pays = pays.id_pays
                     LEFT JOIN photos AS photos ON bieres.photos_id_photo = photos.id_photo
                     WHERE nom_biere
@@ -250,68 +251,71 @@ function where_biere($where_biere, $restriction, $weekday, $newtime, $time)
                         ?>
 
                         <script>
-                            $(function () {
-                                    function degrebar(callback) {
-                                        // recupere l'adresse postale
-                                        var numero = <?= $donnees['numero'] ?>;
-                                        var rue = "<?= utf8_encode($donnees['rue']) ?>";
-                                        var ville = "<?= utf8_encode($donnees['ville']) ?>";
+                            $(function () { // grande fonction
+                                function degrebar(callback) { /* ici voici une fonction callback
+                                 callbak n'a pas de parenthèse dans degrebar, ça veut dire que c'est une fonction appelée dans degrebar() en tant que paramètre
+                                 */
+                                    // recupere l'adresse postale
+                                    var numero = <?= $donnees['numero'] ?>;
+                                    var rue = "<?= utf8_encode($donnees['rue']) ?>";
+                                    var ville = "<?= utf8_encode($donnees['ville']) ?>";
 
-                                        var adresse = numero + " " + rue + " " + ville;
+                                    var adresse = numero + " " + rue + " " + ville; // définition de l'adresse pour que geocoder renvoie la latitude et la longitude d'un bar //
 
-                                        // clé api
-                                        var apiKey = 'AIzaSyBCAOGM2PURw7HTiLBxlN6dBixLnCoWBcM';
-                                        // utilise Geocoder
-                                        $.getJSON(
-                                            'https://maps.googleapis.com/maps/api/geocode/json?address='
-                                            + adresse + '&key=' + apiKey,
-                                            function (data) {
+                                    // clé api
+                                    var apiKey = 'AIzaSyBCAOGM2PURw7HTiLBxlN6dBixLnCoWBcM';
+                                    // utilise Geocoder
+                                    $.getJSON(
+                                        'https://maps.googleapis.com/maps/api/geocode/json?address='
+                                        + adresse + '&key=' + apiKey,
+                                        function (data) { //calcul de lat/lng
 
-                                                var coords = data.results[0].geometry.location;
-                                                var lat_bar = coords.lat;
-                                                var lng_bar = coords.lng;
+                                            var coords = data.results[0].geometry.location; // les données se retrouvent dans cet objet
+                                            //extraction des données
+                                            var lat_bar = coords.lat;
+                                            var lng_bar = coords.lng;
 
-                                                callback(lat_bar, lng_bar);
-                                            });
-                                    }
-
-                                    // calcul distance par rapport à notre position
-                                    if (navigator.geolocation) {
-                                        navigator.geolocation.getCurrentPosition(showPosition);
-
-                                    }
-                                    function showPosition(position) {
-
-                                        var userLat = position.coords.latitude;
-                                        var userLng = position.coords.longitude;
-
-                                        degrebar(function(lat_bar, lng_bar){
-
-                                            // trigo avec usercoords & adress coords
-                                            var Clat = userLat - lat_bar;
-                                            var Clng = userLng - lng_bar;
-                                            if (Clat < 0) {
-                                                Clat = Math.abs(Clat);
-                                            }
-                                            if (Clng < 0) {
-                                                Clng = Math.abs(Clng);
-                                            }
-
-                                            var Clat2 = Math.pow(Clat, 2);
-                                            var Clng2 = Math.pow(Clng, 2);
-
-                                            var AB2 = Clat2 + Clng2;
-
-                                            var distanceDeg = Math.sqrt(AB2);
-
-                                            var km = distanceDeg * 111.11;
-                                            console.log(km);
+                                            callback(lat_bar, lng_bar); // on défini la fonction callback avec les données récupérées
                                         });
+                                }
 
-                                    }
+                                // calcul distance par rapport à notre position
+                                if (navigator.geolocation) {
+                                    navigator.geolocation.getCurrentPosition(showPosition); // cette ligne récupère les coordonnées de l'utilisateur de la fonction showposition (qui est un paramètre)
+                                }
+                                function showPosition(position) {
+
+                                    var userLat = position.coords.latitude; // la position de l'utilisateur
+                                    var userLng = position.coords.longitude;
+
+                                    degrebar(function (lat_bar, lng_bar) { // on appelle la fonction degre bar avec comme fonction callback ayant pour paramètres lat_bar et lng_bar
+
+                                        // trigo avec usercoords & adress coords (théorème de pythagore AB² = AC² + BC²)
+
+                                        // calcul distance avec le point C (lat A - lat B ; lng A - lng B)
+                                        var Clat = userLat - lat_bar;
+                                        var Clng = userLng - lng_bar;
+                                        if (Clat < 0) {
+                                            Clat = Math.abs(Clat); // on enlève le signe " - " si c'est négatif
+                                        }
+                                        if (Clng < 0) {
+                                            Clng = Math.abs(Clng);
+                                        }
+
+                                        var Clat2 = Math.pow(Clat, 2); // on met AC et BC au carré
+                                        var Clng2 = Math.pow(Clng, 2);
+
+                                        var AB2 = Clat2 + Clng2; //on a AB²
+
+                                        var distanceDeg = Math.sqrt(AB2); //on prend la racine pour avoir la distance en degré
+
+                                        var km = distanceDeg * 111.11; //comme un degré +-= 111,11km, on multiplie par ce numéro pour avoir la distance en km.
+                                        console.log(km);
+                                    });
+
+                                }
                             });
                         </script>
-
 
                         <li>
                             <div class="collapsible-header bar-font"> <!-- NIVEAU 1 -->
@@ -358,7 +362,7 @@ function where_biere($where_biere, $restriction, $weekday, $newtime, $time)
 
                                             <div class="col l4 m6 s12">
                                                 <label for="beer_kind">Prix minimum en pinte</label>
-                                                <i id="beer_kind" class="material-icons">€</i>
+                                                <i id="beer_kind" class="material-icons">euro_symbol</i>
                                                 <?=
                                                 $donnees['prix_happy_bar'];
                                                 ?>
@@ -369,15 +373,6 @@ function where_biere($where_biere, $restriction, $weekday, $newtime, $time)
                                         <div class="row">
                                             <div class="col l4">
                                                 <?php
-                                                // variabale $where_biere is left at the top of the row because it changes multiple times.
-                                                $where_biere = 'SELECT DISTINCT nom_bar
-                                                FROM bars AS bars
-                                                LEFT JOIN bar_biere AS bar_biere ON bar_biere.bars_id_bar = bars.id_bar
-                                                LEFT JOIN bieres AS bieres ON bieres.id_biere = bar_biere.bieres_id_biere
-                                                LEFT JOIN horaires AS horaires ON horaires.bars_id_bar = bars.id_bar
-                                                WHERE bieres.id_biere = ' . $donnees['id_biere'] . '
-                                                ';
-
                                                 // bars with or without happy
                                                 // count of all bars with the beer
                                                 $query = 'SELECT COUNT(DISTINCT nom_bar)
@@ -398,23 +393,6 @@ function where_biere($where_biere, $restriction, $weekday, $newtime, $time)
                                                 echo $nb_bars['COUNT(DISTINCT nom_bar)'];
                                                 //End of count
                                                 ?> bars ont cette bière)
-                                                <ul>
-                                                    <?php
-                                                    //first use of where biere
-                                                    $where_biere = where_biere($where_biere, $restriction, $weekday, $newtime, $time);
-
-                                                    $wb = $bdd->query($where_biere);
-                                                    while ($bars = $wb->fetch()) {
-                                                        ?>
-                                                        <li>
-                                                            <?=
-                                                            $bars['nom_bar'];
-                                                            ?>
-                                                        </li>
-                                                        <?php
-                                                    }
-                                                    ?>
-                                                </ul>
                                             </div>
                                             <!-- end bars with or without happy -->
 
@@ -442,25 +420,6 @@ function where_biere($where_biere, $restriction, $weekday, $newtime, $time)
                                                 echo $nb_bars_happy['COUNT(DISTINCT nom_bar)'];
                                                 // End of count
                                                 ?> bars ont cette bière)
-                                                <ul>
-                                                    <?php
-                                                    // name of the bars
-                                                    // change on variable $where_biere to $where_biere_happy
-                                                    $where_biere_happy = $where_biere . ' AND bar_biere.prix_happy_bar IS NOT NULL';
-                                                    $where_biere_happy = $where_biere_happy . ' AND horaires.is_happy_hour = 1';
-
-                                                    $wbh = $bdd->query($where_biere_happy);
-                                                    while ($bars_happy = $wbh->fetch()) {
-                                                        ?>
-                                                        <li>
-                                                            <?=
-                                                            $bars_happy['nom_bar'];
-                                                            ?>
-                                                        </li>
-                                                        <?php
-                                                    }
-                                                    ?>
-                                                </ul>
                                             </div>
 
                                             <div class="col l4">
@@ -526,55 +485,95 @@ function where_biere($where_biere, $restriction, $weekday, $newtime, $time)
 
                                 <div class="row row2">
 
-                                    <div class="col l8 m7 s12">
+                                    <div class="col l12 m12 s12">
 
-                                        <p>
-                                            <i class="material-icons">gps_fixed</i>
-                                            <?php echo $donnees['numero'] . " " . $donnees['rue'] . ", EPINAL" ?>
-                                            <br>
-                                            <i class="material-icons prefix">phone</i><?php echo "  " . $donnees['telephone']; ?>
-                                            <br>
-                                            <i class="material-icons">blur_on</i>
-                                            Type de bar : <?php echo $donnees['nom_style_bar']; ?>
-                                        </p>
+                                        <?php
+                                        // variabale $where_biere is left at the top of the row because it changes multiple times.
+                                        $where_biere_happy = 'SELECT *
+                                                FROM bars AS bars
+                                                LEFT JOIN bar_biere AS bar_biere ON bar_biere.bars_id_bar = bars.id_bar
+                                                LEFT JOIN horaires AS horaires ON horaires.bars_id_bar = bars.id_bar
+                                                LEFT JOIN villes AS villes ON villes.id_ville = bars.villes_id_ville
+                                                WHERE bar_biere.bieres_id_biere = ' . $donnees['id_biere'] . '
+                                                AND bar_biere.prix_happy_bar IS NOT NULL
+                                                AND horaires.is_happy_hour = 1 GROUP BY nom_bar
+                                                ';
 
+                                        $where_biere_happy = where_biere($where_biere_happy, $restriction, $weekday, $newtime, $time);
 
-                                        <!-- BOUTON POUR LE MODAL -->
-                                        <div class="center">
-                                            <a class="waves-effect waves-light btn modal-trigger"
-                                               href="#<?php echo $donnees['id_bar']; ?>">Voir la fiche complète du
-                                                bar</a>
-                                        </div>
+                                        $wbh = $bdd->query($where_biere_happy);
+                                        while ($bars_happy = $wbh->fetch()) {
+                                            ?>
+                                            <ul class="col l4 m4 s6">
+                                                <li class="col l12 center">
+                                                    <?=
+                                                    utf8_encode($bars_happy['nom_bar']);
+                                                    ?>
+                                                </li>
+                                                <li class="col l12 left-align">
+                                                    <i class="material-icons">phone</i>
+                                                    <?=
+                                                    $bars_happy['telephone'];
+                                                    ?>
+                                                </li>
+                                                <li class="col l12 left-align">
+                                                    <i class="material-icons">gps_fixed</i>
+                                                    <?=
+                                                    utf8_encode($bars_happy['numero'] . " " . $bars_happy['rue'] . " " . $bars_happy['ville']);
+                                                    ?>
+                                                </li>
+
+                                                <div class="center">
+                                                    <a class="waves-effect waves-light btn modal-trigger" href="#bar<?= $bars_happy['id_bar']; ?>">
+                                                        Voir la fiche complète du bar
+                                                    </a>
+                                                </div>
+
+                                                <!-- MODAL - FICHE COMPLETE DU BAR -->
+                                                <div id="bar<?php echo $bars_happy['id_bar'] ?>" class="modal">
+                                                    <div class="modal-content grey-font">
+                                                        <h4 class="bar-font center-align"><?php echo utf8_encode($bars_happy['nom_bar']) ?></h4>
+                                                        <p>
+                                                            <?=
+                                                            utf8_encode($bars_happy['description_bar']);
+                                                            ?>
+                                                        </p>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <a href="#!"
+                                                           class=" modal-action modal-close waves-effect waves-green btn-flat"><i
+                                                                class="large material-icons prefix">close</i></a>
+                                                    </div>
+
+                                                </div>  <!-- FIN DU MODAL -->
+                                            </ul>
+
+                                            <!-- BOUTON POUR LE MODAL -->
+                                            <?php
+                                        }
+                                        ?>
 
                                         <br>
 
-                                    </div> <!-- fin partie gauche -->
-
-                                    <div class="col l4 m5 s12">
-                                        <?php
-                                        //afficher une photo
-                                        echo "<img src='" . $donnees['fichier'] . "' width='100%'>";
-                                        ?>
-                                    </div><!-- fin partie droite -->
-
+                                    </div>
 
                                 </div> <!-- FIN 1ere row -->
 
 
                                 <!-- BOUTON POUR LE MODAL -->
-                                <div class="center">
+                                <div class="center col l12">
                                     <a class="waves-effect waves-light btn modal-trigger"
-                                       href="#<?php echo $donnees['id_biere']; ?>">Voir la fiche complète de cette bière
+                                       href="#biere<?php echo $donnees['id_biere']; ?>">Voir la fiche complète de cette bière
                                     </a>
                                 </div>
 
                                 <br>
 
-                                <!-- MODAL - FICHE COMPLETE DU BAR -->
-                                <div id="<?php echo $donnees['id_biere']; ?>" class="modal">
+                                <!-- MODAL - FICHE COMPLETE DE LA BIERE -->
+                                <div id="biere<?= $donnees['id_biere']; ?>" class="modal">
                                     <div class="modal-content grey-font">
-                                        <h4 class="bar-font center-align"><?php echo $donnees['nom_biere']; ?></h4>
-                                        <p><?php echo $donnees['description']; ?></p>
+                                        <h4 class="bar-font center-align"><?= $donnees['nom_biere']; ?></h4>
+                                        <p><?= $donnees['description_biere']; ?></p>
                                     </div>
                                     <div class="modal-footer">
                                         <a href="#!"

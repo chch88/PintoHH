@@ -22,7 +22,7 @@ if ($user AND $user['confirmation_token'] == $token){
     $bdd->prepare('UPDATE utilisateurs SET confirmation_token = NULL, confirmation_mail = NOW() WHERE id_utilisateur = ?')->execute([$user_id]);
 
     $_SESSION['information'] = $user;
-    header('Location: ../../index.php');
+    header('Location: my_account.php');
 
 } else{
     //require 'inscription.php';

@@ -16,11 +16,11 @@
     <li class="divider"></li>
     <li><a href="modifier_biere.ph">Modifier une bière</a></li>
 </ul>
+
+
 <nav>
     <div class="nav-wrapper">
-        <a class="brand-logo center">Administration</a>
-        <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
-        <ul class="right hide-on-med-and-down">
+        <ul class="right ">
             <li><a class="dropdown-button" href="#!" data-activates="dropdown1">Profil<i class="material-icons right">arrow_drop_down</i></a></li>
             <li><a class="dropdown-button" href="#!" data-activates="dropdown2">Bars<i class="material-icons right">arrow_drop_down</i></a></li>
             <li><a class="dropdown-button" href="#!" data-activates="dropdown3">Bières<i class="material-icons right">arrow_drop_down</i></a></li>

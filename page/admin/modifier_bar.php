@@ -30,7 +30,7 @@ if(ROLE==1){
 	$latitude = (isset($_POST['latitude'])&& !empty($_POST['latitude'])) ? (int) $_POST['latitude'] : "";
 	$numero = (isset($_POST['numero'])&& !empty($_POST['numero'])) ? (string) $_POST['numero'] : "";
 	$rue = (isset($_POST['rue'])&& !empty($_POST['rue'])) ? (string) $_POST['rue'] : "";
-	$description = (isset($_POST['description'])&& !empty($_POST['description'])) ? (string) $_POST['description'] : "";
+	$description = (isset($_POST['description_bar'])&& !empty($_POST['description_bar'])) ? (string) $_POST['description_bar'] : "";
 	$telephone = (isset($_POST['telephone'])&& !empty($_POST['telephone'])) ? (string) $_POST['telephone'] : "";
 	$mot_patron = (isset($_POST['mot_patron'])&& !empty($_POST['mot_patron'])) ? (string) $_POST['mot_patron'] : "";
 	$site_web = (isset($_POST['site_web'])&& !empty($_POST['site_web'])) ? (string) $_POST['site_web'] : "";
@@ -44,7 +44,7 @@ if(ROLE==1){
 	`latitude` =$latitude ,
 	`numero` = '$numero',
 	`rue` = '$rue',
-	`description` = '$description',
+	`description_bar` = '$description_bar',
 	`telephone` = '$telephone',
 	`mot_patron` = '$mot_patron',
 	`site_web` = '$site_web'
@@ -77,7 +77,7 @@ if(ROLE==1){
 <th>latitude</th>
 <th>numero</th>
 <th>rue</th>
-<th>description</th>
+<th>description_bar</th>
 <th>telephone</th>
 <th>mot_patron</th>
 <th>site_web</th>
@@ -100,7 +100,7 @@ if(ROLE==1){
 		<td><?=$row['latitude']?></td>
 		<td><?=$row['numero']?></td>
 		<td><?=$row['rue']?></td>
-		<td><?=$row['description']?></td>
+		<td><?=$row['description_bar']?></td>
 		<td><?=$row['telephone']?></td>
 		<td><?=$row['mot_patron']?></td>
 		<td><?=$row['site_web']?></td>
@@ -191,8 +191,8 @@ if(ROLE==1){
         </div>
 
 	        <div class="input-field col s6">
-          <input  name="description"id="description" type="text" class="validate">
-          <label for="description">Description</label>
+          <input  name="description_bar"id="description_bar" type="text" class="validate">
+          <label for="description_bar">Description</label>
         </div>
 	        <div class="input-field col s6">
           <input name="phone" id="phone" type="text" class="validate">

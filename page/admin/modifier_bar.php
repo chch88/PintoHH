@@ -19,18 +19,18 @@ if(ROLE==1){
 	$photos_id_photo = (isset($_POST['photos_id_photo'])&& !empty($_POST['photos_id_photo'])) ? (int) $_POST['photos_id_photo'] : "";
 	$styles_bars_id_style_bar = (isset($_POST['styles_bars_id_style_bar'])&& !empty($_POST['styles_bars_id_style_bar'])) ? (int) $_POST['styles_bars_id_style_bar'] : "";
 	$villes_id_ville = (isset($_POST['villes_id_ville'])&& !empty($_POST['villes_id_ville'])) ? (int) $_POST['villes_id_ville'] : "";
-		
+
 	//temporaire
-	$photos_id_photo=1;	
+	$photos_id_photo=1;
 	$villes_id_ville = 1;
-	
+
 	$id_bar = (isset($_POST['id_bar'])&& !empty($_POST['id_bar'])) ? (int) $_POST['id_bar'] : "";
 	$nom_bar = (isset($_POST['nom_bar'])&& !empty($_POST['nom_bar'])) ? (string) $_POST['nom_bar'] : "";
 	$longitude = (isset($_POST['longitude'])&& !empty($_POST['longitude'])) ? (int) $_POST['longitude'] : "";
 	$latitude = (isset($_POST['latitude'])&& !empty($_POST['latitude'])) ? (int) $_POST['latitude'] : "";
 	$numero = (isset($_POST['numero'])&& !empty($_POST['numero'])) ? (string) $_POST['numero'] : "";
 	$rue = (isset($_POST['rue'])&& !empty($_POST['rue'])) ? (string) $_POST['rue'] : "";
-	$description = (isset($_POST['description_bar'])&& !empty($_POST['description_bar'])) ? (string) $_POST['description_bar'] : "";
+	$description_bar = (isset($_POST['description_bar'])&& !empty($_POST['description_bar'])) ? (string) $_POST['description_bar'] : "";
 	$telephone = (isset($_POST['telephone'])&& !empty($_POST['telephone'])) ? (string) $_POST['telephone'] : "";
 	$mot_patron = (isset($_POST['mot_patron'])&& !empty($_POST['mot_patron'])) ? (string) $_POST['mot_patron'] : "";
 	$site_web = (isset($_POST['site_web'])&& !empty($_POST['site_web'])) ? (string) $_POST['site_web'] : "";
@@ -68,7 +68,7 @@ if(ROLE==1){
 <h1 class="center green">Les bars</h1>
 <table class="responsive-table  highlight black" style='max-width:80%;margin:auto;'>
 <tr class="centered blue">
-<th>id_bar</th>
+<th>bar</th>
 <th>photos_id_photo</th>
 <th>styles_bars_id_style_bar</th>
 <th>villes_id_ville</th>

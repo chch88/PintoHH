@@ -24,13 +24,13 @@ require 'menu_admin.php';
                 <div id="<?= $donnees['id_biere']; ?>" style="cursor: pointer;" onclick="window.location='edition_biere.php?id_biere=<?=$donnees['id_biere']?>';" class="col l12 card-panel center">
                     <ul class="col l10 offset-l1">
                         <li>
-                            <?= $donnees['nom_biere']; ?>
+                            <?= utf8_encode($donnees['nom_biere']); ?>
                         </li>
                         <li>
-                            Type de bière: <?= $donnees['nom_type_biere']; ?>
+                            Type de bière: <?= utf8_encode($donnees['nom_type_biere']); ?>
                         </li>
                         <li>
-                            Pays d'origine: <?= $donnees['nom_pays']; ?>
+                            Pays d'origine: <?= utf8_encode($donnees['nom_pays']); ?>
                         </li>
                     </ul>
                     <div class="col l1">

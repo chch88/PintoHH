@@ -94,7 +94,7 @@ function where_biere($where_biere, $restriction, $weekday, $newtime, $time)
                 </div>
 
                 <div class="input-field col l2 m6 s6">
-                    <select name="distance_biere" id="Distance" onchange="showUser(this.value)">
+                    <select name="distance_biere" id="Distance">
                         <option value="">Pas de palier</option>
                         <option value="0.5">500M</option>
                         <option value="1">1 Km</option>

@@ -15,9 +15,9 @@ if (ROLE == 1) {
 	$id = $_GET["id_biere"];
 	//Requete SQL pour supprimer le contact dans la base
 
-	$delete = $bdd->prepare("DELETE bar_biere, bieres, biere_favori
-	FROM  bar_biere
-	LEFT JOIN bieres ON bieres.id_biere = bar_biere.bieres_id_biere
+	$delete = $bdd->prepare("DELETE bieres, bar_biere, biere_favori
+	FROM  bieres
+	LEFT JOIN bar_biere ON bieres.id_biere = bar_biere.bieres_id_biere
 	LEFT JOIN biere_favori ON biere_favori.bieres_id_biere = bieres.id_biere
 	WHERE bieres.id_biere = $id
 	");

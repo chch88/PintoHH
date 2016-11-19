@@ -64,7 +64,7 @@ require 'menu_admin.php';
         //temporaire
         $photos_id_photo = (int)1;
         $nom_biere = (isset($_POST['nom_biere']) && !empty($_POST['nom_biere'])) ? (string)$_POST['nom_biere'] : "";
-        $degree_biere = (isset($_POST['degree']) && !empty($_POST['degree_biere'])) ? (float)$_POST['degree_biere'] : "";
+        $degree_biere = (isset($_POST['degree_biere']) && !empty($_POST['degree_biere'])) ? (float)$_POST['degree_biere'] : "";
 
         $description = (isset($_POST['description']) && !empty($_POST['description'])) ? (string)$_POST['description'] : "";
 
@@ -78,7 +78,7 @@ require 'menu_admin.php';
         );
 
         $addBeer->bindParam('nom', $nom_biere, PDO::PARAM_STR);
-        $addBeer->bindParam('description', $description, PDO::PARAM_STR);
+        $addBeer->bindParam('description', utf8_decode($description), PDO::PARAM_STR);
         $addBeer->bindParam('type_biere', $type_biere_id_type_biere, PDO::PARAM_INT);
         $addBeer->bindParam('pays', $pays_id_pays, PDO::PARAM_INT);
         $addBeer->bindParam('degre', $degree_biere, PDO::PARAM_STR);
@@ -160,12 +160,12 @@ require 'menu_admin.php';
 
                 <div class="input-field col l4">
                     <input name="nom_biere" id="nom_biere" type="text" class="validate"
-                           placeholder="<?= $donnees['nom_biere']; ?>">
+                           value="<?= $donnees['nom_biere']; ?>">
                     <label for="nom_biere">Nom</label>
                 </div>
                 <div class="input-field col l2">
                     <input name="degree_biere" id="degree" type="text" class="validate"
-                           placeholder="<?= $donnees['degree_biere']; ?>">
+                           value="<?= $donnees['degree_biere']; ?>">
                     <label for="degree">Degrée</label>
                 </div>
                 <!--

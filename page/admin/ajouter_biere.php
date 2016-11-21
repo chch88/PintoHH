@@ -62,6 +62,49 @@ if (ROLE == 1) {
     $type_biere = "SELECT * FROM `type_biere`";
 
     if (isset($_POST) && !empty($_POST['ajouter'])) {
+        $dossier = '../../images/photosbieres/';
+        $fichier = basename($_FILES['image']['name']);
+        $taille_maxi = 1000000000000000000000000000000000000000000000000;
+        $taille = filesize($_FILES['image']['tmp_name']);
+
+
+        //Début des vérifications de sécurité...
+        if($taille>$taille_maxi)
+        {
+            $erreur = 'Le fichier est trop gros...';
+        }
+        if(!isset($erreur)) //S'il n'y a pas d'erreur, on upload
+        {
+            //formatage du nom (suppression des accents, remplacements des espaces par "-")
+            $fichier = strtr($fichier, 'ÀÁÂÃÄÅÇÈÉÊËÌÍÎÏÒÓÔÕÖÙÚÛÜÝàáâãäåçèéêëìíîïðòóôõöùúûüýÿ', 'AAAAAACEEEEIIIIOOOOOUUUUYaaaaaaceeeeiiiioooooouuuuyy');
+            $fichier = preg_replace('/([^.a-z0-9]+)/i', '-', $fichier);
+            if(move_uploaded_file($_FILES['image']['tmp_name'], $dossier . $fichier)) //correct si la fonction renvoie TRUE
+            {
+                echo 'Upload effectué avec succès !';
+                //ajout_image($fichier,);
+            }
+            else //sinon, cas où la fonction renvoie FALSE
+            {
+                echo 'Echec de l\'upload !';
+            }
+        }
+        else
+        {
+            echo $erreur;
+        }
+
+
+        $addfile = $bdd->prepare("INSERT INTO photos(
+        fichier
+        ) VALUES (
+        '$dossier$fichier'
+        )"
+        );
+
+
+        $addfile->execute();
+
+        $last_id = $bdd->lastInsertId();
 
         $type_biere_id_type_biere = (isset($_POST['type_biere_id_type_biere']) && !empty($_POST['type_biere_id_type_biere'])) ? (int)$_POST['type_biere_id_type_biere'] : "";
         $pays_id_pays = (isset($_POST['pays_id_pays']) && !empty($_POST['pays_id_pays'])) ? (int)$_POST['pays_id_pays'] : "";
@@ -75,17 +118,19 @@ if (ROLE == 1) {
 
 
         $addBeer = $bdd->prepare("INSERT INTO bieres(
-	type_biere_id_type_biere,
-	pays_id_pays,
-	nom_biere,
-	degree_biere,
-	description_biere
-	) VALUES (
-	:type_biere, 
-	:pays,
-	:nom,
-	:degre,
-	:description)"
+        type_biere_id_type_biere,
+        pays_id_pays,
+        nom_biere,
+        degree_biere,
+        description_biere,
+        photos_id_photo
+        ) VALUES (
+        :type_biere, 
+        :pays,
+        :nom,
+        :degre,
+        :description,
+        :photo)"
         );
 
         $addBeer->bindParam('nom', $nom_biere, PDO::PARAM_STR);
@@ -93,6 +138,7 @@ if (ROLE == 1) {
         $addBeer->bindParam('type_biere', $type_biere_id_type_biere, PDO::PARAM_INT);
         $addBeer->bindParam('pays', $pays_id_pays, PDO::PARAM_INT);
         $addBeer->bindParam('degre', $degree_biere, PDO::PARAM_STR);
+        $addBeer->bindParam('photo', $last_id, PDO::PARAM_INT);
 
         if ($addBeer->execute()) {
             echo "La bière a bien été ajoutée à la base de données.";
@@ -106,7 +152,7 @@ if (ROLE == 1) {
     <h2 class="center green">Ajouter une bière</h2>
 
     <div class="row">
-        <form class="col s8 offset-s2" action="" method="post" class="col-s8 offset-s2">
+        <form class="col s8 offset-s2" action="" method="post" enctype="multipart/form-data">
             <div class="input-field col s6">
                 <select name="type_biere_id_type_biere">
                     <option value="" disabled selected>Type de bière</option>
@@ -153,6 +199,7 @@ if (ROLE == 1) {
                 <label for="edit-description">description</label>
             </div>
             <!-- fin du text-editor -->
+            <input type="file" class="col l6" name="image"/>
 
 
 

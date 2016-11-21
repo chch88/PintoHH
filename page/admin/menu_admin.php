@@ -1,5 +1,7 @@
 <!-- Dropdown Structure -->
 <ul id="dropdown1" class="dropdown-content">
+    <li><a href="enregistrer_profil.php">Ajouter un profil</a></li>
+    <li class="divider"></li>
     <li><a href="editer_profil.php">Editer le profil</a></li>
     <li class="divider"></li>
     <li><a href="supprimer_profil.php">Supprimer le profil</a></li>
@@ -36,9 +38,10 @@ $nom_biere = isset($_GET['nom_biere']) ? $_GET['nom_biere'] : '';
 
 <!--
 <p class="center-align" ><a href="index.php" alt="index" title="index">Accueil</a></p>
+-->
 <p class="center-align" ><a href="../admin/index.php" alt="LogOut" title="LogOut">deconnection</a></p>
 
-
+<!--
 <div class="row">
 <p><a class="col s4 center-align"href="enregistrer_profil.php" alt="enregistrer profil" title="enregistrer profil">enregistrer le profil</a></p>
 <p><a class="col s4 center-align"href="editer_profil.php" alt="editer profil" title="editer profil">editer le profil</a></p>

@@ -41,9 +41,11 @@ if (ROLE == 1) {
                     <label>mot de passe</label>
                     <input type="password" name="password">
                 </div>
+
                 <div class="center">
-                    <input class="black" type="submit" name="logIn" value="se connecter">
+                    <input class="waves-effect waves-light btn" type="submit" name="logIn" value="Se connecter"/>
                 </div>
+
                 <p></p>
 
             </div>

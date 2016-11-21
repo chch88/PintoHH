@@ -3,7 +3,7 @@
 session_start();
 $page="admin";
 require '../../config.php';
-require '../header.php';
+require '../header_admin.php';
 define('ROLE',$_SESSION['ROLE']);
 
 if(ROLE==1){

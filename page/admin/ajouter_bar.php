@@ -2,7 +2,7 @@
 session_start();
 $page="admin";
 require '../../config.php';
-require '../header.php';
+require '../header_admin.php';
 define('ROLE',$_SESSION['ROLE']);
 
 	if(ROLE==1){
@@ -16,7 +16,7 @@ define('ROLE',$_SESSION['ROLE']);
                 ON bieres.id_biere=bar_biere.bieres_id_biere
                 GROUP BY bieres.nom_biere DESC";
 
-	if(isset($_POST)&&!empty($_POST['addBar'])){
+	if(isset($_POST)&&!empty($_POST['ajout'])){
 		
 	
 
@@ -26,8 +26,10 @@ define('ROLE',$_SESSION['ROLE']);
 
 	$bieres_id_biere = (isset($_POST['bieres_id_biere'])&& !empty($_POST['bieres_id_biere'])) ? (int) $_POST['bieres_id_biere'] : "";
 	$prix_normal_bar = (isset($_POST['prix_normal_bar'])&& !empty($_POST['prix_normal_bar'])) ? (int) $_POST['prix_normal_bar'] : "";
+
 	$prix_happy_bar = (isset($_POST['prix_happy_bar'])&& !empty($_POST['prix_happy_bar'])) ? (int) $_POST['prix_happy_bar'] : "";
-		
+
+
 	//temporaire
 	$photos_id_photo=1;	
 	$villes_id_ville = 1;
@@ -82,7 +84,7 @@ define('ROLE',$_SESSION['ROLE']);
 
 
 	//temporaire
-	$bars_id_bar=35;
+	$bars_id_bar=1;
 
 	$addBar = "INSERT INTO bars (
 	`photos_id_photo`,
@@ -510,7 +512,7 @@ define('ROLE',$_SESSION['ROLE']);
 
 
 	<div class="center">
-		<input class="waves-effect waves-light btn" type="submit" name="addBar" value="ajouter"/>
+		<input class="waves-effect waves-light btn" type="submit" name="ajout" value="ajouter"/>
 	</div>
 
  </form>

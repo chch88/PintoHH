@@ -19,13 +19,19 @@
     <li><a href="modifier_biere.php">Modifier une bière</a></li>
 </ul>
 
+<nav>
+    <div class="nav-wrapper green">
+        <a  style="margin-left: 25px;" href="../admin/index.php" class="brand-logo"">Pinto Happy Hour</a>
+    </div>
+</nav>
 
-<nav style="margin-top:auto; width: 333px;">
+<nav>
     <div class="nav-wrapper green ">
         <ul class="right ">
             <li><a class="dropdown-button" href="#!" data-activates="dropdown1">Profil<i class="material-icons right">arrow_drop_down</i></a></li>
             <li><a class="dropdown-button" href="#!" data-activates="dropdown2">Bars<i class="material-icons right">arrow_drop_down</i></a></li>
             <li><a class="dropdown-button" href="#!" data-activates="dropdown3">Bières<i class="material-icons right">arrow_drop_down</i></a></li>
+            <li><a class="dropdown-button" href="/../PintoHH/index.php">Deconnexion</a></li>
         </ul>
     </div>
 </nav>
@@ -39,7 +45,6 @@ $nom_biere = isset($_GET['nom_biere']) ? $_GET['nom_biere'] : '';
 <!--
 <p class="center-align" ><a href="index.php" alt="index" title="index">Accueil</a></p>
 -->
-<p class="center-align" ><a href="../admin/index.php" alt="LogOut" title="LogOut">deconnection</a></p>
 
 <!--
 <div class="row">

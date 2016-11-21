@@ -129,10 +129,16 @@
                                     if ($time_began > $time) {
                                         echo "<i class=\"material-icons hh-green\">bookmark</i> Happy Hour dans " . $time_open_hour . ' h. ' . $time_open_min . ' min.' . '<br>';
                                         echo "<i class=\"material-icons\">alarm</i> Happy Hour de " . $time_to[0] . " h. " . $time_to[1] . " à " . $time_to_end[0] . " h. " . $time_to_end[1] . "<br>";
-                                    } elseif ($time_began <= $time AND $time_end >= $time) {
+                                    }
+                                    elseif ($time_began <= $time AND $time_end >= $time) {
                                         echo "<i class=\"material-icons hh-red\">bookmark</i> Happy Hour en ce moment" . '<br>';
                                         echo "<i class=\"material-icons\">alarm</i> Happy Hour de " . $time_to[0] . " h. " . $time_to[1] . " à " . $time_to_end[0] . " h. " . $time_to_end[1] . "<br>";
-                                    } else {
+                                    }
+                                    elseif ($time_began == "00:00:00" AND $time_end == "00:00:00") {
+                                        echo "<i class=\"material-icons hh-green\">bookmark</i>Pas d'Happy Hour aujourd'hui" . '<br>';
+                                        echo "<i class=\"material-icons\">alarm</i> Pas d'Happy Hour aujourd'hui";
+                                    }
+                                    else {
                                         echo "<i class=\"material-icons hh-green\">bookmark</i>Plus d'Happy Hour aujourd'hui" . '<br>';
                                         echo "<i class=\"material-icons\">alarm</i> Happy Hour de " . $time_to[0] . " h. " . $time_to[1] . " à " . $time_to_end[0] . " h. " . $time_to_end[1] . "<br>";
                                     }
@@ -271,10 +277,16 @@
                                             if ($time_began > $time) {
                                                 echo "<i class=\"material-icons hh-green\">bookmark</i> Happy Hour dans " . $time_open_hour . ' h. ' . $time_open_min . ' min.' . '<br>';
                                                 echo "<i class=\"material-icons\">alarm</i> Happy Hour de " . $time_to[0] . " h. " . $time_to[1] . " à " . $time_to_end[0] . " h. " . $time_to_end[1] . "<br>";
-                                            } elseif ($time_began <= $time AND $time_end >= $time) {
+                                            }
+                                            elseif ($time_began <= $time AND $time_end >= $time) {
                                                 echo "<i class=\"material-icons hh-red\">bookmark</i> Happy Hour en ce moment" . '<br>';
                                                 echo "<i class=\"material-icons\">alarm</i> Happy Hour de " . $time_to[0] . " h. " . $time_to[1] . " à " . $time_to_end[0] . " h. " . $time_to_end[1] . "<br>";
-                                            } else {
+                                            }
+                                            elseif ($time_began == "00:00:00" AND $time_end == "00:00:00") {
+                                                echo "<i class=\"material-icons hh-green\">bookmark</i>Pas d'Happy Hour aujourd'hui" . '<br>';
+                                                echo "<i class=\"material-icons\">alarm</i> Pas d'Happy Hour aujourd'hui" . '<br>';
+                                            }
+                                            else {
                                                 echo "<i class=\"material-icons hh-green\">bookmark</i>Plus d'Happy Hour aujourd'hui" . '<br>';
                                                 echo "<i class=\"material-icons\">alarm</i> Happy Hour de " . $time_to[0] . " h. " . $time_to[1] . " à " . $time_to_end[0] . " h. " . $time_to_end[1] . "<br>";
                                             }

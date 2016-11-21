@@ -133,7 +133,7 @@ if (ROLE == 1) {
         :photo)"
         );
 
-        $addBeer->bindParam('nom', $nom_biere, PDO::PARAM_STR);
+        $addBeer->bindParam('nom', utf8_decode($nom_biere), PDO::PARAM_STR);
         $addBeer->bindParam('description', utf8_decode($description), PDO::PARAM_STR);
         $addBeer->bindParam('type_biere', $type_biere_id_type_biere, PDO::PARAM_INT);
         $addBeer->bindParam('pays', $pays_id_pays, PDO::PARAM_INT);

@@ -504,35 +504,35 @@ function where_biere($where_biere, $restriction, $weekday, $newtime, $time)
                                         $wbh = $bdd->query($where_biere_happy);
                                         while ($bars_happy = $wbh->fetch()) {
                                             ?>
-                                            <ul class="col l4 m4 s6">
-                                                <li class="col l12 center">
+                                            <ul class="col l6 m12 s12">
+                                                <li class="col l12 m12 s12 center">
                                                     <?=
                                                     utf8_encode($bars_happy['nom_bar']);
                                                     ?>
                                                 </li>
-                                                <li class="col l12 left-align">
+                                                <li class="col l12 m12 s12 left-align">
                                                     <i class="material-icons">phone</i>
                                                     <?=
                                                     $bars_happy['telephone'];
                                                     ?>
                                                 </li>
-                                                <li class="col l12 left-align">
+                                                <li class="col l12 m12 s12 left-align">
                                                     <i class="material-icons">gps_fixed</i>
                                                     <?=
                                                     utf8_encode($bars_happy['numero'] . " " . $bars_happy['rue'] . " " . $bars_happy['ville']);
                                                     ?>
                                                 </li>
 
-                                                <div class="center">
+                                                <div class="center col l12 m12 s12">
                                                     <a class="waves-effect waves-light btn modal-trigger" href="#bar<?= $bars_happy['id_bar']; ?>">
                                                         Voir la fiche complète du bar
                                                     </a>
                                                 </div>
 
                                                 <!-- MODAL - FICHE COMPLETE DU BAR -->
-                                                <div id="bar<?php echo $bars_happy['id_bar'] ?>" class="modal">
+                                                <div id="bar<?= $bars_happy['id_bar'] ?>" class="modal">
                                                     <div class="modal-content grey-font">
-                                                        <h4 class="bar-font center-align"><?php echo utf8_encode($bars_happy['nom_bar']) ?></h4>
+                                                        <h4 class="bar-font center-align"><?= utf8_encode($bars_happy['nom_bar']) ?></h4>
                                                         <p>
                                                             <?=
                                                             utf8_encode($bars_happy['description_bar']);
@@ -601,7 +601,6 @@ function where_biere($where_biere, $restriction, $weekday, $newtime, $time)
                 src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAmZb6Wbwa9Y29h1tRoKf9h6gqaesVNEcU&callback=initMap"
                 async defer></script>
         </div>
-    </div>
     </div>
 
 

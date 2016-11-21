@@ -138,7 +138,7 @@ function where_biere($where_biere, $restriction, $weekday, $newtime, $time)
 
                         while ($type = $sql->fetch()) { ?>
                             <option
-                                value="<?= $type['id_type_biere'] ?>" <?= $type_biere == $type['id_type_biere'] ? 'selected' : '' ?>><?= $type['nom_type_biere'] ?></option>
+                                value="<?= $type['id_type_biere'] ?>" <?= $type_biere == $type['id_type_biere'] ? 'selected' : '' ?>><?= utf8_encode($type['nom_type_biere']); ?></option>
                             <?php
                         }
                         ?>
@@ -156,7 +156,7 @@ function where_biere($where_biere, $restriction, $weekday, $newtime, $time)
 
                         while ($provenance = $sql->fetch()) { ?>
                             <option
-                                value="<?= $provenance['id_pays'] ?>" <?= $provenance_biere == $provenance['id_pays'] ? 'selected' : '' ?>><?= $provenance['nom_pays'] ?></option>
+                                value="<?= $provenance['id_pays'] ?>" <?= $provenance_biere == $provenance['id_pays'] ? 'selected' : '' ?>><?= utf8_encode($provenance['nom_pays']) ?></option>
                             <?php
                         }
                         ?>
@@ -317,7 +317,7 @@ function where_biere($where_biere, $restriction, $weekday, $newtime, $time)
                             });
                         </script>
 
-                        <li>
+                        <li style="margin-top: 40px;">
                             <div class="collapsible-header bar-font"> <!-- NIVEAU 1 -->
                                 <div class="row row2">
                                     <div class="col l2 m2 s12 offset-m5">
@@ -504,7 +504,7 @@ function where_biere($where_biere, $restriction, $weekday, $newtime, $time)
                                         $wbh = $bdd->query($where_biere_happy);
                                         while ($bars_happy = $wbh->fetch()) {
                                             ?>
-                                            <ul class="col l6 m12 s12">
+                                            <ul class="col l6 m12 s12" style="margin-top: 20px;">
                                                 <li class="col l12 m12 s12 center">
                                                     <?=
                                                     utf8_encode($bars_happy['nom_bar']);
@@ -523,8 +523,9 @@ function where_biere($where_biere, $restriction, $weekday, $newtime, $time)
                                                     ?>
                                                 </li>
 
-                                                <div class="center col l12 m12 s12">
-                                                    <a class="waves-effect waves-light btn modal-trigger" href="#bar<?= $bars_happy['id_bar']; ?>">
+                                                <div class="center col l12 m12 s12" style="margin-top: 20px;">
+                                                    <a class="waves-effect waves-light btn modal-trigger"
+                                                       href="#bar<?= $bars_happy['id_bar']; ?>">
                                                         Voir la fiche complète du bar
                                                     </a>
                                                 </div>
@@ -554,34 +555,34 @@ function where_biere($where_biere, $restriction, $weekday, $newtime, $time)
                                         ?>
 
                                         <br>
+                                        <div class="row">
+                                            <div class="col s12">
+                                                <div class="center-align" style="margin-top: 40px;">
+                                                    <a class="waves-effect waves-light btn modal-trigger"
+                                                       href="#biere<?php echo $donnees['id_biere']; ?>"><?=utf8_encode($donnees['nom_biere']);?>
+                                                    </a>
+                                                </div>
+                                            </div>
 
+                                            <br>
+
+                                            <!-- MODAL - FICHE COMPLETE DE LA BIERE -->
+                                            <div id="biere<?= $donnees['id_biere']; ?>" class="modal">
+                                                <div class="modal-content grey-font">
+                                                    <h4 class="bar-font center-align"><?= utf8_encode($donnees['nom_biere']); ?></h4>
+                                                    <p><?= utf8_encode($donnees['description_biere']); ?></p>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <a href="#!"
+                                                       class=" modal-action modal-close waves-effect waves-green btn-flat"><i
+                                                            class="large material-icons prefix">close</i></a>
+                                                </div>
+
+                                            </div>  <!-- FIN DU MODAL -->
+                                        </div>
                                     </div>
 
                                 </div> <!-- FIN 1ere row -->
-
-
-                                <!-- BOUTON POUR LE MODAL -->
-                                <div class="center col l12">
-                                    <a class="waves-effect waves-light btn modal-trigger"
-                                       href="#biere<?php echo $donnees['id_biere']; ?>">Voir la fiche complète de cette bière
-                                    </a>
-                                </div>
-
-                                <br>
-
-                                <!-- MODAL - FICHE COMPLETE DE LA BIERE -->
-                                <div id="biere<?= $donnees['id_biere']; ?>" class="modal">
-                                    <div class="modal-content grey-font">
-                                        <h4 class="bar-font center-align"><?= $donnees['nom_biere']; ?></h4>
-                                        <p><?= $donnees['description_biere']; ?></p>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <a href="#!"
-                                           class=" modal-action modal-close waves-effect waves-green btn-flat"><i
-                                                class="large material-icons prefix">close</i></a>
-                                    </div>
-
-                                </div>  <!-- FIN DU MODAL -->
 
 
                             </div> <!-- FIN DU COLLAPSE -->

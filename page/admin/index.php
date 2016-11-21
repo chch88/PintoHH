@@ -22,7 +22,6 @@ if (!empty($_POST) AND !empty($_POST['email']) AND !empty($_POST['password'])) {
 }
 
 define('ROLE', $_SESSION['ROLE']);
-echo ROLE;
 
 if (ROLE == 1) {
     require 'menu_admin.php';

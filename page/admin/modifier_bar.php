@@ -30,7 +30,7 @@ require 'menu_admin.php';
             ?>
 
             <div class="col l3">
-                <div id="<?= $donnees['id_bar']; ?>" style="cursor: pointer;" onclick="window.location='editer_biere.php?id_bar=<?=$donnees['id_biere']?>';" class="col l12 card-panel center">
+                <div id="<?= $donnees['id_bar']; ?>" style="cursor: pointer;" onclick="window.location='editer_biere.php?id_bar=<?=$donnees['id_bar']?>';" class="col l12 card-panel center">
                     <ul class="col l10 offset-l1">
                         <li>
                             <h5><?= utf8_encode($donnees['nom_bar']); ?></h5>

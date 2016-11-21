@@ -15,7 +15,7 @@
         </div>
 
         <div class="col l4 s12 center-align">
-            <a href="page/chercher_bar.php?nom_bar=&style_bar=1">
+            <a href="page/chercher_biere.php?nom_biere=&distance_biere=&type_biere=6&search=">
             <img src="./images/bieres-noires.png" class="slideanim" style="width: 155px">
         </div>
 

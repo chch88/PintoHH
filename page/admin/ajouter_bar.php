@@ -84,9 +84,8 @@ define('ROLE',$_SESSION['ROLE']);
 
 
 	//temporaire
-	$bars_id_bar=1;
 
-	$addBar = "INSERT INTO bars (
+	$addBar = $bdd->prepare("INSERT INTO bars (
 	`photos_id_photo`,
 	`styles_bars_id_style_bar`,
 	`villes_id_ville`,
@@ -111,7 +110,13 @@ define('ROLE',$_SESSION['ROLE']);
 	'$mot_patron',
 	'$site_web'
 	);
-	
+  
+	");
+
+	$addBar->execute();
+	$bars_id_bar = $bdd->lastInsertId();
+
+	$addSuite = "
 	INSERT INTO horaires (`bars_id_bar`, `numero_jour`, `heure_debut`, `heure_fin`, `is_happy_hour`) 
 	VALUES 
 	('$bars_id_bar', '$numero_jour1', '$heure_debut10', '$heure_fin10', '0'),
@@ -136,7 +141,7 @@ define('ROLE',$_SESSION['ROLE']);
 	";
 
 	
-	if($bdd->query($addBar)){
+	if($bdd->query($addSuite)){
 		echo "<h1>Bar ajouté !</h1>";
 		$_POST=null;
 		// echo $bdd->lastInsertId();

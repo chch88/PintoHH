@@ -59,19 +59,19 @@ if (session_status() == PHP_SESSION_NONE) {
 
         <a href="/PintoHH/index.php">
         <div class="col l4 s4" style="background-color: #EB9532">
-            <img src="/PintoHH/images/bonhomme.png" width="100px" class="center-block">
+            <img src="/PintoHH/images/accueil.png" height="110px" class="center-block">
         </div>
         </a>
 
         <a href="/PintoHH/page/chercher_bar.php">
         <div class="col l4 s4" style="background-color: #F5AB35">
-            <img src="/PintoHH/images/megaphone.png" width="100px" class="center-block">
+            <img src="/PintoHH/images/chercher-bar.png" height="110px" class="center-block">
         </div>
         </a>
 
         <a href="/PintoHH/page/chercher_biere.php">
         <div class="col l4 s4" style="background-color: #F27935">
-            <img src="/PintoHH/images/plane.png" height="100px" class="center-block">
+            <img src="/PintoHH/images/chercher-biere.png" height="110px" class="center-block">
         </div>
         </a>
 

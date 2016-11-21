@@ -10,7 +10,7 @@
 
         <div class="col l4 s12 center-align">
             <a href="page/chercher_bar.php?nom_bar=&style_bar=1">
-                <img src="./images/bars-lounge" class=" slideanim" style="width: 155px">
+                <img src="./images/bars-lounge.png" class=" slideanim" style="width: 155px">
             </a>
         </div>
 

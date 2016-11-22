@@ -33,16 +33,16 @@
     <div class="row">
 
         <div class="col l4 s12 center-align">
-            <img src="./images/bars-favoris.png" class=" slideanim" style="width: 155px">
+            <img src="./images/bars-favoris.png" class=" slideanim" style="width: 155px; opacity: 0.5">
         </div>
 
         <div class="col l4 s12 center-align">
-            <img src="./images/jai-soif.png" class="slideanim" style="width: 155px">
+            <img src="./images/jai-soif.png" class="slideanim" style="width: 155px; opacity: 0.5">
         </div>
 
 
         <div class="col l4 s12 center-align">
-            <img src="./images/bieres-favorites.png" class="slideanim" style="width: 155px">
+            <img src="./images/bieres-favorites.png" class="slideanim" style="width: 155px; opacity: 0.5">
         </div>
 
     </div>

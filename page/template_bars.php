@@ -11,9 +11,7 @@
     </div>
 </div>
 
-<p>
-   <input type="checkbox"><i id="click_advance" class="material-icons mee" onclick="myFunction()">star_border</i>
-</p>
+ <!-- ETOILE FAVORIS <input type="checkbox"><i id="click_advance" class="material-icons mee" onclick="myFunction()">star_border</i> -->
 
     <script>
         function myFunction() {
@@ -46,6 +44,8 @@
             }
             if ($restriction == 1) {
                 $sqlQuery = $sqlQuery . ' AND horaires.numero_jour = ' . '"' . $weekday . '"';
+                $sqlQuery = $sqlQuery . 'AND horaires.heure_debut != "00:00:00"';
+                $sqlQuery = $sqlQuery . 'AND horaires.heure_fin != "00:00:00"';
                 $sqlQuery = $sqlQuery . 'AND horaires.is_happy_hour = 1';
             }
             if ($restriction == 2) {
@@ -148,12 +148,12 @@
 
                             </div>
 
-                            <div class="col l3 m5 s10">
+                            <div class="col l3 m5 s10"  style="opacity: 0.5">
                                 <i class="material-icons prefix">location_on</i>
                                 Situé à 1,2 km
                             </div>
 
-                            <div class="col l1 m1 s2">
+                            <div class="col l1 m1 s2"  style="opacity: 0.5">
                                 <input type="checkbox" id="favoris<?php echo $donnees['id_bar']; ?>"/>
                                 <label for="favoris<?php echo $donnees['id_bar']; ?>"></label>
                             </div>
@@ -291,9 +291,11 @@
                                                 echo "<i class=\"material-icons\">alarm</i> Happy Hour de " . $time_to[0] . " h. " . $time_to[1] . " à " . $time_to_end[0] . " h. " . $time_to_end[1] . "<br>";
                                             }
                                             ?>
+                                        <div style="opacity: 0.5">
                                         <i class="material-icons prefix">location_on</i>
                                         Situé à 1,2 km
-                                        <br>
+                                        </div>
+
                                         <?php
                                         $sql = $bdd->query(' 
                                         SELECT * FROM bar_biere

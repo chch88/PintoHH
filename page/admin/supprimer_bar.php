@@ -35,7 +35,7 @@ if (ROLE == 1) {
 	//Et la tu rediriges vers ta page contacts.php pour rafraichir la liste
 
 	if ($delete2->execute()) {
-		echo "les données ont bien été supprimées";
+		echo "<h2>Les données ont bien été supprimées</h2>";
 	};
 	?>
 

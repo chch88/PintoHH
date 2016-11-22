@@ -25,13 +25,19 @@ define('ROLE',$_SESSION['ROLE']);
 	$villes_id_ville = (isset($_POST['villes_id_ville'])&& !empty($_POST['villes_id_ville'])) ? (int) $_POST['villes_id_ville'] : "";
 
 	$bieres_id_biere = (isset($_POST['bieres_id_biere'])&& !empty($_POST['bieres_id_biere'])) ? (int) $_POST['bieres_id_biere'] : "";
-	$prix_normal_bar = (isset($_POST['prix_normal_bar'])&& !empty($_POST['prix_normal_bar'])) ? (int) $_POST['prix_normal_bar'] : "";
+	$bieres_id_biere2 = (isset($_POST['bieres_id_biere2'])&& !empty($_POST['bieres_id_biere2'])) ? (int) $_POST['bieres_id_biere2'] : "";
+	$bieres_id_biere3 = (isset($_POST['bieres_id_biere3'])&& !empty($_POST['bieres_id_biere3'])) ? (int) $_POST['bieres_id_biere3'] : "";
 
+	$prix_normal_bar = (isset($_POST['prix_normal_bar'])&& !empty($_POST['prix_normal_bar'])) ? (int) $_POST['prix_normal_bar'] : "";
 	$prix_happy_bar = (isset($_POST['prix_happy_bar'])&& !empty($_POST['prix_happy_bar'])) ? (int) $_POST['prix_happy_bar'] : "";
+	$prix_normal_bar2 = (isset($_POST['prix_normal_bar2'])&& !empty($_POST['prix_normal_bar2'])) ? (int) $_POST['prix_normal_bar2'] : "";
+	$prix_happy_bar2 = (isset($_POST['prix_happy_bar2'])&& !empty($_POST['prix_happy_bar2'])) ? (int) $_POST['prix_happy_bar2'] : "";
+	$prix_normal_bar3 = (isset($_POST['prix_normal_bar3'])&& !empty($_POST['prix_normal_bar3'])) ? (int) $_POST['prix_normal_bar3'] : "";
+	$prix_happy_bar3 = (isset($_POST['prix_happy_bar3'])&& !empty($_POST['prix_happy_bar3'])) ? (int) $_POST['prix_happy_bar3'] : "";
 
 
 	//temporaire
-	$photos_id_photo=1;	
+	$photos_id_photo=3;
 	$villes_id_ville = 1;
 	
 	$nom_bar = (isset($_POST['nom_bar'])&& !empty($_POST['nom_bar'])) ? (string) $_POST['nom_bar'] : "";
@@ -133,27 +139,29 @@ define('ROLE',$_SESSION['ROLE']);
 	('$bars_id_bar', '$numero_jour6', '$heure_debut61', '$heure_fin61', '1'),
 	('$bars_id_bar', '$numero_jour7', '$heure_debut70', '$heure_fin70', '0'),
 	('$bars_id_bar', '$numero_jour7', '$heure_debut71', '$heure_fin71', '1');
-	
+
 	INSERT INTO  bar_biere (`bars_id_bar` , `bieres_id_biere` , `prix_normal_bar` , `prix_happy_bar`)
 	VALUES 
 	('$bars_id_bar',  '$bieres_id_biere',  '$prix_normal_bar',  '$prix_happy_bar');
+	('$bars_id_bar',  '$bieres_id_biere2',  '$prix_normal_bar2',  '$prix_happy_bar2');
+	('$bars_id_bar',  '$bieres_id_biere3',  '$prix_normal_bar3',  '$prix_happy_bar3');
 	
 	";
 
 	
 	if($bdd->query($addSuite)){
-		echo "<h1>Bar ajouté !</h1>";
+		echo "<h2>Bar ajouté !</h2>";
 		$_POST=null;
 		// echo $bdd->lastInsertId();
 
 	}else{
-		echo "<h1>Erreur lors de l'ajout du bar !</h1>";
+		echo "<h2>Erreur lors de l'ajout du bar !</h2>";
 	}
 		
 		
 		
 		
-	}
+	} // fin ajout
 ?>
 
 <h1 class="center">Ajouter un bar</h1>
@@ -459,20 +467,21 @@ define('ROLE',$_SESSION['ROLE']);
 			</tr>
 			</thead>
 
+
 			<tbody>
-			<tr>
+			<tr> <!-- BIERE 1 -->
 				<td>
-				<select name="bieres_id_biere ">
-					<option value="" disabled selected>Bières</option>
-					<?php
+					<select name="bieres_id_biere">
+						<option value="" disabled selected>Bières</option>
+						<?php
 						if($bdd->query($bar_biere)){
 							foreach($bdd->query($bar_biere) as $row){ ?>
 								<option value="<?=$row['id_biere']?>"><?=$row['nom_biere']?></option>
-					<?php
+								<?php
 							}
 						}
-					?>
-				</select>
+						?>
+					</select>
 				</td>
 				<td>
 					<div class="col s6 ">
@@ -484,6 +493,63 @@ define('ROLE',$_SESSION['ROLE']);
 					<div class="col s6 ">
 						<label for="prix_happy_bar"></label>
 						<input class="validate"name="prix_happy_bar"type="number"id="prix_happy_bar" step="0.01" min="0.01" max="99">
+					</div>
+				</td>
+			</tr>
+
+
+			<tr> <!-- BIERE 2 -->
+				<td>
+					<select name="bieres_id_biere2">
+						<option value="" disabled selected>Bières</option>
+						<?php
+						if($bdd->query($bar_biere)){
+							foreach($bdd->query($bar_biere) as $row){ ?>
+								<option value="<?=$row['id_biere']?>"><?=$row['nom_biere']?></option>
+								<?php
+							}
+						}
+						?>
+					</select>
+				</td>
+				<td>
+					<div class="col s6 ">
+						<label for="prix_normal_bar2"></label>
+						<input class="validate"name="prix_normal_bar2"type="number"id="prix_normal_bar2" step="0.01" min="0.01" max="99">
+					</div>
+				</td>
+				<td>
+					<div class="col s6 ">
+						<label for="prix_happy_bar2"></label>
+						<input class="validate"name="prix_happy_bar2"type="number"id="prix_happy_bar2" step="0.01" min="0.01" max="99">
+					</div>
+				</td>
+			</tr>
+
+			<tr> <!-- BIERE 3 -->
+				<td>
+					<select name="bieres_id_biere3">
+						<option value="" disabled selected>Bières</option>
+						<?php
+						if($bdd->query($bar_biere)){
+							foreach($bdd->query($bar_biere) as $row){ ?>
+								<option value="<?=$row['id_biere']?>"><?=$row['nom_biere']?></option>
+								<?php
+							}
+						}
+						?>
+					</select>
+				</td>
+				<td>
+					<div class="col s6 ">
+						<label for="prix_normal_bar3"></label>
+						<input class="validate"name="prix_normal_bar3"type="number"id="prix_normal_bar3" step="0.01" min="0.01" max="99">
+					</div>
+				</td>
+				<td>
+					<div class="col s6 ">
+						<label for="prix_happy_bar3"></label>
+						<input class="validate"name="prix_happy_bar3"type="number"id="prix_happy_bar3" step="0.01" min="0.01" max="99">
 					</div>
 				</td>
 			</tr>

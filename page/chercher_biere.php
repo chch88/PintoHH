@@ -12,7 +12,6 @@ $restriction = isset($_GET['restriction']) && $_GET['restriction'] !== '' ? $_GE
 
 // Les informations de la date
 $time_array = getdate();
-print_r($time_array);
 
 $weekday = $time_array['wday'];
 $hour = $time_array['hours'];

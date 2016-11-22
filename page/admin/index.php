@@ -15,7 +15,7 @@ if (!empty($_POST) AND !empty($_POST['email']) AND !empty($_POST['password'])) {
     $admin = $requete->fetch();
 
     if (!$admin) {
-        $error = "Vos Identifiant sont incorrect !";
+        $error = "Vos identifiants sont incorrects !";
     } else {
         $_SESSION['ROLE'] = (int)$admin['roles_id_role'];
     }
@@ -33,11 +33,11 @@ if (ROLE == 1) {
 
             <div class="row">
                 <div class="col s12 ">
-                    <label>email</label>
+                    <label>Email</label>
                     <input type="email" name="email">
                 </div>
                 <div class="col s12 ">
-                    <label>mot de passe</label>
+                    <label>Mot de passe</label>
                     <input type="password" name="password">
                 </div>
 

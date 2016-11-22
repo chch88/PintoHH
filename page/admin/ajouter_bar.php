@@ -142,8 +142,8 @@ define('ROLE',$_SESSION['ROLE']);
 
 	INSERT INTO  bar_biere (`bars_id_bar` , `bieres_id_biere` , `prix_normal_bar` , `prix_happy_bar`)
 	VALUES 
-	('$bars_id_bar',  '$bieres_id_biere',  '$prix_normal_bar',  '$prix_happy_bar');
-	('$bars_id_bar',  '$bieres_id_biere2',  '$prix_normal_bar2',  '$prix_happy_bar2');
+	('$bars_id_bar',  '$bieres_id_biere',  '$prix_normal_bar',  '$prix_happy_bar'),
+	('$bars_id_bar',  '$bieres_id_biere2',  '$prix_normal_bar2',  '$prix_happy_bar2'),
 	('$bars_id_bar',  '$bieres_id_biere3',  '$prix_normal_bar3',  '$prix_happy_bar3');
 	
 	";

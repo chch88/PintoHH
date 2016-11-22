@@ -1,8 +1,8 @@
 <div class="container">
-    
-<?php
-        require "config.php";
-?>
+
+    <?php
+    require "config.php";
+    ?>
 
     <br>
 
@@ -14,12 +14,12 @@
             </a>
         </div>
 
-        <div class="col l4 s12 center-align">
-            <a href="page/chercher_biere.php?nom_biere=&distance_biere=&type_biere=6&search=">
-            <img src="./images/bieres-noires.png" class="slideanim" style="width: 155px">
+        <div class="col l4 s12 center-align accueil-image-top">
+            <a id="image" href="page/chercher_biere.php?nom_biere=&distance_biere=&type_biere=6&search=">
+                <img src="./images/bieres-noires.png" class="slideanim" style="width: 155px">
         </div>
 
-        <div class="col l4 s12 center-align">
+        <div class="col l4 s12 center-align accueil-image-top">
             <a id="blonde" href="page/chercher_biere.php?nom_biere=&distance_biere=&type_biere=2&search=">
                 <img src="./images/bieres-blondes.png" class="slideanim" style="width: 155px">
             </a>
@@ -32,17 +32,23 @@
 
     <div class="row">
 
-        <div class="col l4 s12 center-align">
-            <img src="./images/bars-favoris.png" class="slideanim" style="width: 155px; opacity: 0.5">
+        <div class="col l4 s12 center-align accueil-image-top accueil-image-top-l">
+            <a id="image" href="">
+                <img src="./images/bars-favoris.png" class="slideanim" style="width: 155px; opacity: 0.5">
+            </a>
         </div>
 
-        <div class="col l4 s12 center-align">
-            <img src="./images/jai-soif.png" class="slideanim" style="width: 155px; opacity: 0.5">
+        <div class="col l4 s12 center-align accueil-image-top accueil-image-top-l">
+            <a id="image" href="">
+                <img src="./images/jai-soif.png" class="slideanim" style="width: 155px; opacity: 0.5">
+            </a>
         </div>
 
 
-        <div class="col l4 s12 center-align">
-            <img src="./images/bieres-favorites.png" class="slideanim" style="width: 155px; opacity: 0.5">
+        <div class="col l4 s12 center-align accueil-image-top accueil-image-top-l">
+            <a id="image" href="">
+                <img src="./images/bieres-favorites.png" class="slideanim" style="width: 155px; opacity: 0.5">
+            </a>
         </div>
 
     </div>

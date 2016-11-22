@@ -33,6 +33,7 @@ if (session_status() == PHP_SESSION_NONE) {
 <script type="text/javascript" src="/PintoHH/scripts.js"></script>
 
 
+<header>
 <nav>
 
 
@@ -93,5 +94,8 @@ if (session_status() == PHP_SESSION_NONE) {
 
     </div>
 </div>
+</header>
+
+<main>
 
 

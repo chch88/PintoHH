@@ -9,7 +9,6 @@ html {
 
 }
 
-
 .margin {
    margin-top: 58px;
 }
@@ -138,6 +137,29 @@ table.striped > tbody > tr:nth-child(odd) {
 
 .colonne1 {
     width: 30%;
+}
+
+@media only screen and (max-width: 601px) {
+    .accueil-image-top {
+        margin-top: 155px;
+    }
+}
+
+@media only screen and (max-width: 992px) {
+    .accueil-image-top {
+        margin-top: 155px;
+    }
+}
+
+@media only screen and (min-width: 992px) {
+    .accueil-image-top-l {
+        margin-top: 155px;
+    }
+}
+
+#image{
+    position: absolute;
+    margin-left: -77.5px;
 }
 
 #lounge{

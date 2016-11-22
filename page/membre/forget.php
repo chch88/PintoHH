@@ -25,7 +25,7 @@ if (!empty($_POST) AND !empty($_POST['email'])) {
         $to = $_POST['email'];
         $subjet = 'Reinitialisation du mot de passe  de votre Compte';
         $message = "Afin de réinitialisation le mot de passe de  votre compte merci de cliquer sur ce lien (Ce Lien est unique) \n\n 
-                     <a href='http://localhost//PintoHH/page/membre/reset_password.php?id=$id&token=$reset_token'> http://localhost//PintoHH/page/membre/reinitialiser_password</a>";
+                     <a href='http://chloec.simplon-epinal.tk/PintoHH/page/membre/reset_password.php?id=$id&token=$reset_token'> Réinitialisez votre mot de passe!</a>";
 
         $headers = 'MIME-Version: 1.0' . "\r\n";
         $headers .= 'Content-type: text/html; charset=utf-8' . "\r\n";

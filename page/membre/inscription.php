@@ -82,7 +82,7 @@ if (!empty($_POST)) {
         $to = $_POST['email'];
         $subjet = 'Confirmation de votre Compte';
         $message = "Afin de valider votre compte merci de cliquer sur ce lien (Ce Lien est unique) \n\n 
-                     <a href='http://localhost//PintoHH/page/membre/comfirmation.php?id=$user_id&token=$token'> http://localhost//PintoHH/page/membre/comfirmation</a>";
+                     <a href='http://chloec.simplon-epinal.tk/PintoHH/page/membre/comfirmation.php?id=$user_id&token=$token'> confirmation du compte!</a>";
 
         $headers = 'MIME-Version: 1.0' . "\r\n";
         $headers .= 'Content-type: text/html; charset=utf-8' . "\r\n";

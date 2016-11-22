@@ -9,8 +9,8 @@
     <div class="row margin">
 
         <div class="col l4 s12 center-align">
-            <a href="page/chercher_bar.php?nom_bar=&style_bar=1">
-                <img src="./images/bars-lounge.png" class=" slideanim" style="width: 155px">
+            <a id="lounge" href="page/chercher_bar.php?nom_bar=&style_bar=1">
+                <img src="./images/bars-lounge.png" style="width: 155px">
             </a>
         </div>
 
@@ -20,7 +20,7 @@
         </div>
 
         <div class="col l4 s12 center-align">
-            <a href="page/chercher_biere.php?nom_biere=&distance_biere=&type_biere=2&search=">
+            <a id="blonde" href="page/chercher_biere.php?nom_biere=&distance_biere=&type_biere=2&search=">
                 <img src="./images/bieres-blondes.png" class="slideanim" style="width: 155px">
             </a>
         </div>
@@ -33,7 +33,7 @@
     <div class="row">
 
         <div class="col l4 s12 center-align">
-            <img src="./images/bars-favoris.png" class=" slideanim" style="width: 155px; opacity: 0.5">
+            <img src="./images/bars-favoris.png" class="slideanim" style="width: 155px; opacity: 0.5">
         </div>
 
         <div class="col l4 s12 center-align">

@@ -139,3 +139,94 @@ table.striped > tbody > tr:nth-child(odd) {
 .colonne1 {
     width: 30%;
 }
+
+#lounge{
+    position: absolute;
+    margin-left: -77.5px;
+}
+
+#lounge:hover{
+    -webkit-animation: rotate_left 5s infinite linear;
+    -moz-animation: rotate_left 5s infinite linear;
+    animation: rotate_left forwards 5s infinite linear;
+    animation-play-state: running;
+}
+
+#lounge:not(:hover){
+    animation: rotate_left forwards 5s infinite linear;
+    animation-play-state: paused;
+}
+
+@-webkit-keyframes rotate_left {
+    0% {
+        opacity: 1;
+        -webkit-transform: rotate(0deg);
+    }
+    100% {
+        -webkit-transform: rotate(-360deg);
+    }
+}
+@-moz-keyframes rotate_left {
+    0% {
+        opacity: 1;
+        -moz-transform: rotate(0deg);
+    }
+    100% {
+        -moz-transform: rotate(-360deg);
+    }
+}
+@keyframes rotate_left {
+    0% {
+        opacity: 1;
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(-360deg);
+    }
+}
+
+#blonde{
+    position: absolute;
+    margin-left: -77.5px;
+}
+
+#blonde:hover{
+    -webkit-animation: rotate_right 5s infinite linear;
+    -moz-animation: rotate_right 5s infinite linear;
+    animation: rotate_right forwards 5s infinite linear;
+    animation-play-state: running;
+}
+
+#blonde:not(:hover){
+    animation: rotate_right forwards 5s infinite linear;
+    animation-play-state: paused;
+}
+
+@-webkit-keyframes rotate_right {
+    0% {
+        opacity: 1;
+        -webkit-transform: rotate(0deg);
+    }
+    100% {
+        -webkit-transform: rotate(360deg);
+    }
+}
+@-moz-keyframes rotate_right {
+    0% {
+        opacity: 1;
+        -moz-transform: rotate(0deg);
+    }
+    100% {
+        -moz-transform: rotate(360deg);
+    }
+}
+@keyframes rotate_right {
+    0% {
+        opacity: 1;
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+

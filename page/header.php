@@ -32,21 +32,37 @@ if (session_status() == PHP_SESSION_NONE) {
 <script type="text/javascript" src="/PintoHH/materialize/materialize.js"></script>
 <script type="text/javascript" src="/PintoHH/scripts.js"></script>
 
+
 <nav>
+
+
     <div class="nav-wrapper">
+        <?php
+        if (isset($_SESSION['information'])) {
+            echo $_SESSION['information']['nom'];
+        }
+        ?>
         <a href="/PintoHH/index.php" class="brand-logo center">PINTO HAPPY HOUR</a>
         <ul class="right hide-on-med-and-down">
-          <?php if (isset($_SESSION['information'])): ?>
-                <li><a class="waves-effect waves-light btn" href="/PintoHH/page/membre/editer_profil.php">Editer Profil</a> </li>
-                <li><a class="waves-effect waves-light btn" href="/PintoHH/page/membre/deconnexion.php">Deconnection</a> </li>
+            <?php if (isset($_SESSION['information'])): ?>
+                <li><a class="dropdown-button waves-effect waves-light btn" href="#" data-activates="dropdown1">Editer Profil</a></li>
+                <ul id="dropdown1" class="dropdown-content">
+                    <li><a href="/PintoHH/page/membre/editer_profil/Password.php">Modifier votre Mot de Passe </a></li>
+                    <li><a href="/PintoHH/page/membre/editer_profil/Email.php">Modifier votre Email</a></li>
+                    <li><a href="/PintoHH/page/membre/editer_profil/Nom.php">Modifier votre Nom </a></li>
+                    <li><a href="/PintoHH/page/membre/editer_profil/Identifiant.php">Modifier votre identifiant</a></li>
+                    <li><a href="/PintoHH/page/membre/editer_profil/Delete_Account.php">Supprimer votre Compte </a></li>
+                </ul>
+                <li><a class="waves-effect waves-light btn" href="/PintoHH/page/membre/deconnexion.php">Deconnection</a></li>
 
-                <?php else: ?>
+            <?php else: ?>
                 <li><a class="waves-effect waves-light btn" href="/PintoHH/page/membre/inscription.php">Inscription</a></li>
-                <li><a class="waves-effect waves-light btn"  href="/PintoHH/page/membre/connexion.php">Connexion</a></li>
-                <?php endif; ?>
+                <li><a class="waves-effect waves-light btn" href="/PintoHH/page/membre/connexion.php">Connexion</a></li>
+            <?php endif; ?>
         </ul>
     </div>
 </nav>
+
     <?php
     if(isset($_SESSION['information']))
     {

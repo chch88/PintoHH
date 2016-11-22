@@ -1,11 +1,13 @@
 <?php
-require "../../../PintoHH/page/header.php";
+//require "C:\wamp64\www\PintoHH\page\header.php";
+require "../header.php";
 $comfirmation = "";
 
 if (!empty($_POST) AND !empty($_POST['email'])) {
 
-    require_once '../../../PintoHH/config.php';
-    $requete = $bdd->prepare('SELECT * FROM utilisateurs WHERE email = ? AND reinitialiser_mail_token '); //
+    //require_once 'C:\wamp64\www\PintoHH\config.php';
+    require'../../config.php';
+    $requete = $bdd->prepare('SELECT * FROM utilisateurs WHERE email = ? AND reinitialiser_mail_token IS NULL '); //
     $requete->execute([$_POST['email']]);
     $user = $requete->fetch();
 
@@ -25,7 +27,7 @@ if (!empty($_POST) AND !empty($_POST['email'])) {
         $to = $_POST['email'];
         $subjet = 'Reinitialisation du mot de passe  de votre Compte';
         $message = "Afin de réinitialisation le mot de passe de  votre compte merci de cliquer sur ce lien (Ce Lien est unique) \n\n 
-                     <a href='http://chloec.simplon-epinal.tk/PintoHH/page/membre/reset_password.php?id=$id&token=$reset_token'> Réinitialisez votre mot de passe!</a>";
+                     <a href='http://dylanm.simplon-epinal.tk//PintoHH/page/membre/reset_password.php?id=$id&token=$reset_token'>Réinitialiser votre mot de passe </a>";
 
         $headers = 'MIME-Version: 1.0' . "\r\n";
         $headers .= 'Content-type: text/html; charset=utf-8' . "\r\n";
@@ -39,6 +41,8 @@ if (!empty($_POST) AND !empty($_POST['email'])) {
         <h4 style="text-align: center; color: red;"><?php echo $comfirmation; ?></h4>
         <?php
         exit();
+    } else {
+        echo "erreur";
     }
 
 

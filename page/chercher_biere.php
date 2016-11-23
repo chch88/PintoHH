@@ -137,7 +137,9 @@ function where_biere($where_biere, $restriction, $weekday, $newtime, $time)
 
                         while ($type = $sql->fetch()) { ?>
                             <option
-                                value="<?= $type['id_type_biere'] ?>" <?= $type_biere == $type['id_type_biere'] ? 'selected' : '' ?>><?= utf8_encode($type['nom_type_biere']); ?></option>
+                                value="<?= $type['id_type_biere'] ?>" <?= $type_biere == $type['id_type_biere'] ? 'selected' : '' ?>>
+                                <?= utf8_encode($type['nom_type_biere']); ?>
+                            </option>
                             <?php
                         }
                         ?>
@@ -404,7 +406,7 @@ function where_biere($where_biere, $restriction, $weekday, $newtime, $time)
                                                 LEFT JOIN bar_biere AS bar_biere ON bar_biere.bars_id_bar = bars.id_bar
                                                 LEFT JOIN bieres AS bieres ON bieres.id_biere = bar_biere.bieres_id_biere
                                                 LEFT JOIN horaires AS horaires ON horaires.bars_id_bar = bars.id_bar
-                                                WHERE bieres.id_biere = ' . $donnees['id_biere'] . '
+                                                WHERE bar_biere.bieres_id_biere = ' . $donnees['id_biere'] . '
                                                 AND bar_biere.prix_happy_bar IS NOT NULL
                                                 AND horaires.is_happy_hour = 1
                                                 ';
